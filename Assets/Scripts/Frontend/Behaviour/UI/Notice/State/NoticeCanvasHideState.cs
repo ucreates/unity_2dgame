@@ -1,0 +1,26 @@
+﻿//======================================================================
+// Project Name    : hetappy bird
+//
+// Copyright © 2016 U-CREATES. All rights reserved.
+//
+// This source code is the property of U-CREATES.
+// If such findings are accepted at any time.
+// We hope the tips and helpful in developing.
+//======================================================================
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+using Frontend.Component.State;
+using Frontend.Component.Vfx;
+using Frontend.Component.Vfx.Sprine;
+namespace Frontend.Behaviour.State {
+public sealed class NoticeCanvasHideState : FiniteState<NoticeCanvasBehaviour> {
+    public override void Create() {
+        this.owner.webView.Hide();
+        Canvas canvas = this.owner.GetComponent<Canvas>();
+        if (null != canvas) {
+            canvas.enabled = false;
+        }
+    }
+}
+}

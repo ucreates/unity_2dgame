@@ -1,0 +1,66 @@
+{
+"skeleton": { "hash": "TtnqFlJyJKrlQepYCx3bkRzg3FM", "spine": "3.4.01", "width": 34, "height": 24, "images": "././" },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "images/bird_01", "bone": "root", "attachment": "images/bird_01" },
+	{ "name": "images/bird_02", "bone": "root", "attachment": "images/bird_02" },
+	{ "name": "images/bird_03", "bone": "root", "attachment": "images/bird_03" },
+	{ "name": "images/bird_04", "bone": "root", "attachment": "images/bird_04" }
+],
+"skins": {
+	"default": {
+		"images/bird_01": {
+			"images/bird_01": { "width": 34, "height": 24 }
+		},
+		"images/bird_02": {
+			"images/bird_02": { "width": 34, "height": 24 }
+		},
+		"images/bird_03": {
+			"images/bird_03": { "width": 34, "height": 24 }
+		},
+		"images/bird_04": {
+			"images/bird_04": { "width": 34, "height": 24 }
+		}
+	}
+},
+"animations": {
+	"fly": {
+		"slots": {
+			"images/bird_01": {
+				"attachment": [
+					{ "time": 0, "name": "images/bird_01" },
+					{ "time": 0.1, "name": null },
+					{ "time": 0.2, "name": null },
+					{ "time": 0.3, "name": null }
+				]
+			},
+			"images/bird_02": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.1, "name": "images/bird_02" },
+					{ "time": 0.2, "name": null },
+					{ "time": 0.3, "name": null }
+				]
+			},
+			"images/bird_03": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.1, "name": null },
+					{ "time": 0.2, "name": "images/bird_03" },
+					{ "time": 0.3, "name": null }
+				]
+			},
+			"images/bird_04": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.1, "name": null },
+					{ "time": 0.2, "name": null },
+					{ "time": 0.3, "name": "images/bird_04" }
+				]
+			}
+		}
+	}
+}
+}
