@@ -9,12 +9,12 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
 using Service;
-using Service.BizLogic;
 using Service.Integration;
-using Service.Integration.Dto.Assembler;
 using Service.Integration.Table;
+using Service.Integration.Dto.Assembler;
+using Service.BizLogic;
+using Core.Entity;
 namespace Service.Strategy {
 public sealed class ShopBuyStrategy : BaseStrategy {
     public override Response Update(Parameter parameter) {

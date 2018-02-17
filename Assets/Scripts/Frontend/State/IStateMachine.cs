@@ -9,7 +9,6 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-
 namespace Frontend.Component.State {
 public interface IStateMachine<T> where T : MonoBehaviour {
     FiniteStateMachine<T> stateMachine {

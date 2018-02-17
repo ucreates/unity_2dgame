@@ -9,13 +9,13 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
-using Frontend.Behaviour.State;
-using Frontend.Component.Property;
-using Frontend.Component.State;
+using Frontend.Notify;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
-using Frontend.Notify;
+using Frontend.Component.State;
+using Frontend.Component.Property;
+using Frontend.Behaviour.State;
+using Core.Entity;
 public sealed class CurtainBehaviour : BaseBehaviour, IStateMachine<CurtainBehaviour>, INotify {
     public FiniteStateMachine<CurtainBehaviour> stateMachine {
         get;

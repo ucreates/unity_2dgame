@@ -7,23 +7,24 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using UnityPlugin;
+using UnityPlugin.Frontend.View;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityPlugin.UI.Dialog;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Entity;
-using Core.Utility;
-using Core.Validator;
-using Core.Validator.Entity;
-using Frontend.Component.Asset.Renderer.UI;
-using Frontend.Component.Property;
-using Frontend.Notify;
 using Service;
 using Service.Strategy;
 using Service.Integration;
-using Service.Integration.Dto.Assembler;
 using Service.Integration.Table;
+using Service.Integration.Dto.Assembler;
+using Frontend.Notify;
+using Frontend.Component.Property;
+using Frontend.Component.Asset.Renderer.UI;
+using Core.Validator;
+using Core.Validator.Entity;
+using Core.Utility;
+using Core.Entity;
 public sealed class EventHandler : BaseBehaviour {
     public void Start() {
         this.property = new BaseProperty(this);
@@ -75,11 +76,11 @@ public sealed class EventHandler : BaseBehaviour {
         Application.OpenURL(url);
     }
     public void OnRateShow() {
-        ReviewModalDialog dialog = new ReviewModalDialog();
+        ReviewViewPlugin reviewViewPlugin = PluginFactory.GetPlugin<ReviewViewPlugin>();
         if (RuntimePlatform.IPhonePlayer == Application.platform) {
-            dialog.Show("https://itunes.apple.com/jp/app/flappy-bird-original-version/id1086354043?mt=8");
+            reviewViewPlugin.Show("https://itunes.apple.com/jp/app/minecraft/id479516143");
         } else if (RuntimePlatform.Android == Application.platform) {
-            dialog.Show("market://details?id=com.trifingger.flyhappybird");
+            reviewViewPlugin.Show("market://details?id=com.mojang.minecraftpe");
         }
     }
     public void OnRankingShow() {

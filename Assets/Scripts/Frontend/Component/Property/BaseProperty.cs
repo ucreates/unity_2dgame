@@ -9,31 +9,25 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-
 namespace Frontend.Component.Property {
 public class BaseProperty {
-
     public virtual string category {
         get {
             return string.Empty;
         }
     }
-
     public string type {
         get;
         protected set;
     }
-
     public string name {
         get;
         protected set;
     }
-
     public int id {
         get;
         protected set;
     }
-
     public BaseProperty(MonoBehaviour behaviour) {
         this.type = behaviour.tag;
         this.name = behaviour.name;

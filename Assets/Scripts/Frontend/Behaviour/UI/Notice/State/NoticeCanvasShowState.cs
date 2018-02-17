@@ -11,14 +11,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Entity;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Frontend.Component.State;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Notify;
 using Service;
 using Service.Strategy;
+using Frontend.Notify;
+using Frontend.Component.Vfx;
+using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Core.Entity;
 namespace Frontend.Behaviour.State {
 public sealed class NoticeCanvasShowState : FiniteState<NoticeCanvasBehaviour> {
     private TimeLine alphaTimeLine {
@@ -34,7 +34,7 @@ public sealed class NoticeCanvasShowState : FiniteState<NoticeCanvasBehaviour> {
         set;
     }
     public override void Create() {
-        this.owner.webView.Show("http://u-creates.com/template/notice/", Screen.width * 0.3f, Screen.height * 0.3f, Screen.width * 0.3f, Screen.height * 0.35f);
+        this.owner.webViewPlugin.Show("http://u-creates.com/template/notice/", Screen.width * 0.3f, Screen.height * 0.3f, Screen.width * 0.3f, Screen.height * 0.35f);
         Canvas canvas = this.owner.GetComponent<Canvas>();
         if (null != canvas) {
             canvas.enabled = true;

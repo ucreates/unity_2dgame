@@ -9,8 +9,8 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Frontend.Component.Vfx;
 using Service.Integration.Schema;
+using Frontend.Component.Vfx;
 namespace Service.Integration.Table {
 public sealed class TLoadingTable : BaseTable {
     public int downloadedDataCount {

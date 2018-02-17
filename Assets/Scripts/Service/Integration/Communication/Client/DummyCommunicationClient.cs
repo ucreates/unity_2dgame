@@ -8,8 +8,8 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 using System;
-using System.Collections;
 using System.Threading;
+using System.Collections;
 using Service.Integration.Communication;
 using Service.Integration.Communication.Entity;
 namespace Service.Integration.Communication.Client {

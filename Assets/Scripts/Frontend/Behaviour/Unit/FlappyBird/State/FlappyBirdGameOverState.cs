@@ -9,10 +9,10 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Frontend.Component.State;
+using Frontend.Notify;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
-using Frontend.Notify;
+using Frontend.Component.State;
 namespace Frontend.Behaviour.State {
 public sealed class FlappyBIrdGameOverState : FiniteState<FlappyBirdBehaviour> {
     public override void Create() {

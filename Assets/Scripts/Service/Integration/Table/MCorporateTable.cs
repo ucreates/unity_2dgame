@@ -9,8 +9,8 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Service.Integration.Schema;
 using Service.Integration.Table;
+using Service.Integration.Schema;
 namespace Service.Integration.Table {
 public sealed class MCorporateTable : BaseTable {
     public string buisiness {

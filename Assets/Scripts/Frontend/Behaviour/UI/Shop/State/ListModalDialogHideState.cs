@@ -9,9 +9,9 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
 namespace Frontend.Behaviour.State.UI.Shop {
 public sealed class ListModalDialogHideState : FiniteState<ShopCanvasBehaviour> {
     public override void Create() {

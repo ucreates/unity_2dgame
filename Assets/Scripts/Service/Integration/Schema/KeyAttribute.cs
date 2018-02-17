@@ -10,9 +10,7 @@
 using UnityEngine;
 using System;
 using System.Reflection;
-
 namespace Service.Integration.Schema {
 public abstract class KeyAttribute : Attribute {
-
 }
 }

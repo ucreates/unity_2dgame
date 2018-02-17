@@ -9,20 +9,20 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
-using Core.Generator;
-using Core.Scene;
-using Core.Utility;
-using Frontend.Behaviour.State;
-using Frontend.Component.Asset.Render;
-using Frontend.Component.Asset.Sound;
-using Frontend.Component.Property;
-using Frontend.Component.State;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Notify;
 using Service;
 using Service.Strategy;
+using Frontend.Notify;
+using Frontend.Component.Vfx;
+using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
+using Frontend.Component.Property;
+using Frontend.Component.Asset.Sound;
+using Frontend.Component.Asset.Render;
+using Frontend.Behaviour.State;
+using Core.Utility;
+using Core.Scene;
+using Core.Generator;
+using Core.Entity;
 public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBirdBehaviour>, INotify {
     public Vector2 defaultPosition;
     public FiniteStateMachine<FlappyBirdBehaviour> stateMachine {

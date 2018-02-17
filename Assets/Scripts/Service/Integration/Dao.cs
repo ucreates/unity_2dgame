@@ -9,16 +9,16 @@
 //======================================================================
 using UnityEngine;
 using System;
+using System.Reflection;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using Core.Validator.Unit;
-using Service.Integration.Schema;
 using Service.Integration.Table;
-using Service.Integration.Dto.Assembler;
+using Service.Integration.Schema;
 using Service.Integration.Query.Expression;
+using Service.Integration.Dto.Assembler;
+using Core.Validator.Unit;
 namespace Service.Integration {
 public sealed class Dao<T> : BaseDao where T : BaseTable, new() {
     private PersistenceAssembler<T> assembler {

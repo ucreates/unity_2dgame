@@ -7,9 +7,9 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using UnityEngine;
 using System;
 using System.Text.RegularExpressions;
-using UnityEngine;
 namespace Core.Validator.Unit {
 public sealed class RegexValidatorUnit : BaseValidatorUnit<string> {
     public string pattern {

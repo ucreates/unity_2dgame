@@ -7,12 +7,12 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using UnityEngine;
 using System;
 using System.Xml;
 using System.Collections.Generic;
-using UnityEngine;
-using Core.Validator.Builder;
 using Core.Validator.Message;
+using Core.Validator.Builder;
 namespace Core.Validator.Mapper {
 public sealed class RequiredRuleMapper : BaseRuleMapper {
     public override Dictionary<string, object> Map(XmlNodeList ruleNodeList) {

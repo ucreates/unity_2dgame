@@ -9,10 +9,10 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
-using Frontend.Component.Asset.Sound;
-using Frontend.Component.Property;
 using Frontend.Notify;
+using Frontend.Component.Property;
+using Frontend.Component.Asset.Sound;
+using Core.Entity;
 public sealed class BGMPlayerBehaviour : BaseBehaviour, INotify {
     public void Start() {
         this.property = new BaseProperty(this);

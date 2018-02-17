@@ -10,14 +10,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Core.Entity;
-using Core.Math;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Frontend.Component.State;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
 using Service;
 using Service.Strategy;
+using Frontend.Component.Vfx;
+using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Core.Math;
+using Core.Entity;
 namespace Frontend.Behaviour.State {
 public sealed class ResultCanvasShowState : FiniteState<ResultCanvasBehaviour> {
     private PlayCanvasBuilder currentScoreBuilder {

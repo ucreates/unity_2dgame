@@ -9,8 +9,8 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Service.BizLogic;
 using Service.Strategy;
+using Service.BizLogic;
 namespace Service {
 public sealed class StatsService : BaseService {
     public StatsService() {

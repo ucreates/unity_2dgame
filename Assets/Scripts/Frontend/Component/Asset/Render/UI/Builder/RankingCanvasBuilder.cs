@@ -11,10 +11,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Math;
 using Service.Integration;
-using Service.Integration.Schema;
 using Service.Integration.Table;
+using Service.Integration.Schema;
+using Core.Math;
 namespace Frontend.Component.Asset.Renderer.UI.Builder {
 public sealed class RankingCanvasBuilder : BaseUIAssetBuilder {
     private string copyright {

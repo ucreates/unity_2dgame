@@ -12,8 +12,8 @@ using System.Xml;
 using System.Collections.Generic;
 using Core.Validator;
 using Core.Validator.Unit;
-using Core.Validator.Builder;
 using Core.Validator.Message;
+using Core.Validator.Builder;
 namespace Core.Validator.Mapper {
 public abstract class BaseRuleMapper {
     public virtual Dictionary<string, object> Map(XmlNodeList ruleNodeList) {

@@ -8,14 +8,14 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 using UnityEngine;
+using System.Xml.Linq;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
-using Core.Entity;
 using Service;
 using Service.Integration;
 using Service.Integration.Table;
+using Core.Entity;
 namespace Service.Integration.Dto.Assembler {
 public sealed class CorporateAssembler : XmlAssembler<MCorporateTable> {
     public CorporateAssembler() : base("Config/corporate") {}

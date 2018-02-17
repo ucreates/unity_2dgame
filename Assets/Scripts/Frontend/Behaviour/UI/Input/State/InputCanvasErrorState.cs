@@ -10,13 +10,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Core.Entity;
-using Core.Validator.Entity;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Frontend.Component.State;
+using Frontend.Notify;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
-using Frontend.Notify;
+using Frontend.Component.State;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Core.Validator.Entity;
+using Core.Entity;
 namespace Frontend.Behaviour.State {
 public sealed class InputCanvasErrorState : FiniteState<InputCanvasBehaviour> {
     private TimeLine alphaTimeLine {

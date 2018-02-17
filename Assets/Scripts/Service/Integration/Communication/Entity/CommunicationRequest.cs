@@ -11,8 +11,8 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Service.Integration.Communication.Callback;
 using Service.Integration.Communication.Client;
+using Service.Integration.Communication.Callback;
 namespace Service.Integration.Communication.Entity {
 public sealed class CommunicationRequest {
     public List<CommunicationRequest> nextRequestParameterList {

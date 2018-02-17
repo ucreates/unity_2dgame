@@ -9,12 +9,12 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
-using Frontend.Behaviour.State;
-using Frontend.Component.Property;
-using Frontend.Component.State;
-using Frontend.Notify;
 using Service;
+using Frontend.Notify;
+using Frontend.Component.State;
+using Frontend.Component.Property;
+using Frontend.Behaviour.State;
+using Core.Entity;
 public sealed class ReadyCanvasBehaviour : BaseBehaviour, IStateMachine<ReadyCanvasBehaviour>, INotify {
     public FiniteStateMachine<ReadyCanvasBehaviour> stateMachine {
         get;

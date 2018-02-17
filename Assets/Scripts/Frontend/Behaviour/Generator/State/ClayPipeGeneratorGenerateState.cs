@@ -9,10 +9,10 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Generator;
-using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
+using Core.Generator;
 namespace Frontend.Behaviour.State {
 public sealed class ClayPipeGeneratorGenerateState : FiniteState<ClayPipeGeneratorBehaviour> {
     private TimeLine generateTimeLine {

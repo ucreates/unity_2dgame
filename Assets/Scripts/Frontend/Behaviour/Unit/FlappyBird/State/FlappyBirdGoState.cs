@@ -10,12 +10,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Validator;
-using Core.Validator.Entity;
-using Frontend.Component.Asset.Sound;
-using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
+using Frontend.Component.Asset.Sound;
+using Core.Validator;
+using Core.Validator.Entity;
 namespace Frontend.Behaviour.State {
 public sealed class FlappyBirdGoState : FiniteState<FlappyBirdBehaviour> {
     private Rigidbody2D rigidBody {

@@ -10,13 +10,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
 namespace Frontend.Behaviour.State {
 public sealed class NoticeCanvasHideState : FiniteState<NoticeCanvasBehaviour> {
     public override void Create() {
-        this.owner.webView.Hide();
+        this.owner.webViewPlugin.Hide();
         Canvas canvas = this.owner.GetComponent<Canvas>();
         if (null != canvas) {
             canvas.enabled = false;

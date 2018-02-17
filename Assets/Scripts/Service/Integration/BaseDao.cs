@@ -9,7 +9,6 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-
 namespace Service.Integration {
 public abstract class BaseDao {
     public virtual void Clear() {

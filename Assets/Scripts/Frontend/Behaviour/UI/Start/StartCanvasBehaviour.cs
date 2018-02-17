@@ -9,11 +9,11 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
-using Frontend.Behaviour.State;
-using Frontend.Component.Property;
-using Frontend.Component.State;
 using Frontend.Notify;
+using Frontend.Component.State;
+using Frontend.Component.Property;
+using Frontend.Behaviour.State;
+using Core.Entity;
 public sealed class StartCanvasBehaviour : BaseBehaviour, IStateMachine<StartCanvasBehaviour>, INotify {
     public FiniteStateMachine<StartCanvasBehaviour> stateMachine {
         get;

@@ -8,9 +8,9 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 using UnityEngine;
+using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using Service.Strategy;
 namespace Service {
 public sealed class ServiceGateway {

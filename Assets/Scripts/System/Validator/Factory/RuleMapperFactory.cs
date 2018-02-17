@@ -7,8 +7,8 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 using Core.Validator;
 using Core.Validator.Mapper;
 namespace Core.Validator.Factory {

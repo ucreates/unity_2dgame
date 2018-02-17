@@ -10,8 +10,8 @@
 using UnityEngine;
 using System;
 using System.Collections;
-using Core.Utility;
 using Core.Validator.Unit;
+using Core.Utility;
 namespace Service.Integration.Schema {
 [Serializable]
 public sealed class FieldSchema<T> : BaseFieldSchema where T : IComparable {

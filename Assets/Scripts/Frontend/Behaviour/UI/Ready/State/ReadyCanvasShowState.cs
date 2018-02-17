@@ -11,10 +11,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Frontend.Component.State;
+using Frontend.Notify;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
-using Frontend.Notify;
+using Frontend.Component.State;
 namespace Frontend.Behaviour.State {
 public sealed class ReadyCanvasShowState : FiniteState<ReadyCanvasBehaviour> {
     private TimeLine alphaTimeLine {

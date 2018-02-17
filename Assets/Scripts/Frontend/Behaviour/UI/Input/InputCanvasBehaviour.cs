@@ -11,16 +11,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Entity;
-using Core.Validator;
-using Core.Validator.Entity;
-using Frontend.Behaviour.State;
-using Frontend.Component.Asset.Renderer.UI;
-using Frontend.Component.Property;
-using Frontend.Component.State;
-using Frontend.Notify;
 using Service;
 using Service.Strategy;
+using Frontend.Notify;
+using Frontend.Component.State;
+using Frontend.Component.Property;
+using Frontend.Component.Asset.Renderer.UI;
+using Frontend.Behaviour.State;
+using Core.Validator;
+using Core.Validator.Entity;
+using Core.Entity;
 public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCanvasBehaviour>, INotify, IValidator, IInputUIAsset {
     public FiniteStateMachine<InputCanvasBehaviour> stateMachine {
         get;

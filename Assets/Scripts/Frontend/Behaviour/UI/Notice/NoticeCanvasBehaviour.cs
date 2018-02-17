@@ -7,20 +7,21 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using UnityPlugin;
+using UnityPlugin.Frontend.View;
 using UnityEngine;
 using System.Collections;
-using UnityPlugin.UI.View;
-using Core.Entity;
-using Frontend.Behaviour.State;
-using Frontend.Component.Property;
-using Frontend.Component.State;
 using Frontend.Notify;
+using Frontend.Component.State;
+using Frontend.Component.Property;
+using Frontend.Behaviour.State;
+using Core.Entity;
 public sealed class NoticeCanvasBehaviour  : BaseBehaviour, IStateMachine<NoticeCanvasBehaviour>, INotify {
     public FiniteStateMachine<NoticeCanvasBehaviour> stateMachine {
         get;
         set;
     }
-    public WebView webView {
+    public WebViewPlugin webViewPlugin {
         get;
         set;
     }
@@ -32,7 +33,7 @@ public sealed class NoticeCanvasBehaviour  : BaseBehaviour, IStateMachine<Notice
         this.stateMachine.Add("hide", new NoticeCanvasHideState());
         this.stateMachine.Change("hide");
         this.stateMachine.Play();
-        this.webView = new WebView();
+        this.webViewPlugin = PluginFactory.GetPlugin<WebViewPlugin>();
         Notifier notifier = Notifier.GetInstance();
         notifier.Add(this, this.property);
     }

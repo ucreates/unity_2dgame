@@ -11,8 +11,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Math;
 using Core.Validator.Message;
+using Core.Math;
 namespace Frontend.Component.Asset.Renderer.UI.Builder {
 public sealed class InputUIAssetErrorDialogBuilder : BaseUIAssetBuilder {
     private List<BaseValidateMessage> errorMessageList {
@@ -53,11 +53,8 @@ public sealed class InputUIAssetErrorDialogBuilder : BaseUIAssetBuilder {
         foreach (Image image in this.imageList) {
             image.color = new Color(image.color.r, image.color.g, image.color.b, this.alpha);
         }
-        foreach (BaseValidateMessage message in this.errorMessageList) {
-            foreach (Text text in this.textList) {
-                text.color = new Color(text.color.r, text.color.g, text.color.b, this.alpha);
-                text.text = message.message;
-            }
+        foreach (Text text in this.textList) {
+            text.color = new Color(text.color.r, text.color.g, text.color.b, this.alpha);
         }
     }
     public override void Reset() {

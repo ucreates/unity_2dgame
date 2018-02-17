@@ -9,13 +9,13 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
-using Frontend.Component.State;
+using Service;
+using Service.Strategy;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
 using Frontend.Component.Vfx.Easing;
-using Service.Strategy;
-using Service;
+using Frontend.Component.State;
+using Core.Entity;
 namespace Frontend.Behaviour.State {
 public  class FlappyBirdFallState : FiniteState<FlappyBirdBehaviour> {
     protected Rigidbody2D rigidBody {

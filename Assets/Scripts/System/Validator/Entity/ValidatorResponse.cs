@@ -7,10 +7,10 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Core.Validator.Message;
 namespace Core.Validator.Entity {
 public sealed class ValidatorResponse {

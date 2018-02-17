@@ -7,9 +7,9 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using UnityEngine;
 using System;
 using System.Collections;
-using UnityEngine;
 namespace Frontend.Component.Vfx {
 public sealed class TimeLine {
     public const int PLAY = 0x01;

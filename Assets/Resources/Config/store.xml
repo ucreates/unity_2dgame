@@ -1,18 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <store>
-    <platform type="ios">
-        <link>
-        http://www.yahoo.co.jp/
-        </link>
-    </platform>
-    <platform type="android">
-        <link>
-        http://www.yahoo.co.jp/
-        </link>
-    </platform>
-    <platform type="pc">
-        <link>
-        http://www.yahoo.co.jp/
-        </link>
-    </platform>
+  <platform type="ios">
+    <link>http://www.yahoo.co.jp/</link>
+  </platform>
+  <platform type="android">
+    <link>http://www.yahoo.co.jp/</link>
+  </platform>
+  <platform type="pc">
+    <link>http://www.yahoo.co.jp/</link>
+  </platform>
 </store>

@@ -9,12 +9,12 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
-using Core.Utility;
-using Frontend.Component.Asset;
-using Frontend.Component.Property;
-using Frontend.Component.Vfx;
 using Service;
+using Frontend.Component.Vfx;
+using Frontend.Component.Property;
+using Frontend.Component.Asset;
+using Core.Utility;
+using Core.Entity;
 public abstract class BaseBehaviour : MonoBehaviour {
     public AssetCollection assetCollection {
         get;

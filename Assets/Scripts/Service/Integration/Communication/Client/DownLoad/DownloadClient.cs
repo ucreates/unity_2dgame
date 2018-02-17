@@ -9,12 +9,12 @@
 //======================================================================
 using UnityEngine;
 using System;
+using System.Net;
 using System.IO;
 using System.Collections.Generic;
-using System.Net;
 using Service.Integration.Communication;
-using Service.Integration.Communication.Callback;
 using Service.Integration.Communication.Entity;
+using Service.Integration.Communication.Callback;
 namespace Service.Integration.Communication.Client {
 public sealed class DownloadClient {
     public DownLoadClientSetting setting {

@@ -9,9 +9,7 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-
 namespace Core.Entity {
 public abstract class BaseValue {
-
 }
 }

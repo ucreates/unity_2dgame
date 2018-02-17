@@ -9,9 +9,9 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
 namespace Frontend.Behaviour.State {
 public sealed class StartCanvasHideState : FiniteState<StartCanvasBehaviour> {
     public override void Create() {

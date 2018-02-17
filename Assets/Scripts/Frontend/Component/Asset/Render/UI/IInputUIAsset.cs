@@ -9,8 +9,8 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
 using Core.Validator.Entity;
+using Core.Entity;
 namespace Frontend.Component.Asset.Renderer.UI {
 public interface IInputUIAsset  {
     Parameter GetInput();

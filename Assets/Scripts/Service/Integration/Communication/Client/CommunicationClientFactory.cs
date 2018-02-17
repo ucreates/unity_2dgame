@@ -8,8 +8,8 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 using UnityEngine;
-using System.Collections;
 using System.Threading;
+using System.Collections;
 using Service.Integration.Communication;
 namespace Service.Integration.Communication.Client {
 public sealed class CommunicationClientFactory {

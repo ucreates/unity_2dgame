@@ -10,8 +10,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Entity;
 using Frontend.Notify;
+using Core.Entity;
 namespace Frontend.Component.State {
 public sealed class FiniteStateMachine <T> where T : MonoBehaviour {
     public Dictionary<string, FiniteState<T>> stateList {

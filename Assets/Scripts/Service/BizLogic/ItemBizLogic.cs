@@ -11,8 +11,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Service.Integration;
-using Service.Integration.Schema;
 using Service.Integration.Table;
+using Service.Integration.Schema;
 using Service.Integration.Query.Expression;
 namespace Service.BizLogic {
 public sealed class ItemBizLogic : BaseBizLogic {

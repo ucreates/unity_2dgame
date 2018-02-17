@@ -7,16 +7,16 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using System;
-using System.Collections.Generic;
-using System.Xml;
 using UnityEngine;
-using Core.Utility;
+using System;
+using System.Xml;
+using System.Collections.Generic;
 using Core.Validator.Unit;
-using Core.Validator.Entity;
-using Core.Validator.Factory;
-using Core.Validator.Config;
 using Core.Validator.Message;
+using Core.Validator.Factory;
+using Core.Validator.Entity;
+using Core.Validator.Config;
+using Core.Utility;
 namespace Core.Validator {
 public sealed class CompareValidator : BaseValidator {
     public override ValidatorResponse IsValid(object validateValue, Dictionary<string, object> validatorList) {

@@ -10,10 +10,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
+using Frontend.Component.Asset.Renderer.UI.Builder;
 namespace Frontend.Behaviour.State {
 public sealed class RankingCanvasStayState : FiniteState<RankingCanvasBehaviour> {
     private RankingCanvasBuilder builder {

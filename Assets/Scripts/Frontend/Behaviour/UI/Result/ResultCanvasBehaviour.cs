@@ -10,11 +10,11 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Entity;
-using Frontend.Behaviour.State;
-using Frontend.Component.Property;
-using Frontend.Component.State;
 using Frontend.Notify;
+using Frontend.Component.State;
+using Frontend.Component.Property;
+using Frontend.Behaviour.State;
+using Core.Entity;
 public sealed class ResultCanvasBehaviour : BaseBehaviour, IStateMachine<ResultCanvasBehaviour>, INotify {
     public List<Sprite> scoreSpriteList;
     public List<Sprite> emblemSpriteList;

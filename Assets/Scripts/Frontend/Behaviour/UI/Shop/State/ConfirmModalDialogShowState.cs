@@ -11,18 +11,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Entity;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Frontend.Component.Asset.Renderer.UI;
-using Frontend.Component.State;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Notify;
 using Service;
 using Service.Strategy;
 using Service.Integration;
-using Service.Integration.Schema;
 using Service.Integration.Table;
+using Service.Integration.Schema;
+using Frontend.Notify;
+using Frontend.Component.Vfx;
+using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
+using Frontend.Component.Asset.Renderer.UI;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Core.Entity;
 namespace Frontend.Behaviour.State.UI.Shop {
 public sealed class ConfirmModalDialogShowState : FiniteState<ShopCanvasBehaviour> {
     private TimeLine alphaTimeLine {
@@ -42,7 +42,7 @@ public sealed class ConfirmModalDialogShowState : FiniteState<ShopCanvasBehaviou
         set;
     }
     public override void Create(Parameter paramter) {
-        Sprite[] allSpriteList = Resources.LoadAll<Sprite>("Sprite");
+        Sprite[] allSpriteList = Resources.LoadAll<Sprite>("Textures");
         List<Sprite> itemSpriteList = new List<Sprite>();
         for (int i = 0; i < allSpriteList.Length; i++) {
             Sprite sprite = allSpriteList[i];

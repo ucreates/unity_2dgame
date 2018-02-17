@@ -10,13 +10,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Entity;
-using Frontend.Component.Asset.Sound;
 using Service;
-using Service.BizLogic;
 using Service.Integration;
-using Service.Integration.Schema;
 using Service.Integration.Table;
+using Service.Integration.Schema;
+using Service.BizLogic;
+using Frontend.Component.Asset.Sound;
+using Core.Entity;
 namespace Service.Strategy {
 public sealed class MasterInitStrategy : BaseStrategy {
     public const int DUMMY_USER_NUMBER = 10;

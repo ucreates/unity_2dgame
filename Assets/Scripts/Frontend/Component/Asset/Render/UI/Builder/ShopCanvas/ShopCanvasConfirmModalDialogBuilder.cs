@@ -11,9 +11,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Math;
 using Service.Integration;
 using Service.Integration.Table;
+using Core.Math;
 namespace Frontend.Component.Asset.Renderer.UI.Builder {
 public sealed class ShopCanvasConfirmModalDialogBuilder : BaseUIAssetBuilder {
     private MItemTable itemMaster {

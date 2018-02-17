@@ -1,47 +1,47 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <validation viewname="anyviewname">
   <component name="nickname">
-      <validator type="required">
-          <condition type="type">string</condition>
-          <condition type="summary">ニックネームが入力されていません</condition>
-      </validator>
-      <validator type="regex">
-          <condition type="pattern">^[a-z|A-Z|ぁ-ん|ァ-ヾ|[一-龠|0-9]+$</condition>
-          <condition type="summary">ニックネームへ不適切な文字がふくまれています</condition>
-      </validator>
-      <validator type="compare">
-          <condition type="type">string</condition>
-          <condition type="comparevalue">10</condition>
-          <condition type="comparetype">Small</condition>
-          <condition type="equaloption">AddEqual</condition>
-          <condition type="summary">ニックネームは10文字以内で入力してください。</condition>
-      </validator>
+    <validator type="required">
+      <condition type="type">string</condition>
+      <condition type="summary">ニックネームが入力されていません</condition>
+    </validator>
+    <validator type="regex">
+      <condition type="pattern">^[a-z|A-Z|ぁ-ん|ァ-ヾ|[一-龠|0-9]+$</condition>
+      <condition type="summary">ニックネームへ不適切な文字がふくまれています</condition>
+    </validator>
+    <validator type="compare">
+      <condition type="type">string</condition>
+      <condition type="comparevalue">10</condition>
+      <condition type="comparetype">Small</condition>
+      <condition type="equaloption">AddEqual</condition>
+      <condition type="summary">ニックネームは10文字以内で入力してください。</condition>
+    </validator>
   </component>
   <component name="password">
-      <validator type="required">
-          <condition type="type">string</condition>
-          <condition type="summary">パスワードが入力されていません。</condition>
-      </validator>
-      <validator type="range">
-          <condition type="type">string</condition>
-          <condition type="min">6</condition>
-          <condition type="max">12</condition>
-          <condition type="option">AddEqual</condition>
-          <condition type="summary">パスワードは6文字~12文字以内で入力してください。</condition>
-      </validator>
-      <validator type="regex">
-          <condition type="pattern">^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[0-9])(?=.*[!%@#])(?!.*[&gt;&lt;]).*$</condition>
-          <condition type="summary">パスワードへ不適切な文字が含まれています。また、かならずパスワードへ半角英数(大文字小文字)記号(!%@#)を含めてください。</condition>
-      </validator>
+    <validator type="required">
+      <condition type="type">string</condition>
+      <condition type="summary">パスワードが入力されていません。</condition>
+    </validator>
+    <validator type="range">
+      <condition type="type">string</condition>
+      <condition type="min">6</condition>
+      <condition type="max">12</condition>
+      <condition type="option">AddEqual</condition>
+      <condition type="summary">パスワードは6文字~12文字以内で入力してください。</condition>
+    </validator>
+    <validator type="regex">
+      <condition type="pattern">^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[0-9])(?=.*[!%@#])(?!.*[&gt;&lt;]).*$</condition>
+      <condition type="summary">パスワードへ不適切な文字が含まれています。また、かならずパスワードへ半角英数(大文字小文字)記号(!%@#)を含めてください。</condition>
+    </validator>
   </component>
   <component name="mailphone">
-      <validator type="required">
-          <condition type="type">string</condition>
-          <condition type="summary">メールアドレス、または電話番号が入力されていません。</condition>
-      </validator>
-      <validator type="mailandphone">
-          <condition type="mailerrorsummary">メールアドレス、または電話番号へ不適切な文字が入力されているか、フォーマットが間違っているようです。</condition>
-          <condition type="phoneerrorsummary">メールアドレス、または電話番号へ不適切な文字が入力されているか、フォーマットが間違っているようです。</condition>
-      </validator>
-  </component>  
+    <validator type="required">
+      <condition type="type">string</condition>
+      <condition type="summary">メールアドレス、または電話番号が入力されていません。</condition>
+    </validator>
+    <validator type="mailandphone">
+      <condition type="mailerrorsummary">メールアドレス、または電話番号へ不適切な文字が入力されているか、フォーマットが間違っているようです。</condition>
+      <condition type="phoneerrorsummary">メールアドレス、または電話番号へ不適切な文字が入力されているか、フォーマットが間違っているようです。</condition>
+    </validator>
+  </component>
 </validation>

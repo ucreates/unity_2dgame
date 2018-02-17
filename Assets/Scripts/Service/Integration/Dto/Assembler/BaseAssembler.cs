@@ -8,10 +8,10 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 using UnityEngine;
+using System.Xml.Linq;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 using Service.Integration.Schema;
 namespace Service.Integration.Dto.Assembler {
 public abstract class BaseAssembler<T> {

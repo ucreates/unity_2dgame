@@ -9,9 +9,9 @@
 //======================================================================
 using UnityEngine;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Linq;
+using System.Collections.Generic;
 namespace Core.Device {
 public sealed class Screen {
     public static float HalfWidth {

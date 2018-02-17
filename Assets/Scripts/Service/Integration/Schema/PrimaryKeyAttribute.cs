@@ -9,9 +9,7 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-
 namespace Service.Integration.Schema {
 public sealed class PrimaryKeyAttribute : KeyAttribute {
-
 }
 }

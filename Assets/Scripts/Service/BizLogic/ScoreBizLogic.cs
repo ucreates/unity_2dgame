@@ -10,11 +10,11 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Utility;
 using Service.Integration;
-using Service.Integration.Query.Expression;
-using Service.Integration.Schema;
 using Service.Integration.Table;
+using Service.Integration.Schema;
+using Service.Integration.Query.Expression;
+using Core.Utility;
 namespace Service.BizLogic {
 public sealed class ScoreBizLogic : BaseBizLogic {
     public ScoreBizLogic() {

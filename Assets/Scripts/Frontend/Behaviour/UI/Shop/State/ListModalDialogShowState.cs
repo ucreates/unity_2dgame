@@ -11,16 +11,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Entity;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Frontend.Component.State;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Notify;
 using Service;
 using Service.Strategy;
 using Service.Integration;
 using Service.Integration.Table;
+using Frontend.Notify;
+using Frontend.Component.Vfx;
+using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.State;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Core.Entity;
 namespace Frontend.Behaviour.State.UI.Shop {
 public sealed class ListModalDialogShowState : FiniteState<ShopCanvasBehaviour> {
     private TimeLine alphaTimeLine {

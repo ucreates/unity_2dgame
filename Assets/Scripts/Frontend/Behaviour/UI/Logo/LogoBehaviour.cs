@@ -9,11 +9,11 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
-using Core.Scene;
-using Frontend.Component.Asset.Render;
-using Frontend.Component.Property;
 using Service;
+using Frontend.Component.Property;
+using Frontend.Component.Asset.Render;
+using Core.Scene;
+using Core.Entity;
 public sealed class LogoBehaviour : BaseBehaviour {
     public void Start() {
         this.property = new BaseProperty(this);

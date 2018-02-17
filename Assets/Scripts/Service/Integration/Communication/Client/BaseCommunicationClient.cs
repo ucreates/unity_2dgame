@@ -8,11 +8,11 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 using UnityEngine;
-using System.Collections;
 using System.Threading;
-using Core.Device;
+using System.Collections;
 using Service.Integration.Communication;
 using Service.Integration.Communication.Entity;
+using Core.Device;
 namespace Service.Integration.Communication.Client {
 public abstract class BaseCommunicationClient {
     public UserAgent userAgent {

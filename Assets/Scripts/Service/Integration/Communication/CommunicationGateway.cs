@@ -8,13 +8,13 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 using UnityEngine;
+using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using Core.Device;
 using Service;
-using Service.Integration.Communication.Client;
 using Service.Integration.Communication.Entity;
+using Service.Integration.Communication.Client;
+using Core.Device;
 namespace Service.Integration.Communication {
 public sealed class CommunicationGateway {
     private static CommunicationGateway instance {

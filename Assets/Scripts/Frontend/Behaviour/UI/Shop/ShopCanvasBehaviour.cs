@@ -9,11 +9,11 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
-using Frontend.Behaviour.State.UI.Shop;
-using Frontend.Component.Property;
-using Frontend.Component.State;
 using Frontend.Notify;
+using Frontend.Component.State;
+using Frontend.Component.Property;
+using Frontend.Behaviour.State.UI.Shop;
+using Core.Entity;
 public sealed class ShopCanvasBehaviour : BaseBehaviour, IStateMachine<ShopCanvasBehaviour>, INotify {
     public FiniteStateMachine<ShopCanvasBehaviour> stateMachine {
         get;

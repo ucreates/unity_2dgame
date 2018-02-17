@@ -9,9 +9,9 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
 using Frontend.Notify;
 using Frontend.Component.Vfx;
+using Core.Entity;
 namespace Frontend.Component.State {
 public class FiniteState<T> where T : MonoBehaviour {
     public bool persistent {

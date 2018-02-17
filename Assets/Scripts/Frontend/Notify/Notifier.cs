@@ -9,8 +9,8 @@
 //======================================================================
 using UnityEngine;
 using System.Collections.Generic;
-using Core.Entity;
 using Frontend.Component.Property;
+using Core.Entity;
 namespace Frontend.Notify {
 public sealed class Notifier {
     public NotifyMessage previousMessage {

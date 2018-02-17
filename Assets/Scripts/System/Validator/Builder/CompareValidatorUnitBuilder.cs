@@ -8,9 +8,9 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 using System;
-using Core.Utility;
 using Core.Validator;
 using Core.Validator.Unit;
+using Core.Utility;
 namespace Core.Validator.Builder {
 public sealed class CompareValidatorUnitBuilder : BaseValidatorUnitBuilder {
     public override string type {

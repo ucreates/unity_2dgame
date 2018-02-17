@@ -19,8 +19,8 @@
 using System;
 using System.Xml;
 using System.Collections.Generic;
-using Core.Validator.Builder;
 using Core.Validator.Message;
+using Core.Validator.Builder;
 namespace Core.Validator.Mapper {
 public sealed class RangeRuleMapper : BaseRuleMapper {
     public override Dictionary<string, object> Map(XmlNodeList ruleNodeList) {

@@ -11,8 +11,8 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Service.Integration;
-using Service.Integration.Schema;
 using Service.Integration.Table;
+using Service.Integration.Schema;
 namespace Service.Integration {
 public sealed class DataBase {
     public Dictionary<string, BaseDao> daoList {

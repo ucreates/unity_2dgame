@@ -9,16 +9,16 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Entity;
-using Core.Generator;
-using Frontend.Component.Asset.Sound;
-using Frontend.Component.State;
+using Service;
+using Service.Strategy;
+using Frontend.Notify;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
 using Frontend.Component.Vfx.Easing;
-using Frontend.Notify;
-using Service;
-using Service.Strategy;
+using Frontend.Component.State;
+using Frontend.Component.Asset.Sound;
+using Core.Generator;
+using Core.Entity;
 namespace Frontend.Behaviour.State {
 public sealed class FlappyBirdDeadState : FiniteState<FlappyBirdBehaviour> {
     private Rigidbody2D rigidBody {

@@ -9,12 +9,12 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Core.Utility;
-using Frontend.Component.State;
+using Service;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
 using Frontend.Component.Vfx.Easing;
-using Service;
+using Frontend.Component.State;
+using Core.Utility;
 namespace Frontend.Behaviour.State {
 public sealed class BackGroundShowState : FiniteState<BackGroundBehaviour> {
     public override void Create() {

@@ -8,13 +8,13 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 using UnityEngine;
-using Core.Utility;
+using System.Xml.Linq;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
-using Service.Integration.Schema;
 using Service.Integration.Table;
+using Service.Integration.Schema;
+using Core.Utility;
 namespace Service.Integration.Dto.Assembler {
 public class XmlAssembler<T> : BaseAssembler<T>  where T : BaseTable, new() {
     public string xmlPath {

@@ -9,11 +9,11 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Frontend.Component.Asset.Renderer.Animator.Builder;
-using Frontend.Component.State;
 using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Easing;
 using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.Vfx.Easing;
+using Frontend.Component.State;
+using Frontend.Component.Asset.Renderer.Animator.Builder;
 namespace Frontend.Behaviour.State {
 public sealed class ClayPipeStopState : FiniteState<ClayPipeBehaviour> {
     public override void Create() {

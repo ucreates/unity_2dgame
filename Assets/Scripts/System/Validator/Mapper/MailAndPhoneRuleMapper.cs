@@ -13,8 +13,8 @@ using System.Xml;
 using System.Collections.Generic;
 using Core.Validator;
 using Core.Validator.Unit;
-using Core.Validator.Builder;
 using Core.Validator.Message;
+using Core.Validator.Builder;
 namespace Core.Validator.Mapper {
 public sealed class MailAndPhoneRuleMapper : BaseRuleMapper {
     private const string EMAIL_ADRRESS_REGEX = "^[a-z|A-Z|0-9\\.\\-]+@[a-z|A-Z|0-9\\-]+\\.[a-z|A-Z|0-9\\.\\-]+$";

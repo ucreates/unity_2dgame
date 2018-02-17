@@ -9,10 +9,8 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-
 namespace Core.Entity {
 public sealed class Value<T> : BaseValue {
-
     public T value {
         get;
         set;

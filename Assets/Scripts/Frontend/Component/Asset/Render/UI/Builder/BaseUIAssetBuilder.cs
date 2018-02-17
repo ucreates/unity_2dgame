@@ -11,8 +11,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
-using Core.Utility;
 using Core.Validator.Entity;
+using Core.Utility;
 namespace Frontend.Component.Asset.Renderer.UI.Builder {
 public abstract class BaseUIAssetBuilder {
     private const float INVALID_POSITION_SEED_MIN_VALUE = -10f;

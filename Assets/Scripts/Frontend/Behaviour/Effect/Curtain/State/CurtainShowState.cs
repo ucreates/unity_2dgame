@@ -9,11 +9,11 @@
 //======================================================================
 using UnityEngine;
 using System.Collections;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Easing;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
 using Service;
+using Frontend.Component.Vfx;
+using Frontend.Component.Vfx.Sprine;
+using Frontend.Component.Vfx.Easing;
+using Frontend.Component.State;
 namespace Frontend.Behaviour.State {
 public sealed class CurtainShowState : FiniteState<CurtainBehaviour> {
     public override void Create() {

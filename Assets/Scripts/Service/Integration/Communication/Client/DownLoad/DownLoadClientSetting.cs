@@ -7,8 +7,8 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using System;
 using UnityEngine;
+using System;
 namespace Service.Integration.Communication.Client {
 public sealed class DownLoadClientSetting {
     public Uri uri {

@@ -11,12 +11,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Math;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Frontend.Component.State;
+using Service;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
-using Service;
+using Frontend.Component.State;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Core.Math;
 namespace Frontend.Behaviour.State {
 public sealed class InputCanvasStayState : FiniteState<InputCanvasBehaviour> {
     private InputCanvasModalDialogBuilder builder {
