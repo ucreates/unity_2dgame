@@ -7,15 +7,13 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Frontend.Component.State;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-namespace Frontend.Behaviour.State {
-public sealed class RankingCanvasStayState : FiniteState<RankingCanvasBehaviour> {
+namespace Frontend.Behaviour.State
+{
+    public sealed class RankingCanvasStayState : FiniteState<RankingCanvasBehaviour> {
     private RankingCanvasBuilder builder {
         get;
         set;
@@ -25,7 +23,7 @@ public sealed class RankingCanvasStayState : FiniteState<RankingCanvasBehaviour>
         if (null != canvas) {
             canvas.enabled = true;
         }
-        Transform sb = this.owner.transform.FindChild("ConfirmButton");
+        Transform sb = this.owner.transform.Find("ConfirmButton");
         Button confirmButton = sb.GetComponent<Button>();
         this.builder = new RankingCanvasBuilder();
         this.builder

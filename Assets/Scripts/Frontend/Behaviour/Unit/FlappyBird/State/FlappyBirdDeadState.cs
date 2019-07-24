@@ -7,20 +7,15 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service;
-using Service.Strategy;
-using Frontend.Notify;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.Vfx.Easing;
-using Frontend.Component.State;
 using Frontend.Component.Asset.Sound;
-using Core.Generator;
-using Core.Entity;
-namespace Frontend.Behaviour.State {
-public sealed class FlappyBirdDeadState : FiniteState<FlappyBirdBehaviour> {
+using Frontend.Component.State;
+using Frontend.Component.Vfx;
+using Frontend.Component.Vfx.Easing;
+using Frontend.Notify;
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public sealed class FlappyBirdDeadState : FiniteState<FlappyBirdBehaviour> {
     private Rigidbody2D rigidBody {
         get;
         set;
@@ -42,7 +37,7 @@ public sealed class FlappyBirdDeadState : FiniteState<FlappyBirdBehaviour> {
         if (notifier.currentMessage != NotifyMessage.FlappyBirdDead) {
             notifier.Notify(NotifyMessage.FlappyBirdDead);
         }
-        ResourceGenerator.Generate("Prefabs/Curtain", new UnityEngine.Vector3(0f, 0f, 0f), UnityEngine.Quaternion.identity);
+        Core.Object.Resource.Instanciate("Prefabs/Curtain", new UnityEngine.Vector3(0f, 0f, 0f), UnityEngine.Quaternion.identity);
         SoundEffectAsset soundAsset = SoundAssetCollection.GetInstance().GetSEAsset("bird_die") as SoundEffectAsset;
         this.owner.StartCoroutine(soundAsset.Delay(1.0f));
     }

@@ -7,21 +7,18 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using System.Collections.Generic;
+using Core.Entity;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Frontend.Component.State;
+using Frontend.Component.Vfx;
+using Service;
+using Service.Integration.Table;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Service;
-using Service.Strategy;
-using Service.Integration;
-using Service.Integration.Table;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Core.Entity;
-namespace Frontend.Behaviour.State {
-public sealed class RankingCanvasShowState : FiniteState<RankingCanvasBehaviour> {
+namespace Frontend.Behaviour.State
+{
+    public sealed class RankingCanvasShowState : FiniteState<RankingCanvasBehaviour> {
     private TimeLine alphaTimeLine {
         get;
         set;
@@ -43,9 +40,9 @@ public sealed class RankingCanvasShowState : FiniteState<RankingCanvasBehaviour>
         List<TScoreTable> rankingList = response.Get<List<TScoreTable>>("rankinglist");
         List<MUserTable> userList = response.Get<List<MUserTable>>("userlist");
         if (null == this.builder) {
-            Transform campanynametrsfrm = this.owner.transform.FindChild("BackGroundImage");
+            Transform campanynametrsfrm = this.owner.transform.Find("BackGroundImage");
             Image bgImage = campanynametrsfrm.GetComponent< Image>();
-            Transform sb = this.owner.transform.FindChild("ConfirmButton");
+            Transform sb = this.owner.transform.Find("ConfirmButton");
             Button confirmButton = sb.GetComponent<Button>();
             this.builder = new RankingCanvasBuilder();
             this.builder

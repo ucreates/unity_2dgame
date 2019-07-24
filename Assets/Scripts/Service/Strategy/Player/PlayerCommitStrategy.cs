@@ -7,17 +7,12 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using Service;
-using Service.Integration;
-using Service.Integration.Table;
-using Service.Integration.Communication;
-using Service.BizLogic;
 using Core.Entity;
-namespace Service.Strategy {
-public sealed class PlayerCommitStrategy : BaseStrategy {
+using Service.BizLogic;
+using Service.Integration.Table;
+namespace Service.Strategy
+{
+    public sealed class PlayerCommitStrategy : BaseStrategy {
     public override Response Request(Parameter parameter) {
         string nickName = parameter.Get<string>("nickname");
         string password = parameter.Get<string>("password");

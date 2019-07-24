@@ -9,11 +9,9 @@
 //======================================================================
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Core.Math;
-namespace Frontend.Component.Asset.Renderer.UI.Builder {
-public sealed class NoticeCanvasBuilder : BaseUIAssetBuilder {
+namespace Frontend.Component.Asset.Renderer.UI.Builder
+{
+    public sealed class NoticeCanvasBuilder : BaseUIAssetBuilder {
     private string notice {
         get;
         set;
@@ -33,6 +31,9 @@ public sealed class NoticeCanvasBuilder : BaseUIAssetBuilder {
             button.enabled = this.enabled;
         }
         foreach (Image image in this.imageList) {
+            if (false != image.name.Equals("WebViewAreaImage")) {
+                continue;
+            }
             image.color = new Color(image.color.r, image.color.g, image.color.b, this.alpha);
         }
         foreach (Text text in this. textList) {

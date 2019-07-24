@@ -7,13 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
 using Frontend.Component.State;
-namespace Frontend.Behaviour.State.UI.Shop {
-public sealed class ListModalDialogHideState : FiniteState<ShopCanvasBehaviour> {
+using UnityEngine;
+namespace Frontend.Behaviour.State.UI.Shop
+{
+    public sealed class ListModalDialogHideState : FiniteState<ShopCanvasBehaviour> {
     public override void Create() {
         Canvas canvas = this.owner.GetComponent<Canvas>();
         if (null != canvas) {

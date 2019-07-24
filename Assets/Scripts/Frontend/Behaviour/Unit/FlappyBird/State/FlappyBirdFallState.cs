@@ -7,17 +7,13 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service;
-using Service.Strategy;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.Vfx.Easing;
 using Frontend.Component.State;
-using Core.Entity;
-namespace Frontend.Behaviour.State {
-public  class FlappyBirdFallState : FiniteState<FlappyBirdBehaviour> {
+using Frontend.Component.Vfx;
+using Frontend.Component.Vfx.Easing;
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public  class FlappyBirdFallState : FiniteState<FlappyBirdBehaviour> {
     protected Rigidbody2D rigidBody {
         get;
         set;

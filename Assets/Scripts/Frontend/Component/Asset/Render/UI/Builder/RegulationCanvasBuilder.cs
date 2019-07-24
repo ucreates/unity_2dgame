@@ -9,11 +9,9 @@
 //======================================================================
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Core.Math;
-namespace Frontend.Component.Asset.Renderer.UI.Builder {
-public sealed class RegulationCanvasBuilder : BaseUIAssetBuilder {
+namespace Frontend.Component.Asset.Renderer.UI.Builder
+{
+    public sealed class RegulationCanvasBuilder : BaseUIAssetBuilder {
     private string regulation {
         get;
         set;

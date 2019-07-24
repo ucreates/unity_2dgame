@@ -1,18 +1,17 @@
 /******************************************************************************
- * Spine Runtimes Software License
- * Version 2.3
+ * Spine Runtimes Software License v2.5
  *
- * Copyright (c) 2013-2015, Esoteric Software
+ * Copyright (c) 2013-2016, Esoteric Software
  * All rights reserved.
  *
- * You are granted a perpetual, non-exclusive, non-sublicensable and
- * non-transferable license to use, install, execute and perform the Spine
- * Runtimes Software (the "Software") and derivative works solely for personal
- * or internal use. Without the written permission of Esoteric Software (see
- * Section 2 of the Spine Software License Agreement), you may not (a) modify,
- * translate, adapt or otherwise create derivative works, improvements of the
- * Software or develop new applications using the Software or (b) remove,
- * delete, alter or obscure any trademarks or any copyright, trademark, patent
+ * You are granted a perpetual, non-exclusive, non-sublicensable, and
+ * non-transferable license to use, install, execute, and perform the Spine
+ * Runtimes software and derivative works solely for personal or internal
+ * use. Without the written permission of Esoteric Software (see Section 2 of
+ * the Spine Software License Agreement), you may not (a) modify, translate,
+ * adapt, or develop new applications using the Spine Runtimes or otherwise
+ * create derivative works or improvements of the Spine Runtimes or (b) remove,
+ * delete, alter, or obscure any trademarks or any copyright, trademark, patent,
  * or other intellectual property or proprietary rights notices on or in the
  * Software, including any copy thereof. Redistributions in binary or source
  * form must include this license and terms.
@@ -22,46 +21,58 @@
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
  * EVENT SHALL ESOTERIC SOFTWARE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, BUSINESS INTERRUPTION, OR LOSS OF
+ * USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
-#if (UNITY_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1)
+
+#if (UNITY_5 || UNITY_5_3_OR_NEWER || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1)
 #define IS_UNITY
 #endif
+
 using System;
 using System.IO;
 using System.Collections.Generic;
+
 #if WINDOWS_STOREAPP
 using System.Threading.Tasks;
 using Windows.Storage;
 #endif
+
 namespace Spine {
 public class SkeletonBinary {
     public const int BONE_ROTATE = 0;
     public const int BONE_TRANSLATE = 1;
     public const int BONE_SCALE = 2;
     public const int BONE_SHEAR = 3;
+
     public const int SLOT_ATTACHMENT = 0;
     public const int SLOT_COLOR = 1;
+    public const int SLOT_TWO_COLOR = 2;
+
     public const int PATH_POSITION = 0;
     public const int PATH_SPACING = 1;
     public const int PATH_MIX = 2;
+
     public const int CURVE_LINEAR = 0;
     public const int CURVE_STEPPED = 1;
     public const int CURVE_BEZIER = 2;
+
     public float Scale {
         get;
         set;
     }
+
     private AttachmentLoader attachmentLoader;
     private byte[] buffer = new byte[32];
     private List<SkeletonJson.LinkedMesh> linkedMeshes = new List<SkeletonJson.LinkedMesh>();
+
     public SkeletonBinary(params Atlas[] atlasArray)
     : this(new AtlasAttachmentLoader(atlasArray)) {
     }
+
     public SkeletonBinary(AttachmentLoader attachmentLoader) {
         if (attachmentLoader == null) {
             throw new ArgumentNullException("attachmentLoader");
@@ -69,6 +80,7 @@ public class SkeletonBinary {
         this.attachmentLoader = attachmentLoader;
         Scale = 1;
     }
+
 #if !ISUNITY && WINDOWS_STOREAPP
     private async Task<SkeletonData> ReadFile(string path) {
         var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
@@ -78,6 +90,7 @@ public class SkeletonBinary {
             return skeletonData;
         }
     }
+
     public SkeletonData ReadSkeletonData(String path) {
         return this.ReadFile(path).Result;
     }
@@ -86,19 +99,57 @@ public class SkeletonBinary {
 #if WINDOWS_PHONE
         using(var input = new BufferedStream(Microsoft.Xna.Framework.TitleContainer.OpenStream(path))) {
 #else
-        using(var input = new BufferedStream(new FileStream(path, FileMode.Open))) {
-#endif // WINDOWS_PHONE
+        using(var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)) {
+#endif
             SkeletonData skeletonData = ReadSkeletonData(input);
             skeletonData.name = Path.GetFileNameWithoutExtension(path);
             return skeletonData;
         }
     }
 #endif // WINDOWS_STOREAPP
+
+    public static readonly TransformMode[] TransformModeValues = {
+        TransformMode.Normal,
+        TransformMode.OnlyTranslation,
+        TransformMode.NoRotationOrReflection,
+        TransformMode.NoScale,
+        TransformMode.NoScaleOrReflection
+    };
+
+    /// <summary>Returns the version string of binary skeleton data.</summary>
+    public static string GetVersionString(Stream input) {
+        if (input == null) {
+            throw new ArgumentNullException("input");
+        }
+
+        try {
+            // Hash.
+            int byteCount = ReadVarint(input, true);
+            if (byteCount > 1) {
+                input.Position += byteCount - 1;
+            }
+
+            // Version.
+            byteCount = ReadVarint(input, true);
+            if (byteCount > 1) {
+                byteCount--;
+                var buffer = new byte[byteCount];
+                ReadFully(input, buffer, 0, byteCount);
+                return System.Text.Encoding.UTF8.GetString(buffer, 0, byteCount);
+            }
+
+            throw new ArgumentException("Stream does not contain a valid binary Skeleton Data.", "input");
+        } catch (Exception e) {
+            throw new ArgumentException("Stream does not contain a valid binary Skeleton Data.\n" + e, "input");
+        }
+    }
+
     public SkeletonData ReadSkeletonData(Stream input) {
         if (input == null) {
             throw new ArgumentNullException("input");
         }
         float scale = Scale;
+
         var skeletonData = new SkeletonData();
         skeletonData.hash = ReadString(input);
         if (skeletonData.hash.Length == 0) {
@@ -110,13 +161,17 @@ public class SkeletonBinary {
         }
         skeletonData.width = ReadFloat(input);
         skeletonData.height = ReadFloat(input);
+
         bool nonessential = ReadBoolean(input);
+
         if (nonessential) {
+            skeletonData.fps = ReadFloat(input);
             skeletonData.imagesPath = ReadString(input);
             if (skeletonData.imagesPath.Length == 0) {
                 skeletonData.imagesPath = null;
             }
         }
+
         // Bones.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             String name = ReadString(input);
@@ -130,13 +185,13 @@ public class SkeletonBinary {
             data.shearX = ReadFloat(input);
             data.shearY = ReadFloat(input);
             data.length = ReadFloat(input) * scale;
-            data.inheritRotation = ReadBoolean(input);
-            data.inheritScale = ReadBoolean(input);
+            data.transformMode = TransformModeValues[ReadVarint(input, true)];
             if (nonessential) {
                 ReadInt(input);    // Skip bone color.
             }
             skeletonData.bones.Add(data);
         }
+
         // Slots.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             String slotName = ReadString(input);
@@ -147,13 +202,24 @@ public class SkeletonBinary {
             slotData.g = ((color & 0x00ff0000) >> 16) / 255f;
             slotData.b = ((color & 0x0000ff00) >> 8) / 255f;
             slotData.a = ((color & 0x000000ff)) / 255f;
+
+            int darkColor = ReadInt(input); // 0x00rrggbb
+            if (darkColor != -1) {
+                slotData.hasSecondColor = true;
+                slotData.r2 = ((darkColor & 0x00ff0000) >> 16) / 255f;
+                slotData.g2 = ((darkColor & 0x0000ff00) >> 8) / 255f;
+                slotData.b2 = ((darkColor & 0x000000ff)) / 255f;
+            }
+
             slotData.attachmentName = ReadString(input);
             slotData.blendMode = (BlendMode)ReadVarint(input, true);
             skeletonData.slots.Add(slotData);
         }
+
         // IK constraints.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             IkConstraintData data = new IkConstraintData(ReadString(input));
+            data.order = ReadVarint(input, true);
             for (int ii = 0, nn = ReadVarint(input, true); ii < nn; ii++) {
                 data.bones.Add(skeletonData.bones.Items[ReadVarint(input, true)]);
             }
@@ -162,13 +228,17 @@ public class SkeletonBinary {
             data.bendDirection = ReadSByte(input);
             skeletonData.ikConstraints.Add(data);
         }
+
         // Transform constraints.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             TransformConstraintData data = new TransformConstraintData(ReadString(input));
+            data.order = ReadVarint(input, true);
             for (int ii = 0, nn = ReadVarint(input, true); ii < nn; ii++) {
                 data.bones.Add(skeletonData.bones.Items[ReadVarint(input, true)]);
             }
             data.target = skeletonData.bones.Items[ReadVarint(input, true)];
+            data.local = ReadBoolean(input);
+            data.relative = ReadBoolean(input);
             data.offsetRotation = ReadFloat(input);
             data.offsetX = ReadFloat(input) * scale;
             data.offsetY = ReadFloat(input) * scale;
@@ -181,9 +251,11 @@ public class SkeletonBinary {
             data.shearMix = ReadFloat(input);
             skeletonData.transformConstraints.Add(data);
         }
+
         // Path constraints
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             PathConstraintData data = new PathConstraintData(ReadString(input));
+            data.order = ReadVarint(input, true);
             for (int ii = 0, nn = ReadVarint(input, true); ii < nn; ii++) {
                 data.bones.Add(skeletonData.bones.Items[ReadVarint(input, true)]);
             }
@@ -204,16 +276,19 @@ public class SkeletonBinary {
             data.translateMix = ReadFloat(input);
             skeletonData.pathConstraints.Add(data);
         }
+
         // Default skin.
-        Skin defaultSkin = ReadSkin(input, "default", nonessential);
+        Skin defaultSkin = ReadSkin(input, skeletonData, "default", nonessential);
         if (defaultSkin != null) {
             skeletonData.defaultSkin = defaultSkin;
             skeletonData.skins.Add(defaultSkin);
         }
+
         // Skins.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
-            skeletonData.skins.Add(ReadSkin(input, ReadString(input), nonessential));
+            skeletonData.skins.Add(ReadSkin(input, skeletonData, ReadString(input), nonessential));
         }
+
         // Linked meshes.
         for (int i = 0, n = linkedMeshes.Count; i < n; i++) {
             SkeletonJson.LinkedMesh linkedMesh = linkedMeshes[i];
@@ -229,6 +304,7 @@ public class SkeletonBinary {
             linkedMesh.mesh.UpdateUVs();
         }
         linkedMeshes.Clear();
+
         // Events.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             EventData data = new EventData(ReadString(input));
@@ -237,10 +313,12 @@ public class SkeletonBinary {
             data.String = ReadString(input);
             skeletonData.events.Add(data);
         }
+
         // Animations.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             ReadAnimation(ReadString(input), input, skeletonData);
         }
+
         skeletonData.bones.TrimExcess();
         skeletonData.slots.TrimExcess();
         skeletonData.skins.TrimExcess();
@@ -250,8 +328,10 @@ public class SkeletonBinary {
         skeletonData.pathConstraints.TrimExcess();
         return skeletonData;
     }
+
+
     /// <returns>May be null.</returns>
-    private Skin ReadSkin(Stream input, String skinName, bool nonessential) {
+    private Skin ReadSkin(Stream input, SkeletonData skeletonData, String skinName, bool nonessential) {
         int slotCount = ReadVarint(input, true);
         if (slotCount == 0) {
             return null;
@@ -261,17 +341,23 @@ public class SkeletonBinary {
             int slotIndex = ReadVarint(input, true);
             for (int ii = 0, nn = ReadVarint(input, true); ii < nn; ii++) {
                 String name = ReadString(input);
-                skin.AddAttachment(slotIndex, name, ReadAttachment(input, skin, slotIndex, name, nonessential));
+                Attachment attachment = ReadAttachment(input, skeletonData, skin, slotIndex, name, nonessential);
+                if (attachment != null) {
+                    skin.AddAttachment(slotIndex, name, attachment);
+                }
             }
         }
         return skin;
     }
-    private Attachment ReadAttachment(Stream input, Skin skin, int slotIndex, String attachmentName, bool nonessential) {
+
+    private Attachment ReadAttachment(Stream input, SkeletonData skeletonData, Skin skin, int slotIndex, String attachmentName, bool nonessential) {
         float scale = Scale;
+
         String name = ReadString(input);
         if (name == null) {
             name = attachmentName;
         }
+
         AttachmentType type = (AttachmentType)input.ReadByte();
         switch (type) {
         case AttachmentType.Region: {
@@ -284,6 +370,7 @@ public class SkeletonBinary {
             float width = ReadFloat(input);
             float height = ReadFloat(input);
             int color = ReadInt(input);
+
             if (path == null) {
                 path = name;
             }
@@ -312,6 +399,7 @@ public class SkeletonBinary {
             if (nonessential) {
                 ReadInt(input);    //int color = nonessential ? ReadInt(input) : 0; // Avoid unused local warning.
             }
+
             BoundingBoxAttachment box = attachmentLoader.NewBoundingBoxAttachment(skin, name);
             if (box == null) {
                 return null;
@@ -336,6 +424,7 @@ public class SkeletonBinary {
                 width = ReadFloat(input);
                 height = ReadFloat(input);
             }
+
             if (path == null) {
                 path = name;
             }
@@ -373,6 +462,7 @@ public class SkeletonBinary {
                 width = ReadFloat(input);
                 height = ReadFloat(input);
             }
+
             if (path == null) {
                 path = name;
             }
@@ -403,8 +493,9 @@ public class SkeletonBinary {
                 lengths[i] = ReadFloat(input) * scale;
             }
             if (nonessential) {
-                ReadInt(input);    //int color = nonessential ? ReadInt(input) : 0; // Avoid unused local warning.
+                ReadInt(input);    //int color = nonessential ? ReadInt(input) : 0;
             }
+
             PathAttachment path = attachmentLoader.NewPathAttachment(skin, name);
             if (path == null) {
                 return null;
@@ -417,9 +508,46 @@ public class SkeletonBinary {
             path.lengths = lengths;
             return path;
         }
+        case AttachmentType.Point: {
+            float rotation = ReadFloat(input);
+            float x = ReadFloat(input);
+            float y = ReadFloat(input);
+            if (nonessential) {
+                ReadInt(input);    //int color = nonessential ? ReadInt(input) : 0;
+            }
+
+            PointAttachment point = attachmentLoader.NewPointAttachment(skin, name);
+            if (point == null) {
+                return null;
+            }
+            point.x = x * scale;
+            point.y = y * scale;
+            point.rotation = rotation;
+            //if (nonessential) point.color = color;
+            return point;
+        }
+        case AttachmentType.Clipping: {
+            int endSlotIndex = ReadVarint(input, true);
+            int vertexCount = ReadVarint(input, true);
+            Vertices vertices = ReadVertices(input, vertexCount);
+            if (nonessential) {
+                ReadInt(input);
+            }
+
+            ClippingAttachment clip = attachmentLoader.NewClippingAttachment(skin, name);
+            if (clip == null) {
+                return null;
+            }
+            clip.EndSlot = skeletonData.slots.Items[endSlotIndex];
+            clip.worldVerticesLength = vertexCount << 1;
+            clip.vertices = vertices.vertices;
+            clip.bones = vertices.bones;
+            return clip;
+        }
         }
         return null;
     }
+
     private Vertices ReadVertices(Stream input, int vertexCount) {
         float scale = Scale;
         int verticesLength = vertexCount << 1;
@@ -440,10 +568,12 @@ public class SkeletonBinary {
                 weights.Add(ReadFloat(input));
             }
         }
+
         vertices.vertices = weights.ToArray();
         vertices.bones = bonesArray.ToArray();
         return vertices;
     }
+
     private float[] ReadFloatArray(Stream input, int n, float scale) {
         float[] array = new float[n];
         if (scale == 1) {
@@ -457,6 +587,7 @@ public class SkeletonBinary {
         }
         return array;
     }
+
     private int[] ReadShortArray(Stream input) {
         int n = ReadVarint(input, true);
         int[] array = new int[n];
@@ -465,10 +596,12 @@ public class SkeletonBinary {
         }
         return array;
     }
+
     private void ReadAnimation(String name, Stream input, SkeletonData skeletonData) {
         var timelines = new ExposedList<Timeline>();
         float scale = Scale;
         float duration = 0;
+
         // Slot timelines.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             int slotIndex = ReadVarint(input, true);
@@ -476,6 +609,16 @@ public class SkeletonBinary {
                 int timelineType = input.ReadByte();
                 int frameCount = ReadVarint(input, true);
                 switch (timelineType) {
+                case SLOT_ATTACHMENT: {
+                    AttachmentTimeline timeline = new AttachmentTimeline(frameCount);
+                    timeline.slotIndex = slotIndex;
+                    for (int frameIndex = 0; frameIndex < frameCount; frameIndex++) {
+                        timeline.SetFrame(frameIndex, ReadFloat(input), ReadString(input));
+                    }
+                    timelines.Add(timeline);
+                    duration = Math.Max(duration, timeline.frames[frameCount - 1]);
+                    break;
+                }
                 case SLOT_COLOR: {
                     ColorTimeline timeline = new ColorTimeline(frameCount);
                     timeline.slotIndex = slotIndex;
@@ -495,19 +638,34 @@ public class SkeletonBinary {
                     duration = Math.Max(duration, timeline.frames[(timeline.FrameCount - 1) * ColorTimeline.ENTRIES]);
                     break;
                 }
-                case SLOT_ATTACHMENT: {
-                    AttachmentTimeline timeline = new AttachmentTimeline(frameCount);
+                case SLOT_TWO_COLOR: {
+                    TwoColorTimeline timeline = new TwoColorTimeline(frameCount);
                     timeline.slotIndex = slotIndex;
                     for (int frameIndex = 0; frameIndex < frameCount; frameIndex++) {
-                        timeline.SetFrame(frameIndex, ReadFloat(input), ReadString(input));
+                        float time = ReadFloat(input);
+                        int color = ReadInt(input);
+                        float r = ((color & 0xff000000) >> 24) / 255f;
+                        float g = ((color & 0x00ff0000) >> 16) / 255f;
+                        float b = ((color & 0x0000ff00) >> 8) / 255f;
+                        float a = ((color & 0x000000ff)) / 255f;
+                        int color2 = ReadInt(input); // 0x00rrggbb
+                        float r2 = ((color2 & 0x00ff0000) >> 16) / 255f;
+                        float g2 = ((color2 & 0x0000ff00) >> 8) / 255f;
+                        float b2 = ((color2 & 0x000000ff)) / 255f;
+
+                        timeline.SetFrame(frameIndex, time, r, g, b, a, r2, g2, b2);
+                        if (frameIndex < frameCount - 1) {
+                            ReadCurve(input, frameIndex, timeline);
+                        }
                     }
                     timelines.Add(timeline);
-                    duration = Math.Max(duration, timeline.frames[frameCount - 1]);
+                    duration = Math.Max(duration, timeline.frames[(timeline.FrameCount - 1) * TwoColorTimeline.ENTRIES]);
                     break;
                 }
                 }
             }
         }
+
         // Bone timelines.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             int boneIndex = ReadVarint(input, true);
@@ -556,6 +714,7 @@ public class SkeletonBinary {
                 }
             }
         }
+
         // IK timelines.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             int index = ReadVarint(input, true);
@@ -571,6 +730,7 @@ public class SkeletonBinary {
             timelines.Add(timeline);
             duration = Math.Max(duration, timeline.frames[(frameCount - 1) * IkConstraintTimeline.ENTRIES]);
         }
+
         // Transform constraint timelines.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             int index = ReadVarint(input, true);
@@ -586,6 +746,7 @@ public class SkeletonBinary {
             timelines.Add(timeline);
             duration = Math.Max(duration, timeline.frames[(frameCount - 1) * TransformConstraintTimeline.ENTRIES]);
         }
+
         // Path constraint timelines.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             int index = ReadVarint(input, true);
@@ -636,6 +797,7 @@ public class SkeletonBinary {
                 }
             }
         }
+
         // Deform timelines.
         for (int i = 0, n = ReadVarint(input, true); i < n; i++) {
             Skin skin = skeletonData.skins.Items[ReadVarint(input, true)];
@@ -646,10 +808,12 @@ public class SkeletonBinary {
                     bool weighted = attachment.bones != null;
                     float[] vertices = attachment.vertices;
                     int deformLength = weighted ? vertices.Length / 3 * 2 : vertices.Length;
+
                     int frameCount = ReadVarint(input, true);
                     DeformTimeline timeline = new DeformTimeline(frameCount);
                     timeline.slotIndex = slotIndex;
                     timeline.attachment = attachment;
+
                     for (int frameIndex = 0; frameIndex < frameCount; frameIndex++) {
                         float time = ReadFloat(input);
                         float[] deform;
@@ -675,6 +839,7 @@ public class SkeletonBinary {
                                 }
                             }
                         }
+
                         timeline.SetFrame(frameIndex, time, deform);
                         if (frameIndex < frameCount - 1) {
                             ReadCurve(input, frameIndex, timeline);
@@ -685,6 +850,7 @@ public class SkeletonBinary {
                 }
             }
         }
+
         // Draw order timeline.
         int drawOrderCount = ReadVarint(input, true);
         if (drawOrderCount > 0) {
@@ -722,6 +888,7 @@ public class SkeletonBinary {
             timelines.Add(timeline);
             duration = Math.Max(duration, timeline.frames[drawOrderCount - 1]);
         }
+
         // Event timeline.
         int eventCount = ReadVarint(input, true);
         if (eventCount > 0) {
@@ -738,9 +905,11 @@ public class SkeletonBinary {
             timelines.Add(timeline);
             duration = Math.Max(duration, timeline.frames[eventCount - 1]);
         }
+
         timelines.TrimExcess();
         skeletonData.animations.Add(new Animation(name, timelines, duration));
     }
+
     private void ReadCurve(Stream input, int frameIndex, CurveTimeline timeline) {
         switch (input.ReadByte()) {
         case CURVE_STEPPED:
@@ -751,6 +920,7 @@ public class SkeletonBinary {
             break;
         }
     }
+
     private static sbyte ReadSByte(Stream input) {
         int value = input.ReadByte();
         if (value == -1) {
@@ -758,9 +928,11 @@ public class SkeletonBinary {
         }
         return (sbyte)value;
     }
+
     private static bool ReadBoolean(Stream input) {
         return input.ReadByte() != 0;
     }
+
     private float ReadFloat(Stream input) {
         buffer[3] = (byte)input.ReadByte();
         buffer[2] = (byte)input.ReadByte();
@@ -768,9 +940,11 @@ public class SkeletonBinary {
         buffer[0] = (byte)input.ReadByte();
         return BitConverter.ToSingle(buffer, 0);
     }
+
     private static int ReadInt(Stream input) {
         return (input.ReadByte() << 24) + (input.ReadByte() << 16) + (input.ReadByte() << 8) + input.ReadByte();
     }
+
     private static int ReadVarint(Stream input, bool optimizePositive) {
         int b = input.ReadByte();
         int result = b & 0x7F;
@@ -791,6 +965,7 @@ public class SkeletonBinary {
         }
         return optimizePositive ? result : ((result >> 1) ^ -(result & 1));
     }
+
     private string ReadString(Stream input) {
         int byteCount = ReadVarint(input, true);
         switch (byteCount) {
@@ -807,6 +982,7 @@ public class SkeletonBinary {
         ReadFully(input, buffer, 0, byteCount);
         return System.Text.Encoding.UTF8.GetString(buffer, 0, byteCount);
     }
+
     private static void ReadFully(Stream input, byte[] buffer, int offset, int length) {
         while (length > 0) {
             int count = input.Read(buffer, offset, length);
@@ -817,6 +993,7 @@ public class SkeletonBinary {
             length -= count;
         }
     }
+
     internal class Vertices {
         public int[] bones;
         public float[] vertices;

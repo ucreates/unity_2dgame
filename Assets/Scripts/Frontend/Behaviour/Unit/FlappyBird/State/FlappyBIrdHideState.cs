@@ -7,13 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
 using Frontend.Component.State;
-namespace Frontend.Behaviour.State {
-public sealed class FlappyBIrdHideState : FiniteState<FlappyBirdBehaviour> {
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public sealed class FlappyBIrdHideState : FiniteState<FlappyBirdBehaviour> {
     public override void Create() {
         this.owner.GetComponent<Renderer>().enabled = false;
         Rigidbody2D rigidBody = this.owner.GetComponent<Rigidbody2D>();

@@ -7,22 +7,17 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service;
-using Service.Strategy;
-using Frontend.Notify;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Property;
-using Frontend.Component.Asset.Sound;
-using Frontend.Component.Asset.Render;
-using Frontend.Behaviour.State;
-using Core.Utility;
-using Core.Scene;
-using Core.Generator;
 using Core.Entity;
+using Frontend.Behaviour.Base;
+using Frontend.Behaviour.State;
+using Frontend.Component.Asset.Render;
+using Frontend.Component.Asset.Sound;
+using Frontend.Component.Property;
+using Frontend.Component.State;
+using Frontend.Component.Vfx;
+using Frontend.Notify;
+using Service;
+using UnityEngine;
 public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBirdBehaviour>, INotify {
     public Vector2 defaultPosition;
     public FiniteStateMachine<FlappyBirdBehaviour> stateMachine {
@@ -84,7 +79,7 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
             .Update(parameter);
         }
     }
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null) {
+    public void OnNotify(int notifyMessage, Parameter parameter = null) {
         if (notifyMessage == NotifyMessage.GameStart) {
             this.stateMachine.Change("go");
         } else if (notifyMessage == NotifyMessage.RegulationShow  || notifyMessage == NotifyMessage.RankingShow) {

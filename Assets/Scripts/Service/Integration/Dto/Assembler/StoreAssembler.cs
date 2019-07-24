@@ -7,17 +7,13 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Xml.Linq;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using Service;
-using Service.Integration;
+using System.Xml.Linq;
 using Service.Integration.Table;
-using Core.Entity;
-namespace Service.Integration.Dto.Assembler {
-public sealed class StoreAssembler : XmlAssembler<MStoreTable> {
+using UnityEngine;
+namespace Service.Integration.Dto.Assembler
+{
+    public sealed class StoreAssembler : XmlAssembler<MStoreTable> {
     public const string VALID_PURCHASE_SUCCESS = "購入しました。";
     public const string VALID_PURCHASE_FAILD_NO_COIN = "コインが足りません。";
     public const string VALID_PURCHASE_FAILD_HAD_ITEM = "すでにそのアイテムは購入済みです。";

@@ -1,34 +1,25 @@
-﻿//======================================================================
-// Project Name    : hetappy bird
-//
-// Copyright © 2016 U-CREATES. All rights reserved.
-//
-// This source code is the property of U-CREATES.
-// If such findings are accepted at any time.
-// We hope the tips and helpful in developing.
-//======================================================================
-using UnityEngine;
-using System.Collections;
-namespace Frontend.Notify {
-public enum NotifyMessage {
-    GameTitle = 0,
-    GameReady = 1,
-    GameStart = 2,
-    GameOver = 3,
-    GameRestart = 4,
-    FlappyBirdDead = 5,
-    InputProfileError = 6,
-    InputProfile = 7,
-    RegulationShow = 8,
-    RegulationHide = 9,
-    RankingShow = 10,
-    RankingHide = 11,
-    CameraShake = 12,
-    NoticeShow = 13,
-    NoticeHide = 14,
-    ShopShow = 15,
-    ShopHide = 16,
-    ShopConfirmShow = 17,
-    ShopCommitShow = 18,
+﻿namespace Frontend.Notify
+{
+    public class NotifyMessage : BaseNotifyMessage
+{
+    public static int GameTitle = 0;
+    public static int GameReady = 1;
+    public static int GameStart = 2;
+    public static int GameOver = 3;
+    public static int GameRestart = 4;
+    public static int FlappyBirdDead = 5;
+    public static int InputProfileError = 6;
+    public static int InputProfile = 7;
+    public static int RegulationShow = 8;
+    public static int RegulationHide = 9;
+    public static int RankingShow = 10;
+    public static int RankingHide = 11;
+    public static int CameraShake = 12;
+    public static int NoticeShow = 13;
+    public static int NoticeHide = 14;
+    public static int ShopShow = 15;
+    public static int ShopHide = 16;
+    public static int ShopConfirmShow = 17;
+    public static int ShopCommitShow = 18;
 }
 }

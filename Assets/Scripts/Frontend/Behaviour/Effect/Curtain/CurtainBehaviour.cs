@@ -7,15 +7,12 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Frontend.Notify;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Property;
-using Frontend.Behaviour.State;
 using Core.Entity;
+using Frontend.Behaviour.Base;
+using Frontend.Behaviour.State;
+using Frontend.Component.Property;
+using Frontend.Component.State;
+using Frontend.Notify;
 public sealed class CurtainBehaviour : BaseBehaviour, IStateMachine<CurtainBehaviour>, INotify {
     public FiniteStateMachine<CurtainBehaviour> stateMachine {
         get;
@@ -36,7 +33,7 @@ public sealed class CurtainBehaviour : BaseBehaviour, IStateMachine<CurtainBehav
     public void Update() {
         this.stateMachine.Update();
     }
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null) {
+    public void OnNotify(int notifyMessage, Parameter parameter = null) {
         if (notifyMessage == NotifyMessage.GameRestart) {
             this.stateMachine.Change("destroy");
         } else if (notifyMessage == NotifyMessage.GameOver) {

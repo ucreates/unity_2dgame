@@ -5,11 +5,13 @@ Temp/
 Obj/
 UnityGenerated/
 Library/
+Logs/
 Assets/Splash/iOS/Build/
 Assets/Splash/Android/Build/
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
+.vs/
 ExportedObj/
 *.svd
 *.userprefs

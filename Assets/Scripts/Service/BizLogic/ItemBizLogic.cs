@@ -7,22 +7,21 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Service.Integration;
-using Service.Integration.Table;
-using Service.Integration.Schema;
 using Service.Integration.Query.Expression;
-namespace Service.BizLogic {
-public sealed class ItemBizLogic : BaseBizLogic {
+using Service.Integration.Schema;
+using Service.Integration.Table;
+namespace Service.BizLogic
+{
+    public sealed class ItemBizLogic : BaseBizLogic {
     public ItemBizLogic() {
     }
     public void InitializeMaster(Dictionary<string, int> masterList) {
         DataBase db = DataBase.GetInstance();
         Dao<MItemTable> dao = db.FindBy<MItemTable>();
         if (0 == dao.recordList.Count) {
-            UnitOfWork<MItemTable> uow = new UnitOfWork<MItemTable>();
+            UnitOfWork<MItemTable> uow = new UnitOfWork<MItemTable>(DataBase.GetInstance());
             foreach (string name in masterList.Keys) {
                 int price = masterList[name];
                 uow.addRecordList.Add(new MItemTable(name, price));

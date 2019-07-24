@@ -7,16 +7,12 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service;
-using Frontend.Notify;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Property;
-using Frontend.Behaviour.State;
 using Core.Entity;
+using Frontend.Behaviour.Base;
+using Frontend.Behaviour.State;
+using Frontend.Component.Property;
+using Frontend.Component.State;
+using Frontend.Notify;
 public sealed class ClayPipeGeneratorBehaviour : BaseBehaviour, IStateMachine<ClayPipeGeneratorBehaviour>, INotify {
     public FiniteStateMachine<ClayPipeGeneratorBehaviour> stateMachine {
         get;
@@ -37,7 +33,7 @@ public sealed class ClayPipeGeneratorBehaviour : BaseBehaviour, IStateMachine<Cl
     public void Update() {
         this.stateMachine.Update();
     }
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null) {
+    public void OnNotify(int notifyMessage, Parameter parameter = null) {
         if (notifyMessage == NotifyMessage.FlappyBirdDead) {
             this.stateMachine.Change("stop");
         } else if (notifyMessage == NotifyMessage.GameStart) {

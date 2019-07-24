@@ -7,19 +7,16 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using Core.Entity;
+using Core.Math;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Frontend.Component.State;
+using Service;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using Service;
-using Service.Strategy;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Core.Math;
-using Core.Entity;
-namespace Frontend.Behaviour.State {
-public sealed class ResultCanvasShowState : FiniteState<ResultCanvasBehaviour> {
+namespace Frontend.Behaviour.State
+{
+    public sealed class ResultCanvasShowState : FiniteState<ResultCanvasBehaviour> {
     private PlayCanvasBuilder currentScoreBuilder {
         get;
         set;
@@ -80,11 +77,11 @@ public sealed class ResultCanvasShowState : FiniteState<ResultCanvasBehaviour> {
         .AddCanvas(canvas)
         .AddPosition(new Vector3(-87.5f, 5f, 0f))
         .Build();
-        Transform scorePanel = this.owner.transform.FindChild("ScorePanel");
+        Transform scorePanel = this.owner.transform.Find("ScorePanel");
         Image bg = scorePanel.GetComponent<Image>();
-        Transform restartButton = this.owner.transform.FindChild("RestartButton");
+        Transform restartButton = this.owner.transform.Find("RestartButton");
         Button rsb = restartButton.GetComponent<Button>();
-        Transform rankingButton = this.owner.transform.FindChild("RankingButton");
+        Transform rankingButton = this.owner.transform.Find("RankingButton");
         Button rkb = rankingButton.GetComponent<Button>();
         this.backGroundBuilder = new ResultCanvasBackGroundBuilder();
         this.backGroundBuilder

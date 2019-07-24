@@ -7,20 +7,12 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Service;
-using Service.Strategy;
-using Frontend.Notify;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Renderer.UI.Builder;
 using Core.Entity;
-namespace Frontend.Behaviour.State.UI.Shop {
-public sealed class CommitModalDialogStayState : FiniteState<ShopCanvasBehaviour> {
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Frontend.Component.State;
+namespace Frontend.Behaviour.State.UI.Shop
+{
+    public sealed class CommitModalDialogStayState : FiniteState<ShopCanvasBehaviour> {
     private ShopCanvasListModalDialogBuilder builder {
         get;
         set;

@@ -7,12 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
 using Service.Integration;
 using Service.Integration.Table;
-namespace Service.BizLogic {
-public sealed class SummaryBizLogic : BaseBizLogic {
+namespace Service.BizLogic
+{
+    public sealed class SummaryBizLogic : BaseBizLogic {
     public SummaryBizLogic() {
         DataBase db = DataBase.GetInstance();
         Dao<TSummaryTable> dao = db.FindBy<TSummaryTable>();

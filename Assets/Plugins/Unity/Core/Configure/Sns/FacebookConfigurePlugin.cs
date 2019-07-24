@@ -11,6 +11,6 @@ using UnityEngine;
 using System.Collections;
 namespace UnityPlugin.Core.Configure.Sns {
 public class FacebookConfigurePlugin {
-    public static string APP_ID = "999999999";
+    public static string APP_ID = "<APP_ID>";
 }
 }

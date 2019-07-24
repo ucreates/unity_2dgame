@@ -7,18 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using Service;
-using Service.Integration;
-using Service.Integration.Table;
-using Service.Integration.Schema;
-using Service.BizLogic;
-using Frontend.Component.Asset.Sound;
 using Core.Entity;
-namespace Service.Strategy {
-public sealed class MasterInitStrategy : BaseStrategy {
+using Frontend.Component.Asset.Sound;
+using Service.BizLogic;
+using Service.Integration.Table;
+namespace Service.Strategy
+{
+    public sealed class MasterInitStrategy : BaseStrategy {
     public const int DUMMY_USER_NUMBER = 10;
     public const int FIRST_DUMMY_USER_ID = 1;
     public override Response Update(Parameter parameter) {

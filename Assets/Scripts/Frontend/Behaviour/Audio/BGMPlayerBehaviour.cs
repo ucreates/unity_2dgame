@@ -7,19 +7,18 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Frontend.Notify;
-using Frontend.Component.Property;
-using Frontend.Component.Asset.Sound;
 using Core.Entity;
+using Frontend.Behaviour.Base;
+using Frontend.Component.Asset.Sound;
+using Frontend.Component.Property;
+using Frontend.Notify;
 public sealed class BGMPlayerBehaviour : BaseBehaviour, INotify {
     public void Start() {
         this.property = new BaseProperty(this);
         Notifier notifier = Notifier.GetInstance();
         notifier.Add(this, this.property);
     }
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null) {
+    public void OnNotify(int notifyMessage, Parameter parameter = null) {
         if (notifyMessage == NotifyMessage.GameStart) {
             BGMAsset bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("athletic") as BGMAsset;
             bgmAsset.Play(this.gameObject, true);

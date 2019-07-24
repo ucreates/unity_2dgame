@@ -7,12 +7,9 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
 using Frontend.Component.State;
-namespace Frontend.Behaviour.State {
-public sealed class LandStopState : FiniteState<LandBehaviour> {
+namespace Frontend.Behaviour.State
+{
+    public sealed class LandStopState : FiniteState<LandBehaviour> {
 }
 }

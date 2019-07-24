@@ -7,24 +7,20 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityPlugin;
-using UnityPlugin.Frontend.View;
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
-using Service;
-using Service.Strategy;
-using Service.Integration;
-using Service.Integration.Table;
-using Service.Integration.Dto.Assembler;
-using Frontend.Notify;
-using Frontend.Component.Property;
-using Frontend.Component.Asset.Renderer.UI;
+using Core.Entity;
 using Core.Validator;
 using Core.Validator.Entity;
-using Core.Utility;
-using Core.Entity;
+using Frontend.Behaviour.Base;
+using Frontend.Component.Asset.Renderer.UI;
+using Frontend.Component.Property;
+using Frontend.Notify;
+using Service;
+using Service.Integration.Dto.Assembler;
+using Service.Integration.Table;
+using UnityEngine;
+using UnityPlugin;
+using UnityPlugin.Frontend.View;
 public sealed class EventHandler : BaseBehaviour {
     public void Start() {
         this.property = new BaseProperty(this);
@@ -89,7 +85,7 @@ public sealed class EventHandler : BaseBehaviour {
     }
     public void OnRankingHide() {
         Notifier notifier = Notifier.GetInstance();
-        NotifyMessage previousMessage = notifier.previousMessage;
+        int previousMessage = notifier.previousMessage;
         notifier.Notify(NotifyMessage.RankingHide);
         notifier.Notify(previousMessage);
     }

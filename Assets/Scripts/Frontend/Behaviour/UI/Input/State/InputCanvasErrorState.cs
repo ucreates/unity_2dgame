@@ -7,18 +7,16 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using Core.Entity;
+using Core.Validator.Entity;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Frontend.Component.State;
+using Frontend.Component.Vfx;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using Frontend.Notify;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Core.Validator.Entity;
-using Core.Entity;
-namespace Frontend.Behaviour.State {
-public sealed class InputCanvasErrorState : FiniteState<InputCanvasBehaviour> {
+namespace Frontend.Behaviour.State
+{
+    public sealed class InputCanvasErrorState : FiniteState<InputCanvasBehaviour> {
     private TimeLine alphaTimeLine {
         get;
         set;
@@ -35,10 +33,10 @@ public sealed class InputCanvasErrorState : FiniteState<InputCanvasBehaviour> {
         ValidatorResponse vres = parameter.Get<ValidatorResponse>("ValidateResponse");
         this.previousAlpha = 0f;
         this.alphaTimeLine = new TimeLine();
-        Transform md = this.owner.transform.FindChild("ModalDialog");
+        Transform md = this.owner.transform.Find("ModalDialog");
         Image mdimg = md.GetComponent<Image>();
         mdimg.gameObject.SetActive(false);
-        Transform ed = this.owner.transform.FindChild("ErrorDialog");
+        Transform ed = this.owner.transform.Find("ErrorDialog");
         Image edimg = ed.GetComponent<Image>();
         edimg.gameObject.SetActive(true);
         if (null == this.builder) {

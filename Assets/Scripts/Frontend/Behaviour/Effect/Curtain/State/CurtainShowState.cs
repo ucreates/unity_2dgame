@@ -7,15 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.Vfx.Easing;
 using Frontend.Component.State;
-namespace Frontend.Behaviour.State {
-public sealed class CurtainShowState : FiniteState<CurtainBehaviour> {
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public sealed class CurtainShowState : FiniteState<CurtainBehaviour> {
     public override void Create() {
         SpriteRenderer sr = this.owner.GetComponent<SpriteRenderer>();
         var color = sr.color;

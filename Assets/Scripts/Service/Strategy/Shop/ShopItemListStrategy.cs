@@ -7,16 +7,13 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using Service;
-using Service.Integration;
-using Service.Integration.Table;
-using Service.BizLogic;
 using Core.Entity;
-namespace Service.Strategy {
-public sealed class ShopItemListStrategy : BaseStrategy {
+using Service.BizLogic;
+using Service.Integration.Table;
+namespace Service.Strategy
+{
+    public sealed class ShopItemListStrategy : BaseStrategy {
     public override Response Get(Parameter parameter = null) {
         Response ret = new Response();
         UserBizLogic ubl = new UserBizLogic();

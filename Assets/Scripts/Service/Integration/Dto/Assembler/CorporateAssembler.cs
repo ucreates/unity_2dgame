@@ -7,17 +7,12 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Xml.Linq;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using Service;
-using Service.Integration;
+using System.Xml.Linq;
 using Service.Integration.Table;
-using Core.Entity;
-namespace Service.Integration.Dto.Assembler {
-public sealed class CorporateAssembler : XmlAssembler<MCorporateTable> {
+namespace Service.Integration.Dto.Assembler
+{
+    public sealed class CorporateAssembler : XmlAssembler<MCorporateTable> {
     public CorporateAssembler() : base("Config/corporate") {}
     public override List<MCorporateTable> WriteToTableList() {
         List<MCorporateTable> ret = new List<MCorporateTable>();

@@ -8,10 +8,9 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-namespace Frontend.Component.Asset.Renderer.Animator.Builder {
-public sealed class CrayPipeAssetBuilder : BaseAnimatorAssetBuilder {
+namespace Frontend.Component.Asset.Renderer.Animator.Builder
+{
+    public sealed class CrayPipeAssetBuilder : BaseAnimatorAssetBuilder {
     public override void Build() {
         foreach (Transform transform in this.transformList) {
             BoxCollider2D boxCollider = transform.GetComponent<BoxCollider2D>();

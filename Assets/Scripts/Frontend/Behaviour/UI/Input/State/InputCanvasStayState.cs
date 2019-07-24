@@ -7,18 +7,13 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Frontend.Component.State;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Service;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Core.Math;
-namespace Frontend.Behaviour.State {
-public sealed class InputCanvasStayState : FiniteState<InputCanvasBehaviour> {
+namespace Frontend.Behaviour.State
+{
+    public sealed class InputCanvasStayState : FiniteState<InputCanvasBehaviour> {
     private InputCanvasModalDialogBuilder builder {
         get;
         set;
@@ -29,7 +24,7 @@ public sealed class InputCanvasStayState : FiniteState<InputCanvasBehaviour> {
         } else {
             this.builder.Reset();
         }
-        Transform mdtr = this.owner.transform.FindChild("ModalDialog");
+        Transform mdtr = this.owner.transform.Find("ModalDialog");
         Image modalDialogBG = mdtr.GetComponent<Image>();
         this.builder
         .AddAlpha(1f)

@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using Frontend.Notify;
-using Frontend.Component.State;
-using Frontend.Component.Property;
-using Frontend.Behaviour.State;
+﻿using System.Collections.Generic;
 using Core.Entity;
+using Frontend.Behaviour.Base;
+using Frontend.Behaviour.State;
+using Frontend.Component.Property;
+using Frontend.Component.State;
+using Frontend.Notify;
+using UnityEngine;
 public sealed class RankingCanvasBehaviour  : BaseBehaviour, IStateMachine<RankingCanvasBehaviour>, INotify {
     public List<Sprite> scoreSpriteList;
     public FiniteStateMachine<RankingCanvasBehaviour> stateMachine {
@@ -26,7 +26,7 @@ public sealed class RankingCanvasBehaviour  : BaseBehaviour, IStateMachine<Ranki
     public void Update() {
         this.stateMachine.Update();
     }
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null) {
+    public void OnNotify(int notifyMessage, Parameter parameter = null) {
         if (notifyMessage == NotifyMessage.RankingShow) {
             this.stateMachine.Change("show");
         } else if (notifyMessage == NotifyMessage.RankingHide) {

@@ -7,13 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service;
-using Frontend.Component.Property;
-using Frontend.Component.Asset.Render;
 using Core.Scene;
-using Core.Entity;
+using Frontend.Behaviour.Base;
+using Frontend.Component.Asset.Render;
+using Frontend.Component.Property;
+using Service;
 public sealed class LogoBehaviour : BaseBehaviour {
     public void Start() {
         this.property = new BaseProperty(this);
@@ -21,10 +19,13 @@ public sealed class LogoBehaviour : BaseBehaviour {
         .GetInstance()
         .Request("service://master/init")
         .Update();
-        Spine.AnimationState.CompleteDelegate callback = (Spine.AnimationState state , int trackIndex , int loopCount) => {
-            this.StartCoroutine(Director.Translate("game", 0.0f));
+        Spine.AnimationState.TrackEntryDelegate callback = (Spine.TrackEntry state) => {
+            Director direcor = Director.GetInstance();
+            direcor.Translate("game");
+            return;
         };
         AnimatorAsset asset = new AnimatorAsset(this);
         asset.Play("show", callback, false);
+        return;
     }
 }

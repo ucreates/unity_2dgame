@@ -7,19 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Frontend.Component.State;
+using Frontend.Component.Vfx;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Service;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Core.Math;
-using Core.Entity;
-namespace Frontend.Behaviour.State {
-public sealed class InputCanvasShowState : FiniteState<InputCanvasBehaviour> {
+namespace Frontend.Behaviour.State
+{
+    public sealed class InputCanvasShowState : FiniteState<InputCanvasBehaviour> {
     private TimeLine alphaTimeLine {
         get;
         set;
@@ -40,17 +35,17 @@ public sealed class InputCanvasShowState : FiniteState<InputCanvasBehaviour> {
         } else {
             this.builder.Reset();
         }
-        Transform md = this.owner.transform.FindChild("ModalDialog");
+        Transform md = this.owner.transform.Find("ModalDialog");
         if (null != md) {
             Image mdimg1 = md.GetComponent<Image>();
             mdimg1.gameObject.SetActive(true);
         }
-        Transform ed = this.owner.transform.FindChild("ErrorDialog");
+        Transform ed = this.owner.transform.Find("ErrorDialog");
         if (null != ed) {
             Image edimg = ed.GetComponent<Image>();
             edimg.gameObject.SetActive(false);
         }
-        Transform mdtr = this.owner.transform.FindChild("ModalDialog");
+        Transform mdtr = this.owner.transform.Find("ModalDialog");
         Image mdimg2 = mdtr.GetComponent<Image>();
         this.builder
         .AddAlpha(0f)

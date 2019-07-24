@@ -7,14 +7,12 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.Vfx.Easing;
 using Frontend.Component.State;
-namespace Frontend.Behaviour.State {
-public sealed class CameraShakeState : FiniteState<CameraBehaviour> {
+using Frontend.Component.Vfx;
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public sealed class CameraShakeState : FiniteState<CameraBehaviour> {
     private const float LIMIT_SHAKE_RATE = 0.05f;
     private Shake shake {
         get;

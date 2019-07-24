@@ -7,12 +7,10 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
 using System;
-using System.Collections;
-using Service.Integration.Schema;
-namespace Service.Integration.Table {
-[Serializable]
+namespace Service.Integration.Table
+{
+    [Serializable]
 public sealed class TSummaryTable : BaseTable {
     public int bestClearCount {
         get;

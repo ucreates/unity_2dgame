@@ -7,11 +7,9 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service.Integration.Schema;
-namespace Service.Integration.Table {
-public sealed class TPlayerTable : BaseTable {
+namespace Service.Integration.Table
+{
+    public sealed class TPlayerTable : BaseTable {
     public int userId {
         get;
         set;

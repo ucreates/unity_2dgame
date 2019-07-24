@@ -7,18 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.Vfx.Easing;
+using Core.Math;
 using Frontend.Component.State;
-using Core.Utility;
-namespace Frontend.Behaviour.State {
-public sealed class BackGroundShowState : FiniteState<BackGroundBehaviour> {
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public sealed class BackGroundShowState : FiniteState<BackGroundBehaviour> {
     public override void Create() {
-        if (ConditionUtility.ByRandom()) {
+        if (Condition.ByRandom()) {
             return;
         }
         SpriteRenderer renderer = this.owner.GetComponent<SpriteRenderer>();

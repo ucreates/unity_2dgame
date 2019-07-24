@@ -7,20 +7,13 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Service;
-using Service.Strategy;
-using Frontend.Notify;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
 using Frontend.Component.Asset.Renderer.UI.Builder;
-using Core.Entity;
-namespace Frontend.Behaviour.State {
-public sealed class NoticeCanvasShowState : FiniteState<NoticeCanvasBehaviour> {
+using Frontend.Component.State;
+using Frontend.Component.Vfx;
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public sealed class NoticeCanvasShowState : FiniteState<NoticeCanvasBehaviour> {
     private TimeLine alphaTimeLine {
         get;
         set;
@@ -34,7 +27,21 @@ public sealed class NoticeCanvasShowState : FiniteState<NoticeCanvasBehaviour> {
         set;
     }
     public override void Create() {
-        this.owner.webViewPlugin.Show("http://u-creates.com/template/notice/", Screen.width * 0.3f, Screen.height * 0.3f, Screen.width * 0.3f, Screen.height * 0.35f);
+        Vector3[] corners = new Vector3[ 4 ];
+        this.owner.webViewAreaImage.rectTransform.GetWorldCorners(corners);
+        Vector2 luScreenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, corners[1]);
+        Vector2 rdScreenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, corners[3]);
+        int leftMargin = (int)luScreenPoint.x;
+        int rightMargin = (int)(UnityEngine.Screen.width - rdScreenPoint.x);
+        int topMargin = (int)(UnityEngine.Screen.height - luScreenPoint.y);
+        int bottomMargin = (int)rdScreenPoint.y;
+        this.owner.webViewPlugin.Show("http://www.yahoo.co.jp/", leftMargin, topMargin, rightMargin, bottomMargin, UnityEngine.Screen.width, UnityEngine.Screen.height);
+        Rect rect = new Rect();
+        rect.x = leftMargin;
+        rect.width = Screen.width - leftMargin - rightMargin;
+        rect.y = topMargin;
+        rect.height = Screen.height - topMargin - bottomMargin;
+        this.owner.screenRect = rect;
         Canvas canvas = this.owner.GetComponent<Canvas>();
         if (null != canvas) {
             canvas.enabled = true;

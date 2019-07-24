@@ -7,12 +7,9 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service.Integration.Schema;
-using Frontend.Component.Vfx;
-namespace Service.Integration.Table {
-public sealed class TLoadingTable : BaseTable {
+namespace Service.Integration.Table
+{
+    public sealed class TLoadingTable : BaseTable {
     public int downloadedDataCount {
         get;
         set;

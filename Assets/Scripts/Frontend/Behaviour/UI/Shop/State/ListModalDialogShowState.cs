@@ -7,22 +7,18 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using System.Collections.Generic;
+using Core.Entity;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Frontend.Component.State;
+using Frontend.Component.Vfx;
+using Service;
+using Service.Integration.Table;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Service;
-using Service.Strategy;
-using Service.Integration;
-using Service.Integration.Table;
-using Frontend.Notify;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Core.Entity;
-namespace Frontend.Behaviour.State.UI.Shop {
-public sealed class ListModalDialogShowState : FiniteState<ShopCanvasBehaviour> {
+namespace Frontend.Behaviour.State.UI.Shop
+{
+    public sealed class ListModalDialogShowState : FiniteState<ShopCanvasBehaviour> {
     private TimeLine alphaTimeLine {
         get;
         set;
@@ -63,13 +59,13 @@ public sealed class ListModalDialogShowState : FiniteState<ShopCanvasBehaviour> 
         string[] itemTypeList = new string[4] {"A", "B", "C", "D"};
         for (int i = 0; i < itemTypeList.Length; i++) {
             string type = itemTypeList[i];
-            Transform buyButtonTrsfrm = this.owner.transform.FindChild("ListModalDialog/Type" + type + "BuyButton");
+            Transform buyButtonTrsfrm = this.owner.transform.Find("ListModalDialog/Type" + type + "BuyButton");
             Button buyButton = buyButtonTrsfrm.GetComponent<Button>();
             if (itemIdList.Contains(type)) {
                 buyButton.enabled = false;
             }
         }
-        Transform dialogtrsfrm = this.owner.transform.FindChild("ListModalDialog");
+        Transform dialogtrsfrm = this.owner.transform.Find("ListModalDialog");
         Sprite[] allSpriteList = Resources.LoadAll<Sprite>("Sprite");
         List<Sprite> itemSpriteList = new List<Sprite>();
         for (int i = 0; i < allSpriteList.Length; i++) {

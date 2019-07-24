@@ -9,13 +9,9 @@
 //======================================================================
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Core.Validator.Message;
-using Core.Utility;
-using Core.Math;
-namespace Frontend.Component.Asset.Renderer.UI.Builder {
-public sealed class LoadingCanvasBuilder : BaseUIAssetBuilder {
+namespace Frontend.Component.Asset.Renderer.UI.Builder
+{
+    public sealed class LoadingCanvasBuilder : BaseUIAssetBuilder {
     private string percentage {
         get;
         set;

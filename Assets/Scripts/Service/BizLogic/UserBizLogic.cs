@@ -7,15 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Service.Integration;
-using Service.Integration.Table;
-using Service.Integration.Schema;
 using Service.Integration.Query.Expression;
-namespace Service.BizLogic {
-public sealed class UserBizLogic : BaseBizLogic {
+using Service.Integration.Schema;
+using Service.Integration.Table;
+namespace Service.BizLogic
+{
+    public sealed class UserBizLogic : BaseBizLogic {
     public UserBizLogic() {
     }
     public bool AddNewUser(string nickName, string password, int gender, string mailOrPhone, int coin, bool isPlayer) {
@@ -45,7 +44,7 @@ public sealed class UserBizLogic : BaseBizLogic {
         return dao.Save(master);
     }
     public void AddNewUser(List<MUserTable> masterList) {
-        UnitOfWork<MUserTable> muow = new UnitOfWork<MUserTable>();
+        UnitOfWork<MUserTable> muow = new UnitOfWork<MUserTable>(DataBase.GetInstance());
         muow.addRecordList = masterList;
         muow.Commit();
     }

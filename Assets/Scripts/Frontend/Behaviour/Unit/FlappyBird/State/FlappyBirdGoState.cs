@@ -7,17 +7,15 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Sound;
 using Core.Validator;
 using Core.Validator.Entity;
-namespace Frontend.Behaviour.State {
-public sealed class FlappyBirdGoState : FiniteState<FlappyBirdBehaviour> {
+using Frontend.Component.Asset.Sound;
+using Frontend.Component.State;
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public sealed class FlappyBirdGoState : FiniteState<FlappyBirdBehaviour> {
     private Rigidbody2D rigidBody {
         get;
         set;

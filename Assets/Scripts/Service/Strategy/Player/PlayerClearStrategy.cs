@@ -7,15 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service;
-using Service.Integration;
-using Service.Integration.Table;
-using Service.BizLogic;
 using Core.Entity;
-namespace Service.Strategy {
-public sealed class PlayerClearStrategy : BaseStrategy {
+using Service.BizLogic;
+namespace Service.Strategy
+{
+    public sealed class PlayerClearStrategy : BaseStrategy {
     public override Response Update(Parameter parameter) {
         Response ret = new Response();
         ScoreBizLogic sbl = new ScoreBizLogic();

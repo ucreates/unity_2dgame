@@ -9,11 +9,9 @@
 //======================================================================
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Core.Math;
-namespace Frontend.Component.Asset.Renderer.UI.Builder {
-public sealed class ResultCanvasEmblemImageBuilder : BaseUIAssetBuilder {
+namespace Frontend.Component.Asset.Renderer.UI.Builder
+{
+    public sealed class ResultCanvasEmblemImageBuilder : BaseUIAssetBuilder {
     private const int WHITE_MEDAL_SCORE = 0;
     private const int BRONZE_MEDAL_SCORE = 25;
     private const int SILVER_MEDAL_SCORE = 50;

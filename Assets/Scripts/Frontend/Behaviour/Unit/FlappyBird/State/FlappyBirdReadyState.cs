@@ -7,14 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
+using Frontend.Component.Asset.Render;
+using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Render;
-namespace Frontend.Behaviour.State {
-public  class FlappyBirdReadyState : FiniteState<FlappyBirdBehaviour> {
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public  class FlappyBirdReadyState : FiniteState<FlappyBirdBehaviour> {
     private TimeLine sprineTimeLine {
         get;
         set;

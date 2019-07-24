@@ -7,15 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using Service.Integration.Table;
-using Service.Integration.Schema;
-namespace Service.Integration.Dto.Assembler {
-public sealed class PersistenceAssembler<T> : BaseAssembler<T> where T : BaseTable, new() {
+using UnityEngine;
+namespace Service.Integration.Dto.Assembler
+{
+    public sealed class PersistenceAssembler<T> : BaseAssembler<T> where T : BaseTable, new() {
     public string daoName {
         get;
         private set;

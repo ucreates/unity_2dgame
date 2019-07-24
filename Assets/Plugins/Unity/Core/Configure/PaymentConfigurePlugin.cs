@@ -11,6 +11,6 @@ using UnityEngine;
 using System.Collections;
 namespace UnityPlugin.Core.Configure {
 public class PaymentConfigurePlugin {
-    public static string PUBLIC_KEY = "999999999";
+    public static string PUBLIC_KEY = "<YOUR_ANDROID_APP_LICENSE_KEY>";
 }
 }

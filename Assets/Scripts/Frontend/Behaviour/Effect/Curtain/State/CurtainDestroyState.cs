@@ -7,15 +7,10 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.Vfx.Easing;
 using Frontend.Component.State;
-namespace Frontend.Behaviour.State {
-public sealed class CurtainDestroyState : FiniteState<CurtainBehaviour> {
+namespace Frontend.Behaviour.State
+{
+    public sealed class CurtainDestroyState : FiniteState<CurtainBehaviour> {
     public override void Create() {
         UnityEngine.Object.Destroy(this.owner.gameObject);
         UnityEngine.Object.Destroy(this.owner);

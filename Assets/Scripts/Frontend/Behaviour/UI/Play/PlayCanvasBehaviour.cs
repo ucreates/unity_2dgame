@@ -7,16 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
-using Service;
-using Frontend.Notify;
-using Frontend.Component.State;
-using Frontend.Component.Property;
-using Frontend.Behaviour.State;
 using Core.Entity;
+using Frontend.Behaviour.Base;
+using Frontend.Behaviour.State;
+using Frontend.Component.Property;
+using Frontend.Component.State;
+using Frontend.Notify;
+using UnityEngine;
 public sealed class PlayCanvasBehaviour : BaseBehaviour, IStateMachine<PlayCanvasBehaviour>, INotify {
     public List<Sprite> scoreSpriteList;
     public FiniteStateMachine<PlayCanvasBehaviour> stateMachine {
@@ -36,7 +34,7 @@ public sealed class PlayCanvasBehaviour : BaseBehaviour, IStateMachine<PlayCanva
     public void Update() {
         this.stateMachine.Update();
     }
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null) {
+    public void OnNotify(int notifyMessage, Parameter parameter = null) {
         if (notifyMessage == NotifyMessage.GameStart) {
             this.stateMachine.Change("show");
         } else {

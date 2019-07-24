@@ -7,15 +7,13 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using System.Collections.Generic;
+using Service.Integration.Table;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Service.Integration;
-using Service.Integration.Table;
-using Core.Math;
-namespace Frontend.Component.Asset.Renderer.UI.Builder {
-public sealed class ShopCanvasListModalDialogBuilder : BaseUIAssetBuilder {
+namespace Frontend.Component.Asset.Renderer.UI.Builder
+{
+    public sealed class ShopCanvasListModalDialogBuilder : BaseUIAssetBuilder {
     private int coin {
         get;
         set;

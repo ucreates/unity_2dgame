@@ -7,20 +7,17 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Service;
-using Service.Strategy;
-using Frontend.Notify;
-using Frontend.Component.State;
-using Frontend.Component.Property;
-using Frontend.Component.Asset.Renderer.UI;
-using Frontend.Behaviour.State;
+using Core.Entity;
 using Core.Validator;
 using Core.Validator.Entity;
-using Core.Entity;
+using Frontend.Behaviour.Base;
+using Frontend.Behaviour.State;
+using Frontend.Component.Asset.Renderer.UI;
+using Frontend.Component.Property;
+using Frontend.Component.State;
+using Frontend.Notify;
+using UnityEngine;
+using UnityEngine.UI;
 public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCanvasBehaviour>, INotify, IValidator, IInputUIAsset {
     public FiniteStateMachine<InputCanvasBehaviour> stateMachine {
         get;
@@ -41,7 +38,7 @@ public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCan
     public void Update() {
         this.stateMachine.Update();
     }
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null) {
+    public void OnNotify(int notifyMessage, Parameter parameter = null) {
         if (notifyMessage == NotifyMessage.InputProfileError) {
             this.stateMachine.Change("error", parameter);
         } else if (notifyMessage == NotifyMessage.InputProfile) {

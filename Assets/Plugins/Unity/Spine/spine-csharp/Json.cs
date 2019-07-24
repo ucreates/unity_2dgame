@@ -1,18 +1,17 @@
 /******************************************************************************
- * Spine Runtimes Software License
- * Version 2.3
+ * Spine Runtimes Software License v2.5
  *
- * Copyright (c) 2013-2015, Esoteric Software
+ * Copyright (c) 2013-2016, Esoteric Software
  * All rights reserved.
  *
- * You are granted a perpetual, non-exclusive, non-sublicensable and
- * non-transferable license to use, install, execute and perform the Spine
- * Runtimes Software (the "Software") and derivative works solely for personal
- * or internal use. Without the written permission of Esoteric Software (see
- * Section 2 of the Spine Software License Agreement), you may not (a) modify,
- * translate, adapt or otherwise create derivative works, improvements of the
- * Software or develop new applications using the Software or (b) remove,
- * delete, alter or obscure any trademarks or any copyright, trademark, patent
+ * You are granted a perpetual, non-exclusive, non-sublicensable, and
+ * non-transferable license to use, install, execute, and perform the Spine
+ * Runtimes software and derivative works solely for personal or internal
+ * use. Without the written permission of Esoteric Software (see Section 2 of
+ * the Spine Software License Agreement), you may not (a) modify, translate,
+ * adapt, or develop new applications using the Spine Runtimes or otherwise
+ * create derivative works or improvements of the Spine Runtimes or (b) remove,
+ * delete, alter, or obscure any trademarks or any copyright, trademark, patent,
  * or other intellectual property or proprietary rights notices on or in the
  * Software, including any copy thereof. Redistributions in binary or source
  * form must include this license and terms.
@@ -22,18 +21,20 @@
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
  * EVENT SHALL ESOTERIC SOFTWARE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, BUSINESS INTERRUPTION, OR LOSS OF
+ * USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
+
 using System;
 using System.IO;
 using System.Text;
 using System.Collections;
 using System.Globalization;
 using System.Collections.Generic;
+
 namespace Spine {
 public static class Json {
     public static object Deserialize(TextReader text) {
@@ -43,6 +44,7 @@ public static class Json {
     }
 }
 }
+
 /**
  *
  * Copyright (c) 2016 Adriano Tinoco d'Oliveira Rezende
@@ -88,45 +90,58 @@ class Lexer {
         SquaredOpen,
         SquaredClose,
     };
+
     public bool hasError {
         get {
             return !success;
         }
     }
+
     public int lineNumber {
         get;
         private set;
     }
+
     public bool parseNumbersAsFloat {
         get;
         set;
     }
+
     char[] json;
     int index = 0;
     bool success = true;
     char[] stringBuffer = new char[4096];
+
     public Lexer(string text) {
         Reset();
+
         json = text.ToCharArray();
         parseNumbersAsFloat = false;
     }
+
     public void Reset() {
         index = 0;
         lineNumber = 1;
         success = true;
     }
+
     public string ParseString() {
         int idx = 0;
         StringBuilder builder = null;
+
         SkipWhiteSpaces();
+
         // "
         char c = json[index++];
+
         bool failed = false;
         bool complete = false;
+
         while (!complete && !failed) {
             if (index == json.Length) {
                 break;
             }
+
             c = json[index++];
             if (c == '"') {
                 complete = true;
@@ -135,7 +150,9 @@ class Lexer {
                 if (index == json.Length) {
                     break;
                 }
+
                 c = json[index++];
+
                 switch (c) {
                 case '"':
                     stringBuffer[idx++] = '"';
@@ -165,8 +182,10 @@ class Lexer {
                     int remainingLength = json.Length - index;
                     if (remainingLength >= 4) {
                         var hex = new string(json, index, 4);
+
                         // XXX: handle UTF
                         stringBuffer[idx++] = (char) Convert.ToInt32(hex, 16);
+
                         // skip 4 chars
                         index += 4;
                     } else {
@@ -177,84 +196,112 @@ class Lexer {
             } else {
                 stringBuffer[idx++] = c;
             }
+
             if (idx >= stringBuffer.Length) {
                 if (builder == null) {
                     builder = new StringBuilder();
                 }
+
                 builder.Append(stringBuffer, 0, idx);
                 idx = 0;
             }
         }
+
         if (!complete) {
             success = false;
             return null;
         }
+
         if (builder != null) {
             return builder.ToString();
         } else {
             return new string(stringBuffer, 0, idx);
         }
     }
+
     string GetNumberString() {
         SkipWhiteSpaces();
+
         int lastIndex = GetLastIndexOfNumber(index);
         int charLength = (lastIndex - index) + 1;
+
         var result = new string(json, index, charLength);
+
         index = lastIndex + 1;
+
         return result;
     }
+
     public float ParseFloatNumber() {
         float number;
         var str = GetNumberString();
+
         if (!float.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out number)) {
             return 0;
         }
+
         return number;
     }
+
     public double ParseDoubleNumber() {
         double number;
         var str = GetNumberString();
+
         if (!double.TryParse(str, NumberStyles.Any, CultureInfo.InvariantCulture, out number)) {
             return 0;
         }
+
         return number;
     }
+
     int GetLastIndexOfNumber(int index) {
         int lastIndex;
+
         for (lastIndex = index; lastIndex < json.Length; lastIndex++) {
             char ch = json[lastIndex];
+
             if ((ch < '0' || ch > '9') && ch != '+' && ch != '-'
                     && ch != '.' && ch != 'e' && ch != 'E') {
                 break;
             }
         }
+
         return lastIndex - 1;
     }
+
     void SkipWhiteSpaces() {
         for (; index < json.Length; index++) {
             char ch = json[index];
+
             if (ch == '\n') {
                 lineNumber++;
             }
+
             if (!char.IsWhiteSpace(json[index])) {
                 break;
             }
         }
     }
+
     public Token LookAhead() {
         SkipWhiteSpaces();
+
         int savedIndex = index;
         return NextToken(json, ref savedIndex);
     }
+
     public Token NextToken() {
         SkipWhiteSpaces();
         return NextToken(json, ref index);
     }
+
     static Token NextToken(char[] json, ref int index) {
         if (index == json.Length) {
             return Token.None;
         }
+
         char c = json[index++];
+
         switch (c) {
         case '{':
             return Token.CurlyOpen;
@@ -283,8 +330,11 @@ class Lexer {
         case ':':
             return Token.Colon;
         }
+
         index--;
+
         int remainingLength = json.Length - index;
+
         // false
         if (remainingLength >= 5) {
             if (json[index] == 'f' &&
@@ -296,6 +346,7 @@ class Lexer {
                 return Token.False;
             }
         }
+
         // true
         if (remainingLength >= 4) {
             if (json[index] == 't' &&
@@ -306,6 +357,7 @@ class Lexer {
                 return Token.True;
             }
         }
+
         // null
         if (remainingLength >= 4) {
             if (json[index] == 'n' &&
@@ -316,39 +368,52 @@ class Lexer {
                 return Token.Null;
             }
         }
+
         return Token.None;
     }
 }
+
 public class JsonDecoder {
     public string errorMessage {
         get;
         private set;
     }
+
     public bool parseNumbersAsFloat {
         get;
         set;
     }
+
     Lexer lexer;
+
     public JsonDecoder() {
         errorMessage = null;
         parseNumbersAsFloat = false;
     }
+
     public object Decode(string text) {
         errorMessage = null;
+
         lexer = new Lexer(text);
         lexer.parseNumbersAsFloat = parseNumbersAsFloat;
+
         return ParseValue();
     }
+
     public static object DecodeText(string text) {
         var builder = new JsonDecoder();
         return builder.Decode(text);
     }
+
     IDictionary<string, object> ParseObject() {
         var table = new Dictionary<string, object>();
+
         // {
         lexer.NextToken();
+
         while (true) {
             var token = lexer.LookAhead();
+
             switch (token) {
             case Lexer.Token.None:
                 TriggerError("Invalid token");
@@ -362,32 +427,43 @@ public class JsonDecoder {
             default:
                 // name
                 string name = EvalLexer(lexer.ParseString());
+
                 if (errorMessage != null) {
                     return null;
                 }
+
                 // :
                 token = lexer.NextToken();
+
                 if (token != Lexer.Token.Colon) {
                     TriggerError("Invalid token; expected ':'");
                     return null;
                 }
+
                 // value
                 object value = ParseValue();
+
                 if (errorMessage != null) {
                     return null;
                 }
+
                 table[name] = value;
                 break;
             }
         }
+
         //return null; // Unreachable code
     }
+
     IList<object> ParseArray() {
         var array = new List<object>();
+
         // [
         lexer.NextToken();
+
         while (true) {
             var token = lexer.LookAhead();
+
             switch (token) {
             case Lexer.Token.None:
                 TriggerError("Invalid token");
@@ -400,15 +476,19 @@ public class JsonDecoder {
                 return array;
             default:
                 object value = ParseValue();
+
                 if (errorMessage != null) {
                     return null;
                 }
+
                 array.Add(value);
                 break;
             }
         }
+
         //return null; // Unreachable code
     }
+
     object ParseValue() {
         switch (lexer.LookAhead()) {
         case Lexer.Token.String:
@@ -435,17 +515,21 @@ public class JsonDecoder {
         case Lexer.Token.None:
             break;
         }
+
         TriggerError("Unable to parse value");
         return null;
     }
+
     void TriggerError(string message) {
         errorMessage = string.Format("Error: '{0}' at line {1}",
                                      message, lexer.lineNumber);
     }
+
     T EvalLexer<T>(T value) {
         if (lexer.hasError) {
             TriggerError("Lexical error ocurred");
         }
+
         return value;
     }
 }

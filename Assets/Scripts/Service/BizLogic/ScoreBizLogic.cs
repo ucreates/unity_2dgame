@@ -7,16 +7,15 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Service.Integration;
-using Service.Integration.Table;
-using Service.Integration.Schema;
 using Service.Integration.Query.Expression;
-using Core.Utility;
-namespace Service.BizLogic {
-public sealed class ScoreBizLogic : BaseBizLogic {
+using Service.Integration.Schema;
+using Service.Integration.Table;
+using UnityEngine;
+namespace Service.BizLogic
+{
+    public sealed class ScoreBizLogic : BaseBizLogic {
     public ScoreBizLogic() {
     }
     public int GetClearCount(int userId) {
@@ -94,7 +93,7 @@ public sealed class ScoreBizLogic : BaseBizLogic {
         return dao.Save(table);
     }
     public void AddNewUserScore(List<TScoreTable> tableList) {
-        UnitOfWork<TScoreTable> muow = new UnitOfWork<TScoreTable>();
+        UnitOfWork<TScoreTable> muow = new UnitOfWork<TScoreTable>(DataBase.GetInstance());
         muow.addRecordList = tableList;
         muow.Commit();
     }

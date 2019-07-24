@@ -14,7 +14,6 @@ public class BuildPostProcess {
             FacebookEditorBuilder.BUILDER_ID,
             LineEditorBuilder.BUILDER_ID,
             WebViewEditorBuilder.BUILDER_ID,
-            FirebaseEditorBuilder.BUILDER_ID,
             GoogleEditorBuilder.BUILDER_ID,
         };
         if (buildTarget == BuildTarget.iOS) {
@@ -29,6 +28,8 @@ public class BuildPostProcess {
             string destFrameworkRootAbsolutePath = Path.Combine(buildPath, destFrameworkRootPath);
             string fromiOSPluginRootPath = Path.Combine(System.Environment.CurrentDirectory, @"Assets/Plugins/iOS");
             string destiOSProjectRootPath = buildPath;
+            string fromPodFilePath = Path.Combine(fromCliRootPath, "Podfile");
+            string destPodFilePath = Path.Combine(buildPath, "Podfile");
             Dictionary<string, string> pathDictionary = new Dictionary<string, string>();
             pathDictionary.Add("build", buildPath);
             pathDictionary.Add("fromCliRoot", fromCliRootPath);
@@ -42,7 +43,7 @@ public class BuildPostProcess {
             plist.ReadFromFile(plistPath);
             string targetName = PBXProject.GetUnityTargetName();
             string targetGUID = project.TargetGuidByName(targetName);
-            string[] frameworkList = new string[] {"StoreKit.framework", "UserNotifications.framework", "SafariServices.framework", "SystemConfiguration.framework", "AddressBook.framework"};
+            string[] frameworkList = new string[] {"StoreKit.framework", "UserNotifications.framework", "SafariServices.framework", "SystemConfiguration.framework", "AddressBook.framework", "WebKit.framework"};
             foreach (string framework in frameworkList) {
                 project.AddFrameworkToProject(targetGUID, framework, false);
             }
@@ -84,6 +85,10 @@ public class BuildPostProcess {
                 builder.pathDictionary = pathDictionary;
                 builder.Run(BuildTarget.iOS);
             }
+            if (false != File.Exists(destPodFilePath)) {
+                File.Delete(destPodFilePath);
+            }
+            File.Copy(fromPodFilePath, destPodFilePath);
         }
         return;
     }

@@ -11,6 +11,6 @@ using UnityEngine;
 using System.Collections;
 namespace UnityPlugin.Core.Configure.Sns {
 public class LineConfigurePlugin {
-    public static string CHANNEL_ID = "999999999";
+    public static string CHANNEL_ID = "<CHANNEL_ID>";
 }
 }

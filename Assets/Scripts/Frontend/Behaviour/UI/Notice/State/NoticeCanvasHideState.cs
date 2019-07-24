@@ -7,14 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
 using Frontend.Component.State;
-namespace Frontend.Behaviour.State {
-public sealed class NoticeCanvasHideState : FiniteState<NoticeCanvasBehaviour> {
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public sealed class NoticeCanvasHideState : FiniteState<NoticeCanvasBehaviour> {
     public override void Create() {
         this.owner.webViewPlugin.Hide();
         Canvas canvas = this.owner.GetComponent<Canvas>();

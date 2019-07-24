@@ -7,16 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+using Frontend.Component.State;
+using Frontend.Component.Vfx;
+using Frontend.Notify;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Frontend.Notify;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-namespace Frontend.Behaviour.State {
-public sealed class ReadyCanvasShowState : FiniteState<ReadyCanvasBehaviour> {
+namespace Frontend.Behaviour.State
+{
+    public sealed class ReadyCanvasShowState : FiniteState<ReadyCanvasBehaviour> {
     private TimeLine alphaTimeLine {
         get;
         set;

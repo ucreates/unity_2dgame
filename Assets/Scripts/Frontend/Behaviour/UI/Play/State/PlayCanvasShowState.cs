@@ -7,20 +7,16 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
+using Core.Entity;
+using Core.Math;
+using Frontend.Component.Asset.Renderer.UI.Builder;
+using Frontend.Component.State;
 using Service;
 using Service.Strategy;
-using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Sprine;
-using Frontend.Component.State;
-using Frontend.Component.Asset.Renderer.UI.Builder;
-using Core.Math;
-using Core.Entity;
-namespace Frontend.Behaviour.State {
-public sealed class PlayCanvasShowState : FiniteState<PlayCanvasBehaviour> {
+using UnityEngine;
+namespace Frontend.Behaviour.State
+{
+    public sealed class PlayCanvasShowState : FiniteState<PlayCanvasBehaviour> {
     private BaseStrategy strategy {
         get;
         set;

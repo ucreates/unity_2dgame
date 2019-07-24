@@ -7,11 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-namespace Frontend.Component.Asset.Renderer.Animator.Builder {
-public abstract class BaseAnimatorAssetBuilder {
+using UnityEngine;
+namespace Frontend.Component.Asset.Renderer.Animator.Builder
+{
+    public abstract class BaseAnimatorAssetBuilder {
     protected float alpha {
         get;
         set;

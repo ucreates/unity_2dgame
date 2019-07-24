@@ -7,16 +7,13 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-using Service;
-using Service.Integration;
-using Service.Integration.Table;
-using Service.Integration.Dto.Assembler;
-using Service.BizLogic;
 using Core.Entity;
-namespace Service.Strategy {
-public sealed class ShopBuyStrategy : BaseStrategy {
+using Service.BizLogic;
+using Service.Integration.Dto.Assembler;
+using Service.Integration.Table;
+namespace Service.Strategy
+{
+    public sealed class ShopBuyStrategy : BaseStrategy {
     public override Response Update(Parameter parameter) {
         int itemId = parameter.Get<int>("itemId");
         int amount = parameter.Get<int>("amount");
