@@ -1,20 +1,21 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-namespace Editor.Build {
-public class CommandEditorBuilder : BaseEditorBuilder {
-    public List<string> commandElementList {
-        get;
-        private set;
-    }
-    public CommandEditorBuilder() {
-        this.commandElementList = new List<string>();
-    }
-    public string Build() {
-        string command = string.Empty;
-        foreach (string commandElement in commandElementList) {
-            command += commandElement + " ";
+﻿using System.Collections.Generic;
+
+namespace Editor.Build
+{
+    public class CommandEditorBuilder : BaseEditorBuilder
+    {
+        public CommandEditorBuilder()
+        {
+            commandElementList = new List<string>();
         }
-        return command.Trim();
+
+        public List<string> commandElementList { get; }
+
+        public string Build()
+        {
+            var command = string.Empty;
+            foreach (var commandElement in commandElementList) command += commandElement + " ";
+            return command.Trim();
+        }
     }
-}
 }

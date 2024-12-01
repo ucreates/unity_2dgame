@@ -7,13 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-namespace UnityPlugin.Core.Configure.Sns {
-public class TwitterConfigurePlugin {
-    public static string API_KEY = "<API_KEY>";
-    public static string CONSUMER_KEY = "<CONSUMER_KEY>";
-    public static string CONSUMER_SEACRET = "<CONSUMER_SEACRET>";
-    public static string BUILD_SEACRET = "<BUILD_SEACRET>";
-}
+
+namespace UnityPlugin.Core.Configure.Sns
+{
+    public class TwitterConfigurePlugin
+    {
+        public static string API_KEY = "999999999";
+        public static string CONSUMER_KEY = "999999999";
+        public static string CONSUMER_SEACRET = "999999999";
+        public static string BUILD_SEACRET = "999999999";
+    }
 }

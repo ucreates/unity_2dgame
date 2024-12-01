@@ -7,40 +7,52 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Service.Integration;
 using Service.Integration.Table;
+
 namespace Service.BizLogic
 {
-    public sealed class SummaryBizLogic : BaseBizLogic {
-    public SummaryBizLogic() {
-        DataBase db = DataBase.GetInstance();
-        Dao<TSummaryTable> dao = db.FindBy<TSummaryTable>();
-        dao.Save();
-    }
-    public int GetBestClearCount() {
-        DataBase db = DataBase.GetInstance();
-        Dao<TSummaryTable> dao = db.FindBy<TSummaryTable>();
-        TSummaryTable tt = dao.FindBy(BaseBizLogic.UNIQUE_RECORD_ID);
-        return tt.bestClearCount;
-    }
-    public bool UpdateBestClearCount(int clearCount) {
-        int bestClearCount = this.GetBestClearCount();
-        if (bestClearCount < clearCount) {
-            DataBase db = DataBase.GetInstance();
-            Dao<TSummaryTable> dao = db.FindBy<TSummaryTable>();
-            TSummaryTable tt = dao.FindBy(BaseBizLogic.UNIQUE_RECORD_ID);
-            tt.bestClearCount = clearCount;
-            dao.Save(tt);
-            return true;
+    public sealed class SummaryBizLogic : BaseBizLogic
+    {
+        public SummaryBizLogic()
+        {
+            var db = DataBase.GetInstance();
+            var dao = db.FindBy<TSummaryTable>();
+            dao.Save();
         }
-        return false;
+
+        public int GetBestClearCount()
+        {
+            var db = DataBase.GetInstance();
+            var dao = db.FindBy<TSummaryTable>();
+            var tt = dao.FindBy(UNIQUE_RECORD_ID);
+            return tt.bestClearCount;
+        }
+
+        public bool UpdateBestClearCount(int clearCount)
+        {
+            var bestClearCount = GetBestClearCount();
+            if (bestClearCount < clearCount)
+            {
+                var db = DataBase.GetInstance();
+                var dao = db.FindBy<TSummaryTable>();
+                var tt = dao.FindBy(UNIQUE_RECORD_ID);
+                tt.bestClearCount = clearCount;
+                dao.Save(tt);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool Clear()
+        {
+            var db = DataBase.GetInstance();
+            var dao = db.FindBy<TScoreTable>();
+            var tt = dao.FindBy(UNIQUE_RECORD_ID);
+            tt.clearCount = 0;
+            return dao.Update(tt);
+        }
     }
-    public bool Clear() {
-        DataBase db = DataBase.GetInstance();
-        Dao<TScoreTable> dao = db.FindBy<TScoreTable>();
-        TScoreTable tt = dao.FindBy(BaseBizLogic.UNIQUE_RECORD_ID);
-        tt.clearCount = 0;
-        return dao.Update(tt);
-    }
-}
 }

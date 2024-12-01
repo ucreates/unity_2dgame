@@ -7,10 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-namespace UnityPlugin.Core.Configure {
-public class PaymentConfigurePlugin {
-    public static string PUBLIC_KEY = "<YOUR_ANDROID_APP_LICENSE_KEY>";
-}
+
+namespace UnityPlugin.Core.Configure
+{
+    public class PaymentConfigurePlugin
+    {
+        public static string PUBLIC_KEY = "999999999";
+    }
 }

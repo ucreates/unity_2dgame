@@ -7,46 +7,52 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityPlugin.Core.Configure.Sns;
-using UnityEngine;
+
 using System;
-using System.Runtime.InteropServices;
 using System.IO;
-using System.Collections;
-namespace UnityPlugin.Frontend.Controller.Sns {
-public sealed class TwitterControllerPlugin : BasePlugin {
-    [DllImport("__Internal")]
-    private static extern void transitionTwitterViewControllerPlugin(string message, IntPtr imageData, int imageDataLength, bool enableTwitterCard);
-    public override int id {
-        get {
-            return 3;
+using System.Runtime.InteropServices;
+using UnityEngine;
+using UnityPlugin.Core.Configure.Sns;
+
+namespace UnityPlugin.Frontend.Controller.Sns
+{
+    public sealed class TwitterControllerPlugin : BasePlugin
+    {
+        public TwitterControllerPlugin()
+        {
+            if (RuntimePlatform.Android == Application.platform)
+                androidPlugin = new AndroidJavaObject("com.core.scene.TransitionPlugin");
         }
-    }
-    public TwitterControllerPlugin() {
-        if (RuntimePlatform.Android == Application.platform) {
-            this.androidPlugin = new AndroidJavaObject("com.core.scene.TransitionPlugin");
+
+        public override int id => 3;
+
+        [DllImport("__Internal")]
+        private static extern void transitionTwitterViewControllerPlugin(string message, IntPtr imageData,
+            int imageDataLength, bool enableTwitterCard);
+
+        public void Tweet(string message, Texture2D texture, bool enableTwitterCard = false)
+        {
+            var imageData = texture.EncodeToPNG();
+            Tweet(message, imageData, enableTwitterCard);
         }
-    }
-    public void Tweet(string message, Texture2D texture, bool enableTwitterCard = false) {
-        byte[] imageData = texture.EncodeToPNG();
-        this.Tweet(message, imageData, enableTwitterCard);
-        return;
-    }
-    public void Tweet(string message, byte[] imageData, bool enableTwitterCard = false) {
-        if (RuntimePlatform.IPhonePlayer == Application.platform) {
-            int heapSize = Marshal.SizeOf(imageData[0]) * imageData.Length;
-            IntPtr imageDataPtr = Marshal.AllocHGlobal(heapSize);
-            Marshal.Copy(imageData, 0, imageDataPtr, imageData.Length);
-            transitionTwitterViewControllerPlugin(message, imageDataPtr, imageData.Length, enableTwitterCard);
-        } else if (RuntimePlatform.Android == Application.platform) {
-            if (null == this.androidPlugin) {
-                return;
+
+        public void Tweet(string message, byte[] imageData, bool enableTwitterCard = false)
+        {
+            if (RuntimePlatform.IPhonePlayer == Application.platform)
+            {
+                var heapSize = Marshal.SizeOf(imageData[0]) * imageData.Length;
+                var imageDataPtr = Marshal.AllocHGlobal(heapSize);
+                Marshal.Copy(imageData, 0, imageDataPtr, imageData.Length);
+                transitionTwitterViewControllerPlugin(message, imageDataPtr, imageData.Length, enableTwitterCard);
             }
-            string imagePath = Path.Combine(Application.temporaryCachePath, "image.png");
-            File.WriteAllBytes(imagePath, imageData);
-            this.androidPlugin.CallStatic("transitionTwitter", message, imagePath, TwitterConfigurePlugin.CONSUMER_KEY, TwitterConfigurePlugin.CONSUMER_SEACRET, enableTwitterCard);
+            else if (RuntimePlatform.Android == Application.platform)
+            {
+                if (null == androidPlugin) return;
+                var imagePath = Path.Combine(Application.temporaryCachePath, "image.png");
+                File.WriteAllBytes(imagePath, imageData);
+                androidPlugin.CallStatic("transitionTwitter", message, imagePath, TwitterConfigurePlugin.CONSUMER_KEY,
+                    TwitterConfigurePlugin.CONSUMER_SEACRET, enableTwitterCard);
+            }
         }
-        return;
     }
-}
 }

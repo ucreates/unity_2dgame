@@ -7,16 +7,20 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Frontend.Component.State;
 using UnityEngine;
+
 namespace Frontend.Behaviour.State
 {
-    public sealed class CurtainShowState : FiniteState<CurtainBehaviour> {
-    public override void Create() {
-        SpriteRenderer sr = this.owner.GetComponent<SpriteRenderer>();
-        var color = sr.color;
-        color.a = 1f;
-        sr.color = color;
+    public sealed class CurtainShowState : FiniteState<CurtainBehaviour>
+    {
+        public override void Create()
+        {
+            var sr = owner.GetComponent<SpriteRenderer>();
+            var color = sr.color;
+            color.a = 1f;
+            sr.color = color;
+        }
     }
-}
 }

@@ -7,39 +7,44 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using System.Collections.Generic;
 using Core.Entity;
-using Frontend.Behaviour.Base;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UnityEngine;
-public sealed class ResultCanvasBehaviour : BaseBehaviour, IStateMachine<ResultCanvasBehaviour>, INotify {
+
+public sealed class ResultCanvasBehaviour : BaseBehaviour, IStateMachine<ResultCanvasBehaviour>, INotify
+{
     public List<Sprite> scoreSpriteList;
     public List<Sprite> emblemSpriteList;
-    public FiniteStateMachine<ResultCanvasBehaviour> stateMachine {
-        get;
-        set;
+
+    public void Start()
+    {
+        property = new BaseProperty(this);
+        stateMachine = new FiniteStateMachine<ResultCanvasBehaviour>(this);
+        stateMachine.Add("show", new ResultCanvasShowState());
+        stateMachine.Add("hide", new ResultCanvasHideState());
+        stateMachine.Change("hide");
+        stateMachine.Play();
+        var notifier = Notifier.GetInstance();
+        notifier.Add(this, property);
     }
-    public void Start() {
-        this.property = new BaseProperty(this);
-        this.stateMachine = new FiniteStateMachine<ResultCanvasBehaviour>(this);
-        this.stateMachine.Add("show", new ResultCanvasShowState());
-        this.stateMachine.Add("hide", new ResultCanvasHideState());
-        this.stateMachine.Change("hide");
-        this.stateMachine.Play();
-        Notifier notifier = Notifier.GetInstance();
-        notifier.Add(this, this.property);
+
+    public void Update()
+    {
+        stateMachine.Update();
     }
-    public void Update() {
-        this.stateMachine.Update();
+
+    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    {
+        if (notifyMessage == NotifyMessage.GameOver)
+            stateMachine.Change("show");
+        else if (notifyMessage == NotifyMessage.GameRestart || notifyMessage == NotifyMessage.RankingShow)
+            stateMachine.Change("hide");
     }
-    public void OnNotify(int notifyMessage, Parameter parameter = null) {
-        if (notifyMessage == NotifyMessage.GameOver) {
-            this.stateMachine.Change("show");
-        } else if (notifyMessage == NotifyMessage.GameRestart || notifyMessage == NotifyMessage.RankingShow) {
-            this.stateMachine.Change("hide");
-        }
-    }
+
+    public FiniteStateMachine<ResultCanvasBehaviour> stateMachine { get; set; }
 }

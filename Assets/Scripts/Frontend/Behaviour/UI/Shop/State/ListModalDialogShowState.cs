@@ -7,8 +7,8 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using System.Collections.Generic;
-using Core.Entity;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
 using Frontend.Component.Vfx;
@@ -16,84 +16,81 @@ using Service;
 using Service.Integration.Table;
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace Frontend.Behaviour.State.UI.Shop
 {
-    public sealed class ListModalDialogShowState : FiniteState<ShopCanvasBehaviour> {
-    private TimeLine alphaTimeLine {
-        get;
-        set;
-    }
-    private ShopCanvasListModalDialogBuilder builder {
-        get;
-        set;
-    }
-    private float previousAlpha {
-        get;
-        set;
-    }
-    public override void Create() {
-        Response response =  ServiceGateway.GetInstance()
-                             .Request("service://shop/list")
-                             .Get();
-        List<string> itemIdList = response.Get<List<string>>("itemidlist");
-        int coin = response.Get<int>("coin");
-        List<MItemTable> itemMasterList = response.Get<List<MItemTable>>("itemmasterlist");
-        Canvas canvas = this.owner.GetComponent<Canvas>();
-        if (null != canvas) {
-            canvas.enabled = true;
-        }
-        this.alphaTimeLine = new TimeLine();
-        this.previousAlpha = 0f;
-        foreach (Transform child in this.owner.transform) {
-            if (child.name.Equals("ListModalDialog")) {
-                child.gameObject.SetActive(true);
-            } else {
-                child.gameObject.SetActive(false);
+    public sealed class ListModalDialogShowState : FiniteState<ShopCanvasBehaviour>
+    {
+        private TimeLine alphaTimeLine { get; set; }
+
+        private ShopCanvasListModalDialogBuilder builder { get; set; }
+
+        private float previousAlpha { get; set; }
+
+        public override void Create()
+        {
+            var response = ServiceGateway.GetInstance()
+                .Request("service://shop/list")
+                .Get();
+            var itemIdList = response.Get<List<string>>("itemidlist");
+            var coin = response.Get<int>("coin");
+            var itemMasterList = response.Get<List<MItemTable>>("itemmasterlist");
+            var canvas = owner.GetComponent<Canvas>();
+            if (null != canvas) canvas.enabled = true;
+            alphaTimeLine = new TimeLine();
+            previousAlpha = 0f;
+            foreach (Transform child in owner.transform)
+                if (child.name.Equals("ListModalDialog"))
+                    child.gameObject.SetActive(true);
+                else
+                    child.gameObject.SetActive(false);
+
+            if (null == builder)
+                builder = new ShopCanvasListModalDialogBuilder();
+            else
+                builder.Reset();
+            var itemTypeList = new string[4] { "A", "B", "C", "D" };
+            for (var i = 0; i < itemTypeList.Length; i++)
+            {
+                var type = itemTypeList[i];
+                var buyButtonTrsfrm = owner.transform.Find("ListModalDialog/Type" + type + "BuyButton");
+                var buyButton = buyButtonTrsfrm.GetComponent<Button>();
+                if (itemIdList.Contains(type)) buyButton.enabled = false;
             }
-        }
-        if (null == this.builder) {
-            this.builder = new ShopCanvasListModalDialogBuilder();
-        } else {
-            this.builder.Reset();
-        }
-        string[] itemTypeList = new string[4] {"A", "B", "C", "D"};
-        for (int i = 0; i < itemTypeList.Length; i++) {
-            string type = itemTypeList[i];
-            Transform buyButtonTrsfrm = this.owner.transform.Find("ListModalDialog/Type" + type + "BuyButton");
-            Button buyButton = buyButtonTrsfrm.GetComponent<Button>();
-            if (itemIdList.Contains(type)) {
-                buyButton.enabled = false;
+
+            var dialogtrsfrm = owner.transform.Find("ListModalDialog");
+            var allSpriteList = Resources.LoadAll<Sprite>("Sprite");
+            var itemSpriteList = new List<Sprite>();
+            for (var i = 0; i < allSpriteList.Length; i++)
+            {
+                var sprite = allSpriteList[i];
+                if (sprite.name.Contains("shop_item_type")) itemSpriteList.Add(sprite);
             }
+
+            builder
+                .AddItemSpriteList(itemSpriteList)
+                .AddItemMasterList(itemMasterList)
+                .AddCoin(coin)
+                .AddTransform(dialogtrsfrm.transform)
+                .AddAlpha(0f)
+                .AddEnabled(false)
+                .Build();
         }
-        Transform dialogtrsfrm = this.owner.transform.Find("ListModalDialog");
-        Sprite[] allSpriteList = Resources.LoadAll<Sprite>("Sprite");
-        List<Sprite> itemSpriteList = new List<Sprite>();
-        for (int i = 0; i < allSpriteList.Length; i++) {
-            Sprite sprite = allSpriteList[i];
-            if (sprite.name.Contains("shop_item_type")) {
-                itemSpriteList.Add(sprite);
+
+        public override void Update()
+        {
+            var alpha = Flash.Update(alphaTimeLine.currentTime);
+            if (alpha < previousAlpha)
+            {
+                owner.stateMachine.Change("liststay");
+                return;
             }
+
+            builder
+                .AddAlpha(alpha)
+                .Update();
+            previousAlpha = alpha;
+            alphaTimeLine.Next(1.5f);
         }
-        this.builder
-        .AddItemSpriteList(itemSpriteList)
-        .AddItemMasterList(itemMasterList)
-        .AddCoin(coin)
-        .AddTransform(dialogtrsfrm.transform)
-        .AddAlpha(0f)
-        .AddEnabled(false)
-        .Build();
     }
-    public override void Update() {
-        float alpha = Flash.Update(this.alphaTimeLine.currentTime);
-        if (alpha < this.previousAlpha) {
-            this.owner.stateMachine.Change("liststay");
-            return;
-        }
-        this.builder
-        .AddAlpha(alpha)
-        .Update();
-        this.previousAlpha = alpha;
-        this.alphaTimeLine.Next(1.5f);
-    }
-}
 }

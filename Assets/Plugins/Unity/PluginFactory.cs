@@ -7,15 +7,17 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityPlugin.Frontend.View;
-using UnityEngine;
+
 using System;
-using System.Collections;
-namespace UnityPlugin {
-public class PluginFactory {
-    public static T GetPlugin<T>() where T : BasePlugin, new() {
-        Type type = typeof(T);
-        return Activator.CreateInstance(type) as T;
+
+namespace UnityPlugin
+{
+    public class PluginFactory
+    {
+        public static T GetPlugin<T>() where T : BasePlugin, new()
+        {
+            var type = typeof(T);
+            return Activator.CreateInstance(type) as T;
+        }
     }
-}
 }

@@ -1,26 +1,31 @@
-﻿using Frontend.Behaviour.Base;
+﻿using Spine;
 using Spine.Unity;
+
 namespace Frontend.Component.Asset.Render
 {
-    public sealed class AnimatorAsset : BaseRenderAsset {
-    public SkeletonAnimation anime {
-        get;
-        private set;
-    }
-    public AnimatorAsset() {
-    }
-    public AnimatorAsset(BaseBehaviour owner) {
-        this.owner = owner;
-        this.anime = this.owner.GetComponent<SkeletonAnimation>();
-    }
-    public void Play(string animationName, bool loop = true) {
-        this.anime.state.SetAnimation(0, animationName, loop);
-    }
-    public void Play(string animationName, Spine.AnimationState.TrackEntryDelegate callback, bool loop = true) {
-        if (null != callback) {
-            this.anime.state.Complete += callback;
+    public sealed class AnimatorAsset : BaseRenderAsset
+    {
+        public AnimatorAsset()
+        {
         }
-        this.anime.state.SetAnimation(0, animationName, loop);
+
+        public AnimatorAsset(BaseBehaviour owner)
+        {
+            this.owner = owner;
+            anime = this.owner.GetComponent<SkeletonAnimation>();
+        }
+
+        public SkeletonAnimation anime { get; }
+
+        public void Play(string animationName, bool loop = true)
+        {
+            anime.state.SetAnimation(0, animationName, loop);
+        }
+
+        public void Play(string animationName, AnimationState.TrackEntryDelegate callback, bool loop = true)
+        {
+            if (null != callback) anime.state.Complete += callback;
+            anime.state.SetAnimation(0, animationName, loop);
+        }
     }
-}
 }

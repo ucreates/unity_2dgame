@@ -7,34 +7,38 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Core.Entity;
-using Frontend.Behaviour.Base;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
-public sealed class CameraBehaviour : BaseBehaviour, IStateMachine<CameraBehaviour>, INotify {
+
+public sealed class CameraBehaviour : BaseBehaviour, IStateMachine<CameraBehaviour>, INotify
+{
     public const float DEFAULT_OTHROGRAPHIC_SIZE = 5.0f;
-    public FiniteStateMachine<CameraBehaviour> stateMachine {
-        get;
-        set;
+
+    public void Start()
+    {
+        property = new BaseProperty(this);
+        stateMachine = new FiniteStateMachine<CameraBehaviour>(this);
+        stateMachine.Add("stop", new CameraStopState());
+        stateMachine.Add("shake", new CameraShakeState());
+        stateMachine.Change("stop");
+        var notifier = Notifier.GetInstance();
+        notifier.Add(this, property);
     }
-    public void Start() {
-        this.property = new BaseProperty(this);
-        this.stateMachine = new FiniteStateMachine<CameraBehaviour>(this);
-        this.stateMachine.Add("stop", new CameraStopState());
-        this.stateMachine.Add("shake", new CameraShakeState());
-        this.stateMachine.Change("stop");
-        Notifier notifier = Notifier.GetInstance();
-        notifier.Add(this, this.property);
-    }
+
     // Update is called once per frame
-    public void Update() {
-        this.stateMachine.Update();
+    public void Update()
+    {
+        stateMachine.Update();
     }
-    public void OnNotify(int notifyMessage, Parameter parameter = null) {
-        if (notifyMessage == NotifyMessage.FlappyBirdDead) {
-            this.stateMachine.Change("shake");
-        }
+
+    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    {
+        if (notifyMessage == NotifyMessage.FlappyBirdDead) stateMachine.Change("shake");
     }
+
+    public FiniteStateMachine<CameraBehaviour> stateMachine { get; set; }
 }

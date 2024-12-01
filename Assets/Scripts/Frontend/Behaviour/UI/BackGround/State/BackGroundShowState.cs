@@ -7,23 +7,24 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using Core.Math;
+
+using Core.Utility;
 using Frontend.Component.State;
 using UnityEngine;
+
 namespace Frontend.Behaviour.State
 {
-    public sealed class BackGroundShowState : FiniteState<BackGroundBehaviour> {
-    public override void Create() {
-        if (Condition.ByRandom()) {
-            return;
-        }
-        SpriteRenderer renderer = this.owner.GetComponent<SpriteRenderer>();
-        if (null != renderer) {
-            Sprite sprite = Resources.Load<Sprite>("Textures/night_back_ground");
-            if (null != sprite) {
-                renderer.sprite = sprite;
+    public sealed class BackGroundShowState : FiniteState<BackGroundBehaviour>
+    {
+        public override void Create()
+        {
+            if (ConditionUtility.ByRandom()) return;
+            var renderer = owner.GetComponent<SpriteRenderer>();
+            if (null != renderer)
+            {
+                var sprite = Resources.Load<Sprite>("Textures/night_back_ground");
+                if (null != sprite) renderer.sprite = sprite;
             }
         }
     }
-}
 }

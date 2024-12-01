@@ -7,23 +7,24 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 namespace Service.Integration.Table
 {
-    public sealed class TLoadingTable : BaseTable {
-    public int downloadedDataCount {
-        get;
-        set;
+    public sealed class TLoadingTable : BaseTable
+    {
+        public TLoadingTable()
+        {
+            downloadedDataCount = 0;
+            totalDataCount = 0;
+        }
+
+        public int downloadedDataCount { get; set; }
+
+        public int totalDataCount { get; set; }
+
+        public override BaseTable Clone()
+        {
+            return MemberwiseClone() as TLoadingTable;
+        }
     }
-    public int totalDataCount {
-        get;
-        set;
-    }
-    public TLoadingTable() {
-        this.downloadedDataCount = 0;
-        this.totalDataCount = 0;
-    }
-    public override BaseTable Clone() {
-        return base.MemberwiseClone() as TLoadingTable;
-    }
-}
 }

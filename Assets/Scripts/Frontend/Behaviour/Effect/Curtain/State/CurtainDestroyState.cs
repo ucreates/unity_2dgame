@@ -7,13 +7,18 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Frontend.Component.State;
+using UnityEngine;
+
 namespace Frontend.Behaviour.State
 {
-    public sealed class CurtainDestroyState : FiniteState<CurtainBehaviour> {
-    public override void Create() {
-        UnityEngine.Object.Destroy(this.owner.gameObject);
-        UnityEngine.Object.Destroy(this.owner);
+    public sealed class CurtainDestroyState : FiniteState<CurtainBehaviour>
+    {
+        public override void Create()
+        {
+            Object.Destroy(owner.gameObject);
+            Object.Destroy(owner);
+        }
     }
-}
 }

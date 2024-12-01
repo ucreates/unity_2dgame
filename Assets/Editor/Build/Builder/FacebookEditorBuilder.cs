@@ -1,37 +1,37 @@
-﻿using UnityEngine;
-using UnityPlugin.Core.Configure.Sns;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.iOS.Xcode;
-using System.IO;
-using System.Diagnostics;
-using System.Collections;
-namespace Editor.Build {
-public class FacebookEditorBuilder : BaseEditorBuilder {
-    public const int BUILDER_ID = 3;
-    protected override void BuildiOS() {
-        if (false == this.pathDictionary.ContainsKey("fromFrameworkRoot") || false == this.pathDictionary.ContainsKey("destFrameworkRoot")) {
-            return;
+using UnityPlugin.Core.Configure.Sns;
+
+namespace Editor.Build
+{
+    public class FacebookEditorBuilder : BaseEditorBuilder
+    {
+        public const int BUILDER_ID = 3;
+
+        protected override void BuildiOS()
+        {
+            if (false == pathDictionary.ContainsKey("fromFrameworkRoot") ||
+                false == pathDictionary.ContainsKey("destFrameworkRoot")) return;
+            var rootDict = plist.root;
+            rootDict.SetString("FacebookAppID", FacebookConfigurePlugin.APP_ID);
+            rootDict.SetString("FacebookDisplayName", PlayerSettings.productName);
+            rootDict.SetString("NSPhotoLibraryUsageDescription", "Photo Access By Unity Facebook Plugin");
         }
-        PlistElementDict rootDict = plist.root;
-        rootDict.SetString("FacebookAppID", FacebookConfigurePlugin.APP_ID);
-        rootDict.SetString("FacebookDisplayName", PlayerSettings.productName);
-        rootDict.SetString("NSPhotoLibraryUsageDescription", "Photo Access By Unity Facebook Plugin.");
-        return;
+
+        public override void BuildiOSURLSchemes(PlistElementArray bundleURLTypesArray)
+        {
+            var bundleURLSchemaDict = bundleURLTypesArray.AddDict();
+            bundleURLSchemaDict.SetString("CFBundleTypeRole", "Editor");
+            var bundleURLSchemaArray = bundleURLSchemaDict.CreateArray("CFBundleURLSchemes");
+            bundleURLSchemaArray.AddString("fb" + FacebookConfigurePlugin.APP_ID);
+        }
+
+        public override void BuildiOSApplicationQueriesSchemes(PlistElementArray querySchemesArray)
+        {
+            querySchemesArray.AddString("fbapi");
+            querySchemesArray.AddString("fb-messenger-api");
+            querySchemesArray.AddString("fbauth2");
+            querySchemesArray.AddString("fbshareextension");
+        }
     }
-    public override void BuildiOSURLSchemes(PlistElementArray bundleURLTypesArray) {
-        PlistElementDict bundleURLSchemaDict = bundleURLTypesArray.AddDict();
-        bundleURLSchemaDict.SetString("CFBundleTypeRole", "Editor");
-        PlistElementArray bundleURLSchemaArray = bundleURLSchemaDict.CreateArray("CFBundleURLSchemes");
-        string facebookAppId = string.Format("fb{0}", FacebookConfigurePlugin.APP_ID);
-        bundleURLSchemaArray.AddString(facebookAppId);
-        return;
-    }
-    public override void BuildiOSApplicationQueriesSchemes(PlistElementArray querySchemesArray) {
-        querySchemesArray.AddString("fbapi");
-        querySchemesArray.AddString("fb-messenger-api");
-        querySchemesArray.AddString("fbauth2");
-        querySchemesArray.AddString("fbshareextension");
-        return;
-    }
-}
 }

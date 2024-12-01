@@ -7,18 +7,15 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using UnityEngine;
-using System.Collections;
-namespace UnityPlugin {
-public abstract class BasePlugin {
-    public virtual int id {
-        get {
-            return 0;
-        }
+
+namespace UnityPlugin
+{
+    public abstract class BasePlugin
+    {
+        public virtual int id => 0;
+
+        protected AndroidJavaObject androidPlugin { get; set; }
     }
-    protected AndroidJavaObject androidPlugin {
-        get;
-        set;
-    }
-}
 }

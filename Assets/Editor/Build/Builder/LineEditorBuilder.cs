@@ -1,62 +1,60 @@
-﻿using UnityEngine;
-using UnityPlugin.Core.Configure.Sns;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.iOS.Xcode;
-using System.IO;
-using System.Diagnostics;
-using System.Collections;
-namespace Editor.Build {
-public class LineEditorBuilder : BaseEditorBuilder {
-    public const int BUILDER_ID = 4;
-    protected override void BuildiOS() {
-        if (false == this.pathDictionary.ContainsKey("fromFrameworkRoot") || false == this.pathDictionary.ContainsKey("destFrameworkRoot")) {
-            return;
+using UnityPlugin.Core.Configure.Sns;
+
+namespace Editor.Build
+{
+    public class LineEditorBuilder : BaseEditorBuilder
+    {
+        public const int BUILDER_ID = 4;
+
+        protected override void BuildiOS()
+        {
+            if (false == pathDictionary.ContainsKey("fromFrameworkRoot") ||
+                false == pathDictionary.ContainsKey("destFrameworkRoot")) return;
+            var rootDict = plist.root;
+            var frameworks = new[] { "CoreText.framework", "CoreTelephony.framework", "Security.framework" };
+            foreach (var framework in frameworks) project.AddFrameworkToProject(targetGUID, framework, false);
+            var lineAdapterConfigDict = rootDict.CreateDict("LineAdapterConfig");
+            lineAdapterConfigDict.SetString("ChannelId", LineConfigurePlugin.CHANNEL_ID);
         }
-        PlistElementDict rootDict = plist.root;
-        string[] frameworks = new string[] {"CoreText.framework", "CoreTelephony.framework", "Security.framework"};
-        foreach (string framework in frameworks) {
-            this.project.AddFrameworkToProject(this.targetGUID, framework, false);
+
+        public override void BuildiOSURLSchemes(PlistElementArray bundleURLTypesArray)
+        {
+            var bundleURLSchemaDict = bundleURLTypesArray.AddDict();
+            bundleURLSchemaDict.SetString("CFBundleTypeRole", "Editor");
+            bundleURLSchemaDict.SetString("CFBundleURLName", PlayerSettings.applicationIdentifier);
+            var bundleURLSchemaArray = bundleURLSchemaDict.CreateArray("CFBundleURLSchemes");
+            bundleURLSchemaArray.AddString("line3rdp." + PlayerSettings.applicationIdentifier);
         }
-        PlistElementDict lineAdapterConfigDict = rootDict.CreateDict("LineSDKConfig");
-        lineAdapterConfigDict.SetString("ChannelId", LineConfigurePlugin.CHANNEL_ID);
-        return;
+
+        public override void BuildiOSApplicationQueriesSchemes(PlistElementArray querySchemesArray)
+        {
+            querySchemesArray.AddString("lineauth");
+            querySchemesArray.AddString("line3rdp." + PlayerSettings.applicationIdentifier);
+        }
+
+        public override void BuildiOSNSAppTransportSecuritySchemes(PlistElementDict nsExeptionDomainsDict)
+        {
+            var obsLineAppsComDict = nsExeptionDomainsDict.CreateDict("obs.line-apps.com");
+            obsLineAppsComDict.SetBoolean("NSIncludesSubdomains", true);
+            obsLineAppsComDict.SetBoolean("NSThirdPartyExceptionAllowsInsecureHTTPLoads", true);
+            obsLineAppsComDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
+            var dlProfileLineCdnDict = nsExeptionDomainsDict.CreateDict("dl.profile.line-cdn.net");
+            dlProfileLineCdnDict.SetBoolean("NSIncludesSubdomains", true);
+            dlProfileLineCdnDict.SetBoolean("NSThirdPartyExceptionAllowsInsecureHTTPLoads", true);
+            dlProfileLineCdnDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
+            var dlProfileLineNaverDict = nsExeptionDomainsDict.CreateDict("dl.profile.line.naver.jp");
+            dlProfileLineNaverDict.SetBoolean("NSIncludesSubdomains", true);
+            dlProfileLineNaverDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
+            var icsNaverDict = nsExeptionDomainsDict.CreateDict("lcs.naver.jp");
+            icsNaverDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
+            var scdnLineAppsDict = nsExeptionDomainsDict.CreateDict("scdn.line-apps.com");
+            scdnLineAppsDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
+            var accessLineMeDict = nsExeptionDomainsDict.CreateDict("access.line.me");
+            accessLineMeDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
+            var appLineMeDict = nsExeptionDomainsDict.CreateDict("app.line.me");
+            appLineMeDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
+        }
     }
-    public override void BuildiOSURLSchemes(PlistElementArray bundleURLTypesArray) {
-        PlistElementDict bundleURLSchemaDict = bundleURLTypesArray.AddDict();
-        bundleURLSchemaDict.SetString("CFBundleTypeRole", "Editor");
-        bundleURLSchemaDict.SetString("CFBundleURLName", PlayerSettings.applicationIdentifier);
-        PlistElementArray bundleURLSchemaArray = bundleURLSchemaDict.CreateArray("CFBundleURLSchemes");
-        string identifier = string.Format("line3rdp.{0}", PlayerSettings.applicationIdentifier);
-        bundleURLSchemaArray.AddString(identifier);
-        return;
-    }
-    public override void BuildiOSApplicationQueriesSchemes(PlistElementArray querySchemesArray) {
-        string identifier = string.Format("line3rdp.{0}", PlayerSettings.applicationIdentifier);
-        querySchemesArray.AddString("lineauth2");
-        querySchemesArray.AddString(identifier);
-        return;
-    }
-    public override void BuildiOSNSAppTransportSecuritySchemes(PlistElementDict nsExeptionDomainsDict) {
-        PlistElementDict obsLineAppsComDict = nsExeptionDomainsDict.CreateDict("obs.line-apps.com");
-        obsLineAppsComDict.SetBoolean("NSIncludesSubdomains", true);
-        obsLineAppsComDict.SetBoolean("NSThirdPartyExceptionAllowsInsecureHTTPLoads", true);
-        obsLineAppsComDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
-        PlistElementDict dlProfileLineCdnDict = nsExeptionDomainsDict.CreateDict("dl.profile.line-cdn.net");
-        dlProfileLineCdnDict.SetBoolean("NSIncludesSubdomains", true);
-        dlProfileLineCdnDict.SetBoolean("NSThirdPartyExceptionAllowsInsecureHTTPLoads", true);
-        dlProfileLineCdnDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
-        PlistElementDict dlProfileLineNaverDict = nsExeptionDomainsDict.CreateDict("dl.profile.line.naver.jp");
-        dlProfileLineNaverDict.SetBoolean("NSIncludesSubdomains", true);
-        dlProfileLineNaverDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
-        PlistElementDict icsNaverDict = nsExeptionDomainsDict.CreateDict("lcs.naver.jp");
-        icsNaverDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
-        PlistElementDict scdnLineAppsDict = nsExeptionDomainsDict.CreateDict("scdn.line-apps.com");
-        scdnLineAppsDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
-        PlistElementDict accessLineMeDict = nsExeptionDomainsDict.CreateDict("access.line.me");
-        accessLineMeDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
-        PlistElementDict appLineMeDict = nsExeptionDomainsDict.CreateDict("app.line.me");
-        appLineMeDict.SetBoolean("NSThirdPartyExceptionRequiresForwardSecrecy", false);
-        return;
-    }
-}
 }

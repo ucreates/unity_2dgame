@@ -7,8 +7,8 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using System.Collections.Generic;
-using Core.Entity;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
 using Frontend.Component.Vfx;
@@ -16,67 +16,70 @@ using Service;
 using Service.Integration.Table;
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace Frontend.Behaviour.State
 {
-    public sealed class RankingCanvasShowState : FiniteState<RankingCanvasBehaviour> {
-    private TimeLine alphaTimeLine {
-        get;
-        set;
-    }
-    private RankingCanvasBuilder builder {
-        get;
-        set;
-    }
-    private float previousAlpha {
-        get;
-        set;
-    }
-    public override void Create() {
-        Canvas canvas = this.owner.GetComponent<Canvas>();
-        if (null != canvas) {
-            canvas.enabled = true;
+    public sealed class RankingCanvasShowState : FiniteState<RankingCanvasBehaviour>
+    {
+        private TimeLine alphaTimeLine { get; set; }
+
+        private RankingCanvasBuilder builder { get; set; }
+
+        private float previousAlpha { get; set; }
+
+        public override void Create()
+        {
+            var canvas = owner.GetComponent<Canvas>();
+            if (null != canvas) canvas.enabled = true;
+            var response = ServiceGateway.GetInstance().Request("service://stats/ranking").Get();
+            var rankingList = response.Get<List<TScoreTable>>("rankinglist");
+            var userList = response.Get<List<MUserTable>>("userlist");
+            if (null == builder)
+            {
+                var campanynametrsfrm = owner.transform.Find("BackGroundImage");
+                var bgImage = campanynametrsfrm.GetComponent<Image>();
+                var sb = owner.transform.Find("ConfirmButton");
+                var confirmButton = sb.GetComponent<Button>();
+                builder = new RankingCanvasBuilder();
+                builder
+                    .AddScoreTableList(rankingList)
+                    .AddUserTableList(userList)
+                    .AddSprite(owner.scoreSpriteList)
+                    .AddCanvas(canvas)
+                    .AddImage(bgImage)
+                    .AddButton(confirmButton)
+                    .AddScale(Vector3.one * 0.8f)
+                    .AddPosition(new Vector3(-50f, 100f, 0f))
+                    .AddAlpha(0f)
+                    .AddEnabled(false)
+                    .Build();
+            }
+            else
+            {
+                builder
+                    .AddScoreTableList(rankingList)
+                    .AddUserTableList(userList)
+                    .Reset();
+            }
+
+            alphaTimeLine = new TimeLine();
+            previousAlpha = 0f;
         }
-        Response response = ServiceGateway.GetInstance().Request("service://stats/ranking").Get();
-        List<TScoreTable> rankingList = response.Get<List<TScoreTable>>("rankinglist");
-        List<MUserTable> userList = response.Get<List<MUserTable>>("userlist");
-        if (null == this.builder) {
-            Transform campanynametrsfrm = this.owner.transform.Find("BackGroundImage");
-            Image bgImage = campanynametrsfrm.GetComponent< Image>();
-            Transform sb = this.owner.transform.Find("ConfirmButton");
-            Button confirmButton = sb.GetComponent<Button>();
-            this.builder = new RankingCanvasBuilder();
-            this.builder
-            .AddScoreTableList(rankingList)
-            .AddUserTableList(userList)
-            .AddSprite(this.owner.scoreSpriteList)
-            .AddCanvas(canvas)
-            .AddImage(bgImage)
-            .AddButton(confirmButton)
-            .AddScale(Vector3.one * 0.8f)
-            .AddPosition(new Vector3(-50f, 100f, 0f))
-            .AddAlpha(0f)
-            .AddEnabled(false)
-            .Build();
-        } else {
-            this.builder
-            .AddScoreTableList(rankingList)
-            .AddUserTableList(userList)
-            .Reset();
+
+        public override void Update()
+        {
+            var alpha = Flash.Update(alphaTimeLine.currentTime);
+            if (alpha < previousAlpha)
+            {
+                owner.stateMachine.Change("stay");
+                return;
+            }
+
+            builder
+                .AddAlpha(alpha)
+                .Update();
+            previousAlpha = alpha;
+            alphaTimeLine.Next(1.5f);
         }
-        this.alphaTimeLine = new TimeLine();
-        this.previousAlpha = 0f;
     }
-    public override void Update() {
-        float alpha = Flash.Update(this.alphaTimeLine.currentTime);
-        if (alpha < this.previousAlpha) {
-            this.owner.stateMachine.Change("stay");
-            return;
-        }
-        this.builder
-        .AddAlpha(alpha)
-        .Update();
-        this.previousAlpha = alpha;
-        this.alphaTimeLine.Next(1.5f);
-    }
-}
 }

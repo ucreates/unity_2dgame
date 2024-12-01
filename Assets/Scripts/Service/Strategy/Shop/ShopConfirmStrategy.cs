@@ -7,19 +7,22 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Core.Entity;
 using Service.BizLogic;
-using Service.Integration.Table;
+
 namespace Service.Strategy
 {
-    public sealed class ShopConfirmStrategy : BaseStrategy {
-    public override Response Get(Parameter parameter = null) {
-        int itemId = parameter.Get<int>("itemId");
-        Response sret = new Response();
-        ItemBizLogic ibl = new ItemBizLogic();
-        MItemTable mit = ibl.GetMasterByItemId(itemId);
-        sret.Set<MItemTable>("itemmaster", mit);
-        return sret;
+    public sealed class ShopConfirmStrategy : BaseStrategy
+    {
+        public override Response Get(Parameter parameter = null)
+        {
+            var itemId = parameter.Get<int>("itemId");
+            var sret = new Response();
+            var ibl = new ItemBizLogic();
+            var mit = ibl.GetMasterByItemId(itemId);
+            sret.Set("itemmaster", mit);
+            return sret;
+        }
     }
-}
 }

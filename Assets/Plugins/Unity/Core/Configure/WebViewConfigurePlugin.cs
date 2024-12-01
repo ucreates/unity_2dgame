@@ -7,10 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-namespace UnityPlugin.Core.Configure {
-public class WebViewConfigurePlugin {
-    public static string[] ALLOW_DOMAIN_LIST = new string[] {"m.yahoo.co.jp", "www.yahoo.co.jp"};
-}
+
+namespace UnityPlugin.Core.Configure
+{
+    public class WebViewConfigurePlugin
+    {
+        public static string[] ALLOW_DOMAIN_LIST = { "u-creates.com" };
+    }
 }

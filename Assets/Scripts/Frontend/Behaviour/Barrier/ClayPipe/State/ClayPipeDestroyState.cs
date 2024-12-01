@@ -7,13 +7,18 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Frontend.Component.State;
+using UnityEngine;
+
 namespace Frontend.Behaviour.State
 {
-    public sealed class ClayPipeDestroyState : FiniteState<ClayPipeBehaviour> {
-    public override void Create() {
-        UnityEngine.GameObject.Destroy(this.owner.gameObject);
-        UnityEngine.GameObject.Destroy(this.owner);
+    public sealed class ClayPipeDestroyState : FiniteState<ClayPipeBehaviour>
+    {
+        public override void Create()
+        {
+            GameObject.Destroy(owner.gameObject);
+            GameObject.Destroy(owner);
+        }
     }
-}
 }

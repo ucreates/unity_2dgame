@@ -7,37 +7,40 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Core.Entity;
-using Frontend.Behaviour.Base;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
-public sealed class CurtainBehaviour : BaseBehaviour, IStateMachine<CurtainBehaviour>, INotify {
-    public FiniteStateMachine<CurtainBehaviour> stateMachine {
-        get;
-        set;
-    }
+
+public sealed class CurtainBehaviour : BaseBehaviour, IStateMachine<CurtainBehaviour>, INotify
+{
     // Use this for initialization
-    void Start() {
-        this.property = new BaseProperty(this);
-        this.stateMachine = new FiniteStateMachine<CurtainBehaviour>(this);
-        this.stateMachine.Add("blink", new CurtainBlinkState());
-        this.stateMachine.Add("show", new CurtainShowState());
-        this.stateMachine.Add("destroy", new CurtainDestroyState());
-        this.stateMachine.Change("blink");
-        Notifier notifier = Notifier.GetInstance();
-        notifier.Add(this, this.property);
+    private void Start()
+    {
+        property = new BaseProperty(this);
+        stateMachine = new FiniteStateMachine<CurtainBehaviour>(this);
+        stateMachine.Add("blink", new CurtainBlinkState());
+        stateMachine.Add("show", new CurtainShowState());
+        stateMachine.Add("destroy", new CurtainDestroyState());
+        stateMachine.Change("blink");
+        var notifier = Notifier.GetInstance();
+        notifier.Add(this, property);
     }
+
     // Update is called once per frame
-    public void Update() {
-        this.stateMachine.Update();
+    public void Update()
+    {
+        stateMachine.Update();
     }
-    public void OnNotify(int notifyMessage, Parameter parameter = null) {
-        if (notifyMessage == NotifyMessage.GameRestart) {
-            this.stateMachine.Change("destroy");
-        } else if (notifyMessage == NotifyMessage.GameOver) {
-            this.stateMachine.Change("show");
-        }
+
+    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    {
+        if (notifyMessage == NotifyMessage.GameRestart)
+            stateMachine.Change("destroy");
+        else if (notifyMessage == NotifyMessage.GameOver) stateMachine.Change("show");
     }
+
+    public FiniteStateMachine<CurtainBehaviour> stateMachine { get; set; }
 }

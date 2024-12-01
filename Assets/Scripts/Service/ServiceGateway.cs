@@ -7,29 +7,54 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Service.Domain;
 using Service.Strategy;
+
 namespace Service
 {
-    public sealed class ServiceGateway : BaseServiceGateway {
-    public static ServiceGateway instance {
-        get;
-        private set;
-    }
-    public static ServiceGateway GetInstance() {
-        if (null == ServiceGateway.instance) {
-            ServiceGateway.instance = new ServiceGateway();
+    public sealed class ServiceGateway
+    {
+        private ServiceGateway()
+        {
+            serviceDictionary = new Dictionary<string, BaseService>();
+            serviceDictionary.Add("player", new PlayerService());
+            serviceDictionary.Add("stats", new StatsService());
+            serviceDictionary.Add("master", new MasterService());
+            serviceDictionary.Add("shop", new ShopService());
         }
-        return ServiceGateway.instance;
+
+        private static ServiceGateway instance { get; set; }
+
+        private Dictionary<string, BaseService> serviceDictionary { get; }
+
+        public static ServiceGateway GetInstance()
+        {
+            if (null == instance) instance = new ServiceGateway();
+            return instance;
+        }
+
+        public BaseStrategy Request(string domainName)
+        {
+            var protocol = @"service://";
+            var regex = new Regex(protocol);
+            if (false == regex.IsMatch(domainName)) return null;
+            domainName = domainName.Replace(protocol, "");
+            var delimiter = new[] { '/' };
+            var schema = domainName.Split(delimiter);
+            if (0 == schema.Length) return null;
+            var serviceName = schema[0];
+            if (false == serviceDictionary.ContainsKey(serviceName)) return null;
+            var service = serviceDictionary[serviceName];
+            var strategyName = "";
+            for (var i = 1; i < schema.Length; i++)
+            {
+                strategyName += schema[i];
+                if (i < schema.Length - 1) strategyName += "/";
+            }
+
+            return service.Create(strategyName);
+        }
     }
-    protected override void Register() {
-        this.serviceDictionary.Add("player", new PlayerDomain());
-        this.serviceDictionary.Add("stats", new StatsDomain());
-        this.serviceDictionary.Add("master", new MasterDomain());
-        this.serviceDictionary.Add("shop", new ShopDomain());
-        return;
-    }
-}
 }

@@ -7,25 +7,35 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Notify;
+
 namespace Frontend.Behaviour.State
 {
-    public sealed class FlappyBIrdGameOverState : FiniteState<FlappyBirdBehaviour> {
-    public override void Create() {
-        this.timeLine = new TimeLine();
-    }
-    public override void Update() {
-        if (this.timeLine.currentTime < 0.5f) {
-            this.timeLine.Next();
-            return;
+    public sealed class FlappyBIrdGameOverState : FiniteState<FlappyBirdBehaviour>
+    {
+        public override void Create()
+        {
+            timeLine = new TimeLine();
         }
-        Notifier notifier = Notifier.GetInstance();
-        if (notifier.currentMessage != NotifyMessage.GameOver && notifier.currentMessage != NotifyMessage.RankingShow) {
-            notifier.Notify(NotifyMessage.GameOver);
-            this.complete = true;
+
+        public override void Update()
+        {
+            if (timeLine.currentTime < 0.5f)
+            {
+                timeLine.Next();
+                return;
+            }
+
+            var notifier = Notifier.GetInstance();
+            if (notifier.currentMessage != NotifyMessage.GameOver &&
+                notifier.currentMessage != NotifyMessage.RankingShow)
+            {
+                notifier.Notify(NotifyMessage.GameOver);
+                complete = true;
+            }
         }
     }
-}
 }

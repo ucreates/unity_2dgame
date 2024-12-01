@@ -7,18 +7,21 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 namespace Service.Integration.Table
 {
-    public sealed class TPlayerTable : BaseTable {
-    public int userId {
-        get;
-        set;
+    public sealed class TPlayerTable : BaseTable
+    {
+        public TPlayerTable()
+        {
+            userId = 0;
+        }
+
+        public int userId { get; set; }
+
+        public override BaseTable Clone()
+        {
+            return MemberwiseClone() as TPlayerTable;
+        }
     }
-    public TPlayerTable() {
-        this.userId = 0;
-    }
-    public override BaseTable Clone() {
-        return base.MemberwiseClone() as TPlayerTable;
-    }
-}
 }

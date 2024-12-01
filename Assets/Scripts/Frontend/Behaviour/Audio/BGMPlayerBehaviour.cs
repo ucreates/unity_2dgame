@@ -7,28 +7,40 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Core.Entity;
-using Frontend.Behaviour.Base;
 using Frontend.Component.Asset.Sound;
 using Frontend.Component.Property;
 using Frontend.Notify;
-public sealed class BGMPlayerBehaviour : BaseBehaviour, INotify {
-    public void Start() {
-        this.property = new BaseProperty(this);
-        Notifier notifier = Notifier.GetInstance();
-        notifier.Add(this, this.property);
+
+public sealed class BGMPlayerBehaviour : BaseBehaviour, INotify
+{
+    public void Start()
+    {
+        property = new BaseProperty(this);
+        var notifier = Notifier.GetInstance();
+        notifier.Add(this, property);
     }
-    public void OnNotify(int notifyMessage, Parameter parameter = null) {
-        if (notifyMessage == NotifyMessage.GameStart) {
-            BGMAsset bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("athletic") as BGMAsset;
-            bgmAsset.Play(this.gameObject, true);
-        } else if (notifyMessage == NotifyMessage.FlappyBirdDead) {
-            BGMAsset bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("athletic") as BGMAsset;
+
+    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    {
+        if (notifyMessage == NotifyMessage.GameStart)
+        {
+            var bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("athletic") as BGMAsset;
+            bgmAsset.Play(gameObject, true);
+        }
+        else if (notifyMessage == NotifyMessage.FlappyBirdDead)
+        {
+            var bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("athletic") as BGMAsset;
             bgmAsset.Stop();
-        } else if (notifyMessage == NotifyMessage.GameOver) {
-            BGMAsset bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("player_down") as BGMAsset;
-            bgmAsset.Play(this.gameObject);
-        } else if (notifyMessage == NotifyMessage.GameRestart) {
+        }
+        else if (notifyMessage == NotifyMessage.GameOver)
+        {
+            var bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("player_down") as BGMAsset;
+            bgmAsset.Play(gameObject);
+        }
+        else if (notifyMessage == NotifyMessage.GameRestart)
+        {
             SoundAssetCollection.GetInstance().Stop();
         }
     }

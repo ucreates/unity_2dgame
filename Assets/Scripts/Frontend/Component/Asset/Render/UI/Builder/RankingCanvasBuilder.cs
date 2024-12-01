@@ -7,13 +7,16 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using System.Collections.Generic;
-using Service.Integration.Table;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Frontend.Component.Asset.Renderer.UI.Builder
-{
-    public sealed class RankingCanvasBuilder : BaseUIAssetBuilder {
+using System.Collections;
+using System.Collections.Generic;
+using Service.Integration;
+using Service.Integration.Table;
+using Service.Integration.Schema;
+using Core.Math;
+namespace Frontend.Component.Asset.Renderer.UI.Builder {
+public sealed class RankingCanvasBuilder : BaseUIAssetBuilder {
     private string copyright {
         get;
         set;

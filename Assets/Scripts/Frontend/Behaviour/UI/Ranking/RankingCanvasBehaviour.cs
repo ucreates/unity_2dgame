@@ -1,36 +1,39 @@
 ﻿using System.Collections.Generic;
 using Core.Entity;
-using Frontend.Behaviour.Base;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UnityEngine;
-public sealed class RankingCanvasBehaviour  : BaseBehaviour, IStateMachine<RankingCanvasBehaviour>, INotify {
+
+public sealed class RankingCanvasBehaviour : BaseBehaviour, IStateMachine<RankingCanvasBehaviour>, INotify
+{
     public List<Sprite> scoreSpriteList;
-    public FiniteStateMachine<RankingCanvasBehaviour> stateMachine {
-        get;
-        set;
+
+    public void Start()
+    {
+        property = new BaseProperty(this);
+        stateMachine = new FiniteStateMachine<RankingCanvasBehaviour>(this);
+        stateMachine.Add("show", new RankingCanvasShowState());
+        stateMachine.Add("stay", new RankingCanvasStayState());
+        stateMachine.Add("hide", new RankingCanvasHideState());
+        stateMachine.Change("hide");
+        stateMachine.Play();
+        var notifier = Notifier.GetInstance();
+        notifier.Add(this, property);
     }
-    public void Start() {
-        this.property = new BaseProperty(this);
-        this.stateMachine = new FiniteStateMachine<RankingCanvasBehaviour>(this);
-        this.stateMachine.Add("show", new RankingCanvasShowState());
-        this.stateMachine.Add("stay", new RankingCanvasStayState());
-        this.stateMachine.Add("hide", new RankingCanvasHideState());
-        this.stateMachine.Change("hide");
-        this.stateMachine.Play();
-        Notifier notifier = Notifier.GetInstance();
-        notifier.Add(this, this.property);
+
+    public void Update()
+    {
+        stateMachine.Update();
     }
-    public void Update() {
-        this.stateMachine.Update();
+
+    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    {
+        if (notifyMessage == NotifyMessage.RankingShow)
+            stateMachine.Change("show");
+        else if (notifyMessage == NotifyMessage.RankingHide) stateMachine.Change("hide");
     }
-    public void OnNotify(int notifyMessage, Parameter parameter = null) {
-        if (notifyMessage == NotifyMessage.RankingShow) {
-            this.stateMachine.Change("show");
-        } else if (notifyMessage == NotifyMessage.RankingHide) {
-            this.stateMachine.Change("hide");
-        }
-    }
+
+    public FiniteStateMachine<RankingCanvasBehaviour> stateMachine { get; set; }
 }

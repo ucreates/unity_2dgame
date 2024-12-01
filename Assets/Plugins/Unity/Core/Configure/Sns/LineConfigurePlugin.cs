@@ -7,10 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-namespace UnityPlugin.Core.Configure.Sns {
-public class LineConfigurePlugin {
-    public static string CHANNEL_ID = "<CHANNEL_ID>";
-}
+
+namespace UnityPlugin.Core.Configure.Sns
+{
+    public class LineConfigurePlugin
+    {
+        public static string CHANNEL_ID = "999999999";
+    }
 }

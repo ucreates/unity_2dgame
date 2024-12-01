@@ -7,13 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using System.Collections.Generic;
-using Core.Validator.Message;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Frontend.Component.Asset.Renderer.UI.Builder
-{
-    public sealed class InputUIAssetErrorDialogBuilder : BaseUIAssetBuilder {
+using System.Collections;
+using System.Collections.Generic;
+using Core.Validator.Message;
+using Core.Math;
+namespace Frontend.Component.Asset.Renderer.UI.Builder {
+public sealed class InputUIAssetErrorDialogBuilder : BaseUIAssetBuilder {
     private List<BaseValidateMessage> errorMessageList {
         get;
         set;

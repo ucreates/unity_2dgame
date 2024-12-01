@@ -7,10 +7,11 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
-using System.Collections;
-namespace UnityPlugin.Core.Configure.Notify {
-public class RemoteNotifierConfigurePlugin {
-    public static string SENDER_ID = "<YOUR_FCMPROJECT_CLOUD_MESSAGING_SENDER_ID>";
-}
+
+namespace UnityPlugin.Core.Configure.Notify
+{
+    public class RemoteNotifierConfigurePlugin
+    {
+        public static string SENDER_ID = "999999999";
+    }
 }

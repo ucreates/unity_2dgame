@@ -7,36 +7,45 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Core.Entity;
 using Service.BizLogic;
 using Service.Integration.Dto.Assembler;
-using Service.Integration.Table;
+
 namespace Service.Strategy
 {
-    public sealed class ShopBuyStrategy : BaseStrategy {
-    public override Response Update(Parameter parameter) {
-        int itemId = parameter.Get<int>("itemId");
-        int amount = parameter.Get<int>("amount");
-        Response sret = new Response();
-        UserBizLogic ubl = new UserBizLogic();
-        ItemBizLogic ibl = new ItemBizLogic();
-        int price = ibl.GetPriceByItemId(itemId);
-        MUserTable mut = ubl.GetPlayer();
-        if (ibl.HasItem(mut.id, itemId)) {
-            sret.Set<string>("message", StoreAssembler.VALID_PURCHASE_FAILD_HAD_ITEM);
-            sret.resultStatus = Response.ServiceStatus.FAILED;
+    public sealed class ShopBuyStrategy : BaseStrategy
+    {
+        public override Response Update(Parameter parameter)
+        {
+            var itemId = parameter.Get<int>("itemId");
+            var amount = parameter.Get<int>("amount");
+            var sret = new Response();
+            var ubl = new UserBizLogic();
+            var ibl = new ItemBizLogic();
+            var price = ibl.GetPriceByItemId(itemId);
+            var mut = ubl.GetPlayer();
+            if (ibl.HasItem(mut.id, itemId))
+            {
+                sret.Set("message", StoreAssembler.VALID_PURCHASE_FAILD_HAD_ITEM);
+                sret.resultStatus = Response.ServiceStatus.FAILED;
+                return sret;
+            }
+
+            var ret = ubl.UseCoin(price);
+            if (ret)
+            {
+                ibl.BuyItem(mut.id, itemId, amount);
+                sret.Set("message", StoreAssembler.VALID_PURCHASE_SUCCESS);
+                sret.resultStatus = Response.ServiceStatus.SUCCESS;
+            }
+            else
+            {
+                sret.Set("message", StoreAssembler.VALID_PURCHASE_FAILD_NO_COIN);
+                sret.resultStatus = Response.ServiceStatus.FAILED;
+            }
+
             return sret;
         }
-        bool ret = ubl.UseCoin(price);
-        if (false != ret) {
-            ibl.BuyItem(mut.id, itemId, amount);
-            sret.Set<string>("message", StoreAssembler.VALID_PURCHASE_SUCCESS);
-            sret.resultStatus = Response.ServiceStatus.SUCCESS;
-        } else {
-            sret.Set<string>("message", StoreAssembler.VALID_PURCHASE_FAILD_NO_COIN);
-            sret.resultStatus = Response.ServiceStatus.FAILED;
-        }
-        return sret;
     }
-}
 }

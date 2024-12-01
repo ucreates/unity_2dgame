@@ -7,21 +7,24 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Core.Entity;
 using Service.BizLogic;
-using Service.Integration.Table;
+
 namespace Service.Strategy
 {
-    public sealed class PlayerScoreStrategy : BaseStrategy {
-    public override Response Update(Parameter parameter) {
-        int clearCount = parameter.Get<int>("clearcount");
-        UserBizLogic ubl = new UserBizLogic();
-        MUserTable mut = ubl.GetPlayer();
-        ScoreBizLogic sbl = new ScoreBizLogic();
-        sbl.AddClearCount(mut.id, clearCount);
-        Response ret = new Response();
-        ret.resultStatus = Response.ServiceStatus.SUCCESS;
-        return ret;
+    public sealed class PlayerScoreStrategy : BaseStrategy
+    {
+        public override Response Update(Parameter parameter)
+        {
+            var clearCount = parameter.Get<int>("clearcount");
+            var ubl = new UserBizLogic();
+            var mut = ubl.GetPlayer();
+            var sbl = new ScoreBizLogic();
+            sbl.AddClearCount(mut.id, clearCount);
+            var ret = new Response();
+            ret.resultStatus = Response.ServiceStatus.SUCCESS;
+            return ret;
+        }
     }
-}
 }

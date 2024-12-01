@@ -1,0 +1,60 @@
+﻿<Properties StartupConfiguration="{CDC9A9DF-F40C-BDB3-8F5C-342F7D815BFB}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/Build/Builder/LineEditorBuilder.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Frontend/Component/Asset/Render/Animator/AnimatorAsset.cs" Line="17" Column="83" />
+      <File FileName="Assets/Scripts/Frontend/Behaviour/UI/Logo/LogoBehaviour.cs" Line="16" Column="19" />
+      <File FileName="Assets/Plugins/Unity/Spine/spine-csharp/AnimationState.cs" />
+      <File FileName="Assets/Editor/Build/Builder/LineEditorBuilder.cs" Line="27" Column="89" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="unity_2dgame" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Editor" expanded="True">
+                <Node name="Build" expanded="True">
+                  <Node name="Builder" expanded="True">
+                    <Node name="LineEditorBuilder.cs" selected="True" />
+                  </Node>
+                </Node>
+              </Node>
+              <Node name="Plugins" expanded="True">
+                <Node name="Unity" expanded="True">
+                  <Node name="Spine" expanded="True">
+                    <Node name="spine-csharp" expanded="True" />
+                    <Node name="spine-unity" expanded="True">
+                      <Node name="Mesh Generation" expanded="True" />
+                    </Node>
+                  </Node>
+                </Node>
+              </Node>
+              <Node name="Scripts" expanded="True">
+                <Node name="Frontend" expanded="True">
+                  <Node name="Behaviour" expanded="True">
+                    <Node name="UI" expanded="True">
+                      <Node name="Logo" expanded="True" />
+                    </Node>
+                  </Node>
+                  <Node name="Component" expanded="True">
+                    <Node name="Asset" expanded="True">
+                      <Node name="Render" expanded="True">
+                        <Node name="Animator" expanded="True" />
+                      </Node>
+                    </Node>
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="e3512d7c-3bd6-4fab-87ac-4caa0c5d26c5" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

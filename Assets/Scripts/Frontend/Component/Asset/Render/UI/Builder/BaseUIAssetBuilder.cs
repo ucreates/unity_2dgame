@@ -7,12 +7,14 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Frontend.Component.Asset.Renderer.UI.Builder
-{
-    public abstract class BaseUIAssetBuilder {
+using System;
+using System.Collections.Generic;
+using Core.Validator.Entity;
+using Core.Utility;
+namespace Frontend.Component.Asset.Renderer.UI.Builder {
+public abstract class BaseUIAssetBuilder {
     private const float INVALID_POSITION_SEED_MIN_VALUE = -10f;
     private const float INVALID_POSITION_SEED_MAX_VALUE = 10f;
     protected bool initialized {

@@ -7,45 +7,48 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Core.Entity;
-using Frontend.Behaviour.Base;
 using Frontend.Behaviour.State.UI.Shop;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
-public sealed class ShopCanvasBehaviour : BaseBehaviour, IStateMachine<ShopCanvasBehaviour>, INotify {
-    public FiniteStateMachine<ShopCanvasBehaviour> stateMachine {
-        get;
-        set;
+
+public sealed class ShopCanvasBehaviour : BaseBehaviour, IStateMachine<ShopCanvasBehaviour>, INotify
+{
+    public void Start()
+    {
+        property = new BaseProperty(this);
+        stateMachine = new FiniteStateMachine<ShopCanvasBehaviour>(this);
+        stateMachine.Add("listshow", new ListModalDialogShowState());
+        stateMachine.Add("liststay", new ListModalDialogStayState());
+        stateMachine.Add("listhide", new ListModalDialogHideState());
+        stateMachine.Add("confirmshow", new ConfirmModalDialogShowState());
+        stateMachine.Add("confirmstay", new ConfirmModalDialogStayState());
+        stateMachine.Add("commitshow", new CommitModalDialogShowState());
+        stateMachine.Add("commitstay", new CommitModalDialogStayState());
+        stateMachine.Change("listhide");
+        stateMachine.Play();
+        var notifier = Notifier.GetInstance();
+        notifier.Add(this, property);
     }
-    public void Start() {
-        this.property = new BaseProperty(this);
-        this.stateMachine = new FiniteStateMachine<ShopCanvasBehaviour>(this);
-        this.stateMachine.Add("listshow", new ListModalDialogShowState());
-        this.stateMachine.Add("liststay", new ListModalDialogStayState());
-        this.stateMachine.Add("listhide", new ListModalDialogHideState());
-        this.stateMachine.Add("confirmshow", new ConfirmModalDialogShowState());
-        this.stateMachine.Add("confirmstay", new ConfirmModalDialogStayState());
-        this.stateMachine.Add("commitshow", new CommitModalDialogShowState());
-        this.stateMachine.Add("commitstay", new CommitModalDialogStayState());
-        this.stateMachine.Change("listhide");
-        this.stateMachine.Play();
-        Notifier notifier = Notifier.GetInstance();
-        notifier.Add(this, this.property);
-    }
+
     // Update is called once per frame
-    public void Update() {
-        this.stateMachine.Update();
+    public void Update()
+    {
+        stateMachine.Update();
     }
-    public void OnNotify(int notifyMessage, Parameter parameter = null) {
-        if (notifyMessage == NotifyMessage.ShopShow) {
-            this.stateMachine.Change("listshow");
-        } else if (notifyMessage == NotifyMessage.ShopHide) {
-            this.stateMachine.Change("listhide");
-        } else if (notifyMessage == NotifyMessage.ShopCommitShow) {
-            this.stateMachine.Change("commitshow", parameter);
-        } else if (notifyMessage == NotifyMessage.ShopConfirmShow) {
-            this.stateMachine.Change("confirmshow", parameter);
-        }
+
+    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    {
+        if (notifyMessage == NotifyMessage.ShopShow)
+            stateMachine.Change("listshow");
+        else if (notifyMessage == NotifyMessage.ShopHide)
+            stateMachine.Change("listhide");
+        else if (notifyMessage == NotifyMessage.ShopCommitShow)
+            stateMachine.Change("commitshow", parameter);
+        else if (notifyMessage == NotifyMessage.ShopConfirmShow) stateMachine.Change("confirmshow", parameter);
     }
+
+    public FiniteStateMachine<ShopCanvasBehaviour> stateMachine { get; set; }
 }

@@ -7,46 +7,49 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityPlugin.Core.Configure.Sns;
-using UnityEngine;
+
 using System;
-using System.Runtime.InteropServices;
 using System.IO;
-using System.Collections;
-namespace UnityPlugin.Frontend.Controller.Sns {
-public sealed class LineControllerPlugin : BasePlugin {
-    [DllImport("__Internal")]
-    private static extern void transitionLineViewControllerPlugin(IntPtr imageData, int imageDataLength);
-    public override int id {
-        get {
-            return 4;
+using System.Runtime.InteropServices;
+using UnityEngine;
+
+namespace UnityPlugin.Frontend.Controller.Sns
+{
+    public sealed class LineControllerPlugin : BasePlugin
+    {
+        public LineControllerPlugin()
+        {
+            if (RuntimePlatform.Android == Application.platform)
+                androidPlugin = new AndroidJavaObject("com.core.scene.TransitionPlugin");
         }
-    }
-    public LineControllerPlugin() {
-        if (RuntimePlatform.Android == Application.platform) {
-            this.androidPlugin = new AndroidJavaObject("com.core.scene.TransitionPlugin");
+
+        public override int id => 4;
+
+        [DllImport("__Internal")]
+        private static extern void transitionLineViewControllerPlugin(IntPtr imageData, int imageDataLength);
+
+        public void Message(Texture2D texture)
+        {
+            var imageData = texture.EncodeToPNG();
+            Message(imageData);
         }
-    }
-    public void Message(Texture2D texture) {
-        byte[] imageData = texture.EncodeToPNG();
-        this.Message(imageData);
-        return;
-    }
-    public void Message(byte[] imageData) {
-        if (RuntimePlatform.IPhonePlayer == Application.platform) {
-            int heapSize = Marshal.SizeOf(imageData[0]) * imageData.Length;
-            IntPtr imageDataPtr = Marshal.AllocHGlobal(heapSize);
-            Marshal.Copy(imageData, 0, imageDataPtr, imageData.Length);
-            transitionLineViewControllerPlugin(imageDataPtr, imageData.Length);
-        } else if (RuntimePlatform.Android == Application.platform) {
-            if (null == this.androidPlugin) {
-                return;
+
+        public void Message(byte[] imageData)
+        {
+            if (RuntimePlatform.IPhonePlayer == Application.platform)
+            {
+                var heapSize = Marshal.SizeOf(imageData[0]) * imageData.Length;
+                var imageDataPtr = Marshal.AllocHGlobal(heapSize);
+                Marshal.Copy(imageData, 0, imageDataPtr, imageData.Length);
+                transitionLineViewControllerPlugin(imageDataPtr, imageData.Length);
             }
-            string imagePath = Path.Combine(Application.temporaryCachePath, "image.png");
-            File.WriteAllBytes(imagePath, imageData);
-            this.androidPlugin.CallStatic("transitionLine", imagePath);
+            else if (RuntimePlatform.Android == Application.platform)
+            {
+                if (null == androidPlugin) return;
+                var imagePath = Path.Combine(Application.temporaryCachePath, "image.png");
+                File.WriteAllBytes(imagePath, imageData);
+                androidPlugin.CallStatic("transitionLine", imagePath);
+            }
         }
-        return;
     }
-}
 }

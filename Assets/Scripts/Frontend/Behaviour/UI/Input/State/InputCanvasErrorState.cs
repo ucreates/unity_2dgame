@@ -7,59 +7,55 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Core.Entity;
 using Core.Validator.Entity;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
 using Frontend.Component.Vfx;
-using UnityEngine;
 using UnityEngine.UI;
+
 namespace Frontend.Behaviour.State
 {
-    public sealed class InputCanvasErrorState : FiniteState<InputCanvasBehaviour> {
-    private TimeLine alphaTimeLine {
-        get;
-        set;
-    }
-    private InputUIAssetErrorDialogBuilder builder {
-        get;
-        set;
-    }
-    private float previousAlpha {
-        get;
-        set;
-    }
-    public override void Create(Parameter parameter) {
-        ValidatorResponse vres = parameter.Get<ValidatorResponse>("ValidateResponse");
-        this.previousAlpha = 0f;
-        this.alphaTimeLine = new TimeLine();
-        Transform md = this.owner.transform.Find("ModalDialog");
-        Image mdimg = md.GetComponent<Image>();
-        mdimg.gameObject.SetActive(false);
-        Transform ed = this.owner.transform.Find("ErrorDialog");
-        Image edimg = ed.GetComponent<Image>();
-        edimg.gameObject.SetActive(true);
-        if (null == this.builder) {
-            this.builder = new InputUIAssetErrorDialogBuilder();
-        } else {
-            this.builder.Reset();
+    public sealed class InputCanvasErrorState : FiniteState<InputCanvasBehaviour>
+    {
+        private TimeLine alphaTimeLine { get; set; }
+
+        private InputUIAssetErrorDialogBuilder builder { get; set; }
+
+        private float previousAlpha { get; set; }
+
+        public override void Create(Parameter parameter)
+        {
+            var vres = parameter.Get<ValidatorResponse>("ValidateResponse");
+            previousAlpha = 0f;
+            alphaTimeLine = new TimeLine();
+            var md = owner.transform.Find("ModalDialog");
+            var mdimg = md.GetComponent<Image>();
+            mdimg.gameObject.SetActive(false);
+            var ed = owner.transform.Find("ErrorDialog");
+            var edimg = ed.GetComponent<Image>();
+            edimg.gameObject.SetActive(true);
+            if (null == builder)
+                builder = new InputUIAssetErrorDialogBuilder();
+            else
+                builder.Reset();
+            builder
+                .AddErrorMessage(vres.GetMessageList())
+                .AddAlpha(0f)
+                .AddTransform(ed)
+                .Build();
         }
-        this.builder
-        .AddErrorMessage(vres.GetMessageList())
-        .AddAlpha(0f)
-        .AddTransform(ed)
-        .Build();
-    }
-    public override void Update() {
-        float alpha = Flash.Update(this.alphaTimeLine.currentTime);
-        if (alpha < this.previousAlpha) {
-            return;
+
+        public override void Update()
+        {
+            var alpha = Flash.Update(alphaTimeLine.currentTime);
+            if (alpha < previousAlpha) return;
+            builder
+                .AddAlpha(alpha)
+                .Update();
+            previousAlpha = alpha;
+            alphaTimeLine.Next(1.5f);
         }
-        this.builder
-        .AddAlpha(alpha)
-        .Update();
-        this.previousAlpha = alpha;
-        this.alphaTimeLine.Next(1.5f);
     }
-}
 }

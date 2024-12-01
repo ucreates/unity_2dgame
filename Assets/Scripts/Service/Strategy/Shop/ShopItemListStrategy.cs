@@ -7,30 +7,32 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using System.Collections.Generic;
 using Core.Entity;
 using Service.BizLogic;
-using Service.Integration.Table;
+
 namespace Service.Strategy
 {
-    public sealed class ShopItemListStrategy : BaseStrategy {
-    public override Response Get(Parameter parameter = null) {
-        Response ret = new Response();
-        UserBizLogic ubl = new UserBizLogic();
-        ItemBizLogic ibl = new ItemBizLogic();
-        MUserTable mut = ubl.GetPlayer();
-        List<string> hadItemIdList = new List<string>();
-        List<MItemTable> recordList =  ibl.GetAllItemMaster();
-        foreach (MItemTable record in recordList) {
-            if (ibl.HasItem(mut.id, record.id)) {
-                hadItemIdList.Add(record.name);
-            }
+    public sealed class ShopItemListStrategy : BaseStrategy
+    {
+        public override Response Get(Parameter parameter = null)
+        {
+            var ret = new Response();
+            var ubl = new UserBizLogic();
+            var ibl = new ItemBizLogic();
+            var mut = ubl.GetPlayer();
+            var hadItemIdList = new List<string>();
+            var recordList = ibl.GetAllItemMaster();
+            foreach (var record in recordList)
+                if (ibl.HasItem(mut.id, record.id))
+                    hadItemIdList.Add(record.name);
+
+            var itemMasterList = ibl.GetAllItemMaster();
+            ret.Set("itemidlist", hadItemIdList);
+            ret.Set("itemmasterlist", itemMasterList);
+            ret.Set("coin", mut.coin);
+            return ret;
         }
-        List<MItemTable> itemMasterList = ibl.GetAllItemMaster();
-        ret.Set<List<string>>("itemidlist", hadItemIdList);
-        ret.Set<List<MItemTable>>("itemmasterlist", itemMasterList);
-        ret.Set<int>("coin", mut.coin);
-        return ret;
     }
-}
 }

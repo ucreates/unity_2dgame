@@ -7,22 +7,25 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Frontend.Component.Asset.Renderer.Animator.Builder;
 using Frontend.Component.State;
-using UnityEngine;
+
 namespace Frontend.Behaviour.State
 {
-    public sealed class ClayPipeStopState : FiniteState<ClayPipeBehaviour> {
-    public override void Create() {
-        Transform down = this.owner.transform.Find("ClayPipeDown");
-        Transform up = this.owner.transform.Find("ClayPipeUp");
-        Transform hitarea = this.owner.transform.Find("HitArea");
-        CrayPipeAssetBuilder builder = new CrayPipeAssetBuilder();
-        builder
-        .AddTransform(down)
-        .AddTransform(up)
-        .AddTransform(hitarea)
-        .Build();
+    public sealed class ClayPipeStopState : FiniteState<ClayPipeBehaviour>
+    {
+        public override void Create()
+        {
+            var down = owner.transform.Find("ClayPipeDown");
+            var up = owner.transform.Find("ClayPipeUp");
+            var hitarea = owner.transform.Find("HitArea");
+            var builder = new CrayPipeAssetBuilder();
+            builder
+                .AddTransform(down)
+                .AddTransform(up)
+                .AddTransform(hitarea)
+                .Build();
+        }
     }
-}
 }

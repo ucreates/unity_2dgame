@@ -7,34 +7,38 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Frontend.Component.Asset.Render;
 using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Component.Vfx.Sprine;
 using UnityEngine;
+
 namespace Frontend.Behaviour.State
 {
-    public  class FlappyBirdReadyState : FiniteState<FlappyBirdBehaviour> {
-    private TimeLine sprineTimeLine {
-        get;
-        set;
+    public class FlappyBirdReadyState : FiniteState<FlappyBirdBehaviour>
+    {
+        private TimeLine sprineTimeLine { get; set; }
+
+        public override void Create()
+        {
+            var asset = owner.assetCollection.Get("anime") as AnimatorAsset;
+            asset.Play("fly");
+            owner.GetComponent<Renderer>().enabled = true;
+            owner.deadTimeLine = new TimeLine();
+            owner.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            var rigidBody = owner.GetComponent<Rigidbody2D>();
+            rigidBody.gravityScale = 0f;
+            sprineTimeLine = new TimeLine();
+        }
+
+        public override void Update()
+        {
+            var currentTime = sprineTimeLine.currentTime;
+            var vy = Periodic.Sin(currentTime, 0.35f);
+            owner.transform.position = owner.defaultPosition + new Vector2(0f, vy);
+            owner.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            sprineTimeLine.Next(3f);
+        }
     }
-    public override void Create() {
-        AnimatorAsset asset = this.owner.assetCollection.Get("anime") as AnimatorAsset;
-        asset.Play("fly");
-        this.owner.GetComponent<Renderer>().enabled = true;
-        this.owner.deadTimeLine = new TimeLine();
-        this.owner.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
-        Rigidbody2D rigidBody = this.owner.GetComponent<Rigidbody2D>();
-        rigidBody.gravityScale = 0f;
-        this.sprineTimeLine = new TimeLine();
-    }
-    public override void Update() {
-        float currentTime = this.sprineTimeLine.currentTime;
-        float vy = Periodic.Sin(currentTime, 0.35f);
-        this.owner.transform.position = this.owner.defaultPosition + new Vector2(0f, vy);
-        this.owner.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
-        this.sprineTimeLine.Next(3f);
-    }
-}
 }

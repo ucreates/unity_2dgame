@@ -7,18 +7,21 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 namespace Service.Integration.Table
 {
-    public sealed class MStoreTable : BaseTable {
-    public string url {
-        get;
-        set;
+    public sealed class MStoreTable : BaseTable
+    {
+        public MStoreTable()
+        {
+            url = string.Empty;
+        }
+
+        public string url { get; set; }
+
+        public override BaseTable Clone()
+        {
+            return MemberwiseClone() as MStoreTable;
+        }
     }
-    public MStoreTable() {
-        this.url = string.Empty;
-    }
-    public override BaseTable Clone() {
-        return base.MemberwiseClone() as MStoreTable;
-    }
-}
 }

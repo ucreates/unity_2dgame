@@ -7,9 +7,12 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
 using Frontend.Component.State;
+
 namespace Frontend.Behaviour.State
 {
-    public sealed class LandStopState : FiniteState<LandBehaviour> {
-}
+    public sealed class LandStopState : FiniteState<LandBehaviour>
+    {
+    }
 }

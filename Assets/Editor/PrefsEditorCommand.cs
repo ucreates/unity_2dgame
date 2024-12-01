@@ -1,9 +1,11 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System;
-public class PrefsEditorCommand : EditorWindow {
+﻿using UnityEditor;
+using UnityEngine;
+
+public class PrefsEditorCommand : EditorWindow
+{
     [MenuItem("EditorMenu/PrefsEditor/Clear")]
-    private static void Clear() {
+    private static void Clear()
+    {
         PlayerPrefs.DeleteAll();
     }
 }
