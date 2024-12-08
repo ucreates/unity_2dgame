@@ -10,6 +10,7 @@
 
 using System.Collections.Generic;
 using System.Xml;
+using Core.Extensions;
 using Core.Validator.Builder;
 using Core.Validator.Message;
 
@@ -30,25 +31,28 @@ namespace Core.Validator.Mapper
                     builder.AddPattern(EMAIL_ADRRESS_REGEX);
                 else
                     builder.AddPattern(PHONE_NUMBER_REGEX);
-                foreach (XmlNode ruleNode in ruleNodeList)
-                foreach (XmlAttribute ruleAttr in ruleNode.Attributes)
+                ruleNodeList.ForEach(node =>
                 {
-                    var attrValue = ruleAttr.Value.ToLower();
-                    if (i == 0 && attrValue.Equals("mailerrorsummary"))
+                    node.Attributes.ForEach(attribute =>
                     {
-                        var summary = ruleNode.InnerText;
-                        builder.AddMessage(new ErrorValidateMessage(summary));
-                        break;
-                    }
+                        var attrValue = attribute.Value.ToLower();
+                        if (i == 0 && attrValue.Equals("mailerrorsummary"))
+                        {
+                            var summary = node.InnerText;
+                            builder.AddMessage(new ErrorValidateMessage(summary));
+                            return false;
+                        }
 
-                    if (i == 1 && attrValue.Equals("phoneerrorsummary"))
-                    {
-                        var summary = ruleNode.InnerText;
-                        builder.AddMessage(new ErrorValidateMessage(summary));
-                        break;
-                    }
-                }
+                        if (i == 1 && attrValue.Equals("phoneerrorsummary"))
+                        {
+                            var summary = node.InnerText;
+                            builder.AddMessage(new ErrorValidateMessage(summary));
+                            return false;
+                        }
 
+                        return true;
+                    });
+                });
                 var builderType = string.Empty;
                 if (i == 0)
                     builderType = builder.type + "::mail";

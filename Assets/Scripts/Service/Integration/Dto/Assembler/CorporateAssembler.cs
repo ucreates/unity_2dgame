@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.Extensions;
 using Service.Integration.Table;
 
 namespace Service.Integration.Dto.Assembler
@@ -24,13 +25,16 @@ namespace Service.Integration.Dto.Assembler
             var ret = new List<MCorporateTable>();
             var elementList = GetElementList();
             var record = new MCorporateTable();
-            foreach (var element in elementList)
-                if (element.Attribute("type").Value.ToLower().Equals("name"))
-                    record.campanyName = element.Value;
-                else if (element.Attribute("type").Value.ToLower().Equals("business"))
-                    record.buisiness = element.Value;
-                else if (element.Attribute("type").Value.ToLower().Equals("copyright"))
-                    record.copyright = element.Value;
+            elementList.ForEach(element =>
+            {
+                var value = element.Attribute("type").Value;
+                if (value.ToLower().Equals("name"))
+                    record.campanyName = value;
+                else if (value.ToLower().Equals("business"))
+                    record.buisiness = value;
+                else if (value.ToLower().Equals("copyright"))
+                    record.copyright = value;
+            });
 
             ret.Add(record);
             return ret;

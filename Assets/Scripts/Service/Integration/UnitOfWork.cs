@@ -52,70 +52,68 @@ namespace Service.Integration
 
         public bool Rollback()
         {
+            var result = true;
             var db = DataBase.GetInstance();
             var dao = db.FindBy<T>();
-            foreach (var record in postAddRecordList)
+            postAddRecordList.ForEach(record =>
             {
-                var ret = dao.Remove(record);
-                if (false == ret) return false;
-            }
-
-            foreach (var record in preUpdateRecordList)
+                if (!result) return;
+                result = dao.Remove(record);
+            });
+            preUpdateRecordList.ForEach(record =>
             {
-                var ret = dao.Update(record);
-                if (false == ret) return false;
-            }
-
+                if (!result) return;
+                result = dao.Update(record);
+            });
             dao.Reset(rollBackId);
-            foreach (var record in removeRecordList)
+            removeRecordList.ForEach(record =>
             {
-                var ret = dao.Save(record);
-                if (false == ret) return false;
-            }
-
-            return true;
+                if (!result) return;
+                result = dao.Save(record);
+            });
+            return result;
         }
 
         private bool Add()
         {
+            var result = true;
             var db = DataBase.GetInstance();
             var dao = db.FindBy<T>();
-            foreach (var record in addRecordList)
+            addRecordList.ForEach(record =>
             {
-                var ret = dao.Save(record);
-                if (false == ret) return false;
+                if (!result) return;
+                result = dao.Save(record);
                 var savedRecord = dao.FindBy(dao.id);
                 postAddRecordList.Add(savedRecord);
-            }
-
-            return true;
+            });
+            return result;
         }
 
         private bool Update()
         {
+            var result = true;
             var db = DataBase.GetInstance();
             var dao = db.FindBy<T>();
-            foreach (var record in updateRecordList)
+            updateRecordList.ForEach(record =>
             {
+                if (!result) return;
                 var oldRecord = dao.FindBy(record.primaryKey);
                 preUpdateRecordList.Add(oldRecord.Clone() as T);
-                var ret = dao.Update(record);
-                if (false == ret) return false;
-            }
-
+                result = dao.Update(record);
+            });
             return true;
         }
 
         private bool Remove()
         {
+            var result = true;
             var db = DataBase.GetInstance();
             var dao = db.FindBy<T>();
-            foreach (var record in removeRecordList)
+            removeRecordList.ForEach(record =>
             {
-                var ret = dao.Remove(record);
-                if (false == ret) return false;
-            }
-
+                if (!result) return;
+                result = dao.Remove(record);
+            });
             return true;
         }
 

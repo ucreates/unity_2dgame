@@ -27,15 +27,15 @@ namespace Core.Device
 
         public string Create()
         {
-            var uastring = "(";
+            var ua = "(";
             for (var i = 0; i < deviceInfoList.Count; i++)
             {
                 var data = deviceInfoList[i];
-                if (i < deviceInfoList.Count - 1) uastring += data + " ";
+                if (i < deviceInfoList.Count - 1) ua += $"{data} ";
             }
 
-            uastring += ")";
-            return uastring;
+            ua += ")";
+            return ua;
         }
     }
 }

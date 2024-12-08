@@ -24,10 +24,11 @@ namespace Service.Strategy
             var mut = ubl.GetPlayer();
             var hadItemIdList = new List<string>();
             var recordList = ibl.GetAllItemMaster();
-            foreach (var record in recordList)
+            recordList.ForEach(record =>
+            {
                 if (ibl.HasItem(mut.id, record.id))
                     hadItemIdList.Add(record.name);
-
+            });
             var itemMasterList = ibl.GetAllItemMaster();
             ret.Set("itemidlist", hadItemIdList);
             ret.Set("itemmasterlist", itemMasterList);

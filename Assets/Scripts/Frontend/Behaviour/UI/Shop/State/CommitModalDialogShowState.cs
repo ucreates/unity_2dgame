@@ -9,6 +9,7 @@
 //======================================================================
 
 using Core.Entity;
+using Core.Extensions;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
 using Frontend.Component.Vfx;
@@ -34,12 +35,13 @@ namespace Frontend.Behaviour.State.UI.Shop
             if (null != canvas) canvas.enabled = true;
             alphaTimeLine = new TimeLine();
             previousAlpha = 0f;
-            foreach (Transform child in owner.transform)
+            owner.transform.ForEach(child =>
+            {
                 if (child.name.Equals("CommitModalDialog"))
                     child.gameObject.SetActive(true);
                 else
                     child.gameObject.SetActive(false);
-
+            });
             if (null == builder)
                 builder = new ShopCanvasListModalDialogBuilder();
             else

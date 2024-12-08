@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Xml;
+using Core.Extensions;
 using Core.Validator.Unit;
 
 namespace Core.Validator.Factory
@@ -18,15 +19,18 @@ namespace Core.Validator.Factory
         public static ValidatorUnitEntity FactoryMethod(XmlNodeList ruleXmlNodeList)
         {
             var vfr = new ValidatorUnitEntity();
-            foreach (XmlNode ruleNode in ruleXmlNodeList)
-            foreach (XmlAttribute ruleAttr in ruleNode.Attributes)
-                if (ruleAttr.Name.ToLower().Equals("type"))
+            ruleXmlNodeList.ForEach(node =>
+            {
+                node.Attributes.ForEach(attribute =>
                 {
-                    var attrValue = ruleAttr.Value.ToLower();
-                    var ruleMapper = RuleMapperFactory.FactoryMethod(attrValue);
-                    vfr.validatorUnitList[attrValue] = ruleMapper.Map(ruleNode.ChildNodes);
-                }
-
+                    if (attribute.Name.ToLower().Equals("type"))
+                    {
+                        var attrValue = attribute.Value.ToLower();
+                        var ruleMapper = RuleMapperFactory.FactoryMethod(attrValue);
+                        vfr.validatorUnitList[attrValue] = ruleMapper.Map(node.ChildNodes);
+                    }
+                });
+            });
             return vfr;
         }
     }

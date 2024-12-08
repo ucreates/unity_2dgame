@@ -10,6 +10,7 @@
 
 using System.Collections.Generic;
 using System.Xml;
+using Core.Extensions;
 using Core.Validator.Builder;
 using Core.Validator.Message;
 
@@ -21,22 +22,23 @@ namespace Core.Validator.Mapper
         {
             var ret = new Dictionary<string, object>();
             var builder = new RegexValidatorUnitBuilder();
-            foreach (XmlNode ruleNode in ruleNodeList)
-            foreach (XmlAttribute ruleAttr in ruleNode.Attributes)
+            ruleNodeList.ForEach(node =>
             {
-                var attrValue = ruleAttr.Value.ToLower();
-                if (attrValue.Equals("pattern"))
+                node.Attributes.ForEach(attribute =>
                 {
-                    var pattern = ruleNode.InnerText;
-                    builder.AddPattern(pattern);
-                }
-                else if (attrValue.Equals("summary"))
-                {
-                    var summary = ruleNode.InnerText;
-                    builder.AddMessage(new ErrorValidateMessage(summary));
-                }
-            }
-
+                    var attrValue = attribute.Value.ToLower();
+                    if (attrValue.Equals("pattern"))
+                    {
+                        var pattern = node.InnerText;
+                        builder.AddPattern(pattern);
+                    }
+                    else if (attrValue.Equals("summary"))
+                    {
+                        var summary = node.InnerText;
+                        builder.AddMessage(new ErrorValidateMessage(summary));
+                    }
+                });
+            });
             ret.Add(builder.type, builder.Build());
             return ret;
         }
