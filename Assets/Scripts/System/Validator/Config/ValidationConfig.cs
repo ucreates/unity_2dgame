@@ -10,6 +10,7 @@
 
 using System.Collections.Generic;
 using System.Xml;
+using Core.Extensions;
 
 namespace Core.Validator.Config
 {
@@ -50,19 +51,35 @@ namespace Core.Validator.Config
             }
 
             var validationList = document.GetElementsByTagName("validation");
-            foreach (XmlNode validationNode in validationList)
-            foreach (XmlAttribute element in validationNode.Attributes)
-                if (element.Name.Equals("viewname"))
+            validationList.ForEach(node =>
                 {
-                    viewName = element.Value;
-                    break;
-                }
+                    node.Attributes.ForEach(attribute =>
+                    {
+                        if (attribute.Name.Equals("viewname"))
+                        {
+                            viewName = attribute.Value;
+                            return false;
+                        }
 
+                        return true;
+                    });
+                }
+            );
             var componentList = document.GetElementsByTagName("component");
-            foreach (XmlNode componentNode in componentList)
-            foreach (XmlAttribute element in componentNode.Attributes)
-                if (element.Name.Equals("name"))
-                    ruleNodeList.Add(element.Value, componentNode.ChildNodes);
+            componentList.ForEach(node =>
+                {
+                    node.Attributes.ForEach(attribute =>
+                    {
+                        if (attribute.Name.Equals("name"))
+                        {
+                            viewName = attribute.Value;
+                            return false;
+                        }
+
+                        return true;
+                    });
+                }
+            );
         }
     }
 }

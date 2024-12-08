@@ -10,6 +10,7 @@
 
 using System.Collections.Generic;
 using System.Xml;
+using Core.Extensions;
 using Core.Validator.Builder;
 using Core.Validator.Message;
 
@@ -21,37 +22,38 @@ namespace Core.Validator.Mapper
         {
             var ret = new Dictionary<string, object>();
             var builder = new CompareValidatorUnitBuilder();
-            foreach (XmlNode ruleNode in ruleNodeList)
-            foreach (XmlAttribute ruleAttr in ruleNode.Attributes)
+            ruleNodeList.ForEach(node =>
             {
-                var attrValue = ruleAttr.Value.ToLower();
-                if (attrValue.Equals("type"))
+                node.Attributes.ForEach(attribute =>
                 {
-                    var typeName = ruleNode.InnerText.ToLower();
-                    builder.AddType(typeName);
-                }
-                else if (attrValue.Equals("comparevalue"))
-                {
-                    var compareValue = ruleNode.InnerText.ToLower();
-                    builder.AddCompareValue(compareValue);
-                }
-                else if (attrValue.Equals("comparetype"))
-                {
-                    var option = ruleNode.InnerText.ToLower();
-                    builder.AddCompareTypeOption(option);
-                }
-                else if (attrValue.Equals("equaloption"))
-                {
-                    var option = ruleNode.InnerText.ToLower();
-                    builder.AddEqualOption(option);
-                }
-                else if (attrValue.Equals("summary"))
-                {
-                    var summary = ruleNode.InnerText.ToLower();
-                    builder.AddMessage(new ErrorValidateMessage(summary));
-                }
-            }
-
+                    var attrValue = attribute.Value.ToLower();
+                    if (attrValue.Equals("type"))
+                    {
+                        var typeName = node.InnerText.ToLower();
+                        builder.AddType(typeName);
+                    }
+                    else if (attrValue.Equals("comparevalue"))
+                    {
+                        var compareValue = node.InnerText.ToLower();
+                        builder.AddCompareValue(compareValue);
+                    }
+                    else if (attrValue.Equals("comparetype"))
+                    {
+                        var option = node.InnerText.ToLower();
+                        builder.AddCompareTypeOption(option);
+                    }
+                    else if (attrValue.Equals("equaloption"))
+                    {
+                        var option = node.InnerText.ToLower();
+                        builder.AddEqualOption(option);
+                    }
+                    else if (attrValue.Equals("summary"))
+                    {
+                        var summary = node.InnerText.ToLower();
+                        builder.AddMessage(new ErrorValidateMessage(summary));
+                    }
+                });
+            });
             ret.Add(builder.type, builder.Build());
             return ret;
         }

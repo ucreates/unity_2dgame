@@ -7,105 +7,118 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
+using System.Collections.Generic;
+using Core.Extensions;
+using Core.Math;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Core.Math;
-namespace Frontend.Component.Asset.Renderer.UI.Builder {
-public sealed class PlayCanvasBuilder : BaseUIAssetBuilder {
-    private List<Image> clearCountImageList {
-        get;
-        set;
-    }
-    private int clearCount {
-        get;
-        set;
-    }
-    private int figure {
-        get;
-        set;
-    }
-    private string nickName {
-        get;
-        set;
-    }
-    private string copyright {
-        get;
-        set;
-    }
-    public PlayCanvasBuilder() {
-        this.clearCountImageList = new List<Image>();
-        this.position = Vector3.one;
-        this.scale = Vector3.one;
-        this.nickName = string.Empty;
-    }
-    public PlayCanvasBuilder AddClearCount(int clearCount) {
-        this.clearCount = clearCount;
-        return this;
-    }
-    public PlayCanvasBuilder AddFigure(int figure) {
-        this.figure = figure;
-        return this;
-    }
-    public PlayCanvasBuilder AddNickName(string nickName) {
-        this.nickName = nickName;
-        return this;
-    }
-    public PlayCanvasBuilder AddCopyright(string copyright) {
-        this.copyright = copyright;
-        return this;
-    }
-    public override void Build() {
-        this.Update();
-        foreach (Text text in this.textList) {
-            string objName = text.name.ToLower();
-            if (objName.Equals("nicknametext")) {
-                text.text = this.nickName;
-            } else if (objName.Equals("copyrighttext")) {
-                text.text = this.copyright;
-            }
+
+namespace Frontend.Component.Asset.Renderer.UI.Builder
+{
+    public sealed class PlayCanvasBuilder : BaseUIAssetBuilder
+    {
+        public PlayCanvasBuilder()
+        {
+            clearCountImageList = new List<Image>();
+            position = Vector3.one;
+            scale = Vector3.one;
+            nickName = string.Empty;
         }
-    }
-    public override void Update() {
-        Vector2 size = spriteList[0].rect.size;
-        if (this.figure > this.clearCountImageList.Count) {
-            int addCount = this.figure - this.clearCountImageList.Count;
-            for (int i = 0; i < addCount; i++) {
-                GameObject image = new GameObject("ClearCount");
-                Image clearCountImage = image.AddComponent<Image>();
-                clearCountImage.transform.SetParent(this.canvas.transform);
-                clearCountImage.rectTransform.sizeDelta = size;
-                clearCountImage.rectTransform.localScale = this.scale;
-                clearCountImage.rectTransform.anchoredPosition = Vector3.zero;
-                this.clearCountImageList.Add(clearCountImage);
-                this.imageList.Add(clearCountImage);
-            }
+
+        private List<Image> clearCountImageList { get; }
+
+        private int clearCount { get; set; }
+
+        private int figure { get; set; }
+
+        private string nickName { get; set; }
+
+        private string copyright { get; set; }
+
+        public PlayCanvasBuilder AddClearCount(int clearCount)
+        {
+            this.clearCount = clearCount;
+            return this;
         }
-        float totalWidth = this.figure * spriteList[0].rect.size.x * this.scale.x;
-        float ex = (totalWidth / 2f);
-        for (int i = 1; i <= this.figure; i++) {
-            int value = Figure.GetSpeciFigureValue(this.clearCount, i);
-            int index = i - 1;
-            Sprite sprite = this.spriteList[value];
-            this.clearCountImageList[index].sprite = sprite;
-            this.clearCountImageList[index].rectTransform.anchoredPosition = new Vector3(ex + this.position.x , this.position.y, 0f);
-            ex -= size.x * this.scale.x;
+
+        public PlayCanvasBuilder AddFigure(int figure)
+        {
+            this.figure = figure;
+            return this;
         }
-    }
-    public override void Reset() {
-        GameObject canvas = GameObject.Find(this.canvas.name);
-        if (null != canvas) {
-            foreach (Transform child in canvas.transform) {
-                if (child.gameObject.name.Equals("ClearCount")) {
-                    UnityEngine.GameObject.Destroy(child.gameObject);
-                    UnityEngine.GameObject.Destroy(child);
+
+        public PlayCanvasBuilder AddNickName(string nickName)
+        {
+            this.nickName = nickName;
+            return this;
+        }
+
+        public PlayCanvasBuilder AddCopyright(string copyright)
+        {
+            this.copyright = copyright;
+            return this;
+        }
+
+        public override void Build()
+        {
+            Update();
+            textList.ForEach(text =>
+            {
+                var textName = text.name.ToLower();
+                if (textName.Equals("nicknametext")) text.text = nickName;
+                else if (textName.Equals("copyrighttext")) text.text = copyright;
+            });
+        }
+
+        public override void Update()
+        {
+            var size = spriteList[0].rect.size;
+            if (figure > clearCountImageList.Count)
+            {
+                var addCount = figure - clearCountImageList.Count;
+                for (var i = 0; i < addCount; i++)
+                {
+                    var image = new GameObject("ClearCount");
+                    var clearCountImage = image.AddComponent<Image>();
+                    clearCountImage.transform.SetParent(canvas.transform);
+                    clearCountImage.rectTransform.sizeDelta = size;
+                    clearCountImage.rectTransform.localScale = scale;
+                    clearCountImage.rectTransform.anchoredPosition = Vector3.zero;
+                    clearCountImageList.Add(clearCountImage);
+                    imageList.Add(clearCountImage);
                 }
             }
+
+            var totalWidth = figure * spriteList[0].rect.size.x * scale.x;
+            var ex = totalWidth / 2f;
+            for (var i = 1; i <= figure; i++)
+            {
+                var value = Figure.GetSpeciFigureValue(clearCount, i);
+                var index = i - 1;
+                var sprite = spriteList[value];
+                clearCountImageList[index].sprite = sprite;
+                clearCountImageList[index].rectTransform.anchoredPosition = new Vector3(ex + position.x, position.y, 0f);
+                ex -= size.x * scale.x;
+            }
         }
-        this.imageList.Clear();
-        this.clearCountImageList.Clear();
-        this.figure = 0;
+
+        public override void Reset()
+        {
+            var canvas = GameObject.Find(this.canvas.name);
+            if (null != canvas)
+                canvas.transform.ForEach(child =>
+                {
+                    if (child.gameObject.name.Equals("ClearCount"))
+                    {
+                        GameObject.Destroy(child.gameObject);
+                        GameObject.Destroy(child);
+                    }
+                });
+
+            imageList.Clear();
+            clearCountImageList.Clear();
+            figure = 0;
+        }
     }
-}
 }

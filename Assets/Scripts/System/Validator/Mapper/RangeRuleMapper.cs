@@ -19,6 +19,7 @@
 
 using System.Collections.Generic;
 using System.Xml;
+using Core.Extensions;
 using Core.Validator.Builder;
 using Core.Validator.Message;
 
@@ -30,37 +31,38 @@ namespace Core.Validator.Mapper
         {
             var ret = new Dictionary<string, object>();
             var builder = new RangeValidatorUnitBuilder();
-            foreach (XmlNode ruleNode in ruleNodeList)
-            foreach (XmlAttribute ruleAttr in ruleNode.Attributes)
+            ruleNodeList.ForEach(node =>
             {
-                var attrValue = ruleAttr.Value.ToLower();
-                if (attrValue.Equals("type"))
+                node.Attributes.ForEach(attribute =>
                 {
-                    var typeName = ruleNode.InnerText.ToLower();
-                    builder.AddType(typeName);
-                }
-                else if (attrValue.Equals("min"))
-                {
-                    var minValue = ruleNode.InnerText.ToLower();
-                    builder.AddMin(minValue);
-                }
-                else if (attrValue.Equals("max"))
-                {
-                    var maxValue = ruleNode.InnerText.ToLower();
-                    builder.AddMax(maxValue);
-                }
-                else if (attrValue.Equals("option"))
-                {
-                    var option = ruleNode.InnerText.ToLower();
-                    builder.AddOption(option);
-                }
-                else if (attrValue.Equals("summary"))
-                {
-                    var summary = ruleNode.InnerText.ToLower();
-                    builder.AddMessage(new ErrorValidateMessage(summary));
-                }
-            }
-
+                    var attrValue = attribute.Value.ToLower();
+                    if (attrValue.Equals("type"))
+                    {
+                        var typeName = node.InnerText.ToLower();
+                        builder.AddType(typeName);
+                    }
+                    else if (attrValue.Equals("min"))
+                    {
+                        var minValue = node.InnerText.ToLower();
+                        builder.AddMin(minValue);
+                    }
+                    else if (attrValue.Equals("max"))
+                    {
+                        var maxValue = node.InnerText.ToLower();
+                        builder.AddMax(maxValue);
+                    }
+                    else if (attrValue.Equals("option"))
+                    {
+                        var option = node.InnerText.ToLower();
+                        builder.AddOption(option);
+                    }
+                    else if (attrValue.Equals("summary"))
+                    {
+                        var summary = node.InnerText.ToLower();
+                        builder.AddMessage(new ErrorValidateMessage(summary));
+                    }
+                });
+            });
             ret.Add(builder.type, builder.Build());
             return ret;
         }

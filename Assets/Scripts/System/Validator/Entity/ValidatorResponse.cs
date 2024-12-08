@@ -30,22 +30,21 @@ namespace Core.Validator.Entity
 
         public List<bool> GetResultList()
         {
-            var list = new List<bool>();
-            foreach (var entity in responseList) list.Add(entity.result);
-            return list;
+            var result = new List<bool>();
+            responseList.ForEach(response => { result.Add(response.result); });
+            return result;
         }
 
         public List<BaseValidateMessage> GetMessageList()
         {
-            var list = new List<BaseValidateMessage>();
-            foreach (var entity in responseList) list.Add(entity.message);
-            return list;
+            var result = new List<BaseValidateMessage>();
+            responseList.ForEach(response => { result.Add(response.message); });
+            return result;
         }
 
         public void Dump()
         {
-            foreach (var entity in responseList)
-                Debug.Log("result:" + entity.result + ", message:" + entity.message.message);
+            responseList.ForEach(response => { Debug.Log($"result:{response.result},message:{response.message.message}"); });
         }
     }
 }

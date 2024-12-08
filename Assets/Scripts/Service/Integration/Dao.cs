@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.Extensions;
 using Service.Integration.Dto.Assembler;
 using Service.Integration.Query.Expression;
 using Service.Integration.Schema;
@@ -122,10 +123,10 @@ namespace Service.Integration
                 conditionList.Add(cexp);
             }
 
-            foreach (var record in recordList)
+            recordList.ForEach(record =>
             {
                 var add = false;
-                foreach (var cexp in conditionList)
+                conditionList.ForEach(cexp =>
                 {
                     var pinfo = record.GetType().GetProperty(cexp.fieldName);
                     var value = pinfo.GetValue(record, null);
@@ -140,13 +141,14 @@ namespace Service.Integration
                     else if (cexp.comparisonOperator.Equals("<"))
                         add = cexp.field.LessThan(value);
                     else if (cexp.comparisonOperator.Equals("<=")) add = cexp.field.LessThanEqual(value);
-                    if (condition is AndExpression && false == add) break;
-
-                    if (condition is OrExpression && add) break;
-                }
-
+                    if (condition is AndExpression && false == add)
+                        return false;
+                    if (condition is OrExpression && add)
+                        return false;
+                    return true;
+                });
                 if (add) ret.Add(record);
-            }
+            });
 
             if (1 < ret.Count)
             {
@@ -331,13 +333,13 @@ namespace Service.Integration
             {
                 var ret = new List<T>();
                 var index = 0;
-                foreach (var record in originRcordList)
+                originRcordList.ForEach(record =>
                 {
-                    if (limit == index) break;
+                    if (limit == index) return false;
                     ret.Add(record);
                     index++;
-                }
-
+                    return true;
+                });
                 return ret;
             }
 

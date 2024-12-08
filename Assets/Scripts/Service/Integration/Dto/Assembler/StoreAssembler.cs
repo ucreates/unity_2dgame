@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.Extensions;
 using Service.Integration.Table;
 using UnityEngine;
 
@@ -32,29 +33,30 @@ namespace Service.Integration.Dto.Assembler
             var ret = new List<MStoreTable>();
             var elementChildList = GetElementList();
             var url = string.Empty;
-            foreach (var element in elementChildList)
+            elementChildList.ForEach(element =>
             {
                 if (Application.platform == RuntimePlatform.IPhonePlayer &&
                     element.Attribute("type").Value.ToLower().Equals("ios"))
                 {
                     url = element.Value;
-                    break;
+                    return false;
                 }
 
                 if (Application.platform == RuntimePlatform.Android &&
                     element.Attribute("type").Value.ToLower().Equals("android"))
                 {
                     url = element.Value;
-                    break;
+                    return false;
                 }
 
                 if (element.Attribute("type").Value.ToLower().Equals("pc"))
                 {
                     url = element.Value;
-                    break;
+                    return false;
                 }
-            }
 
+                return true;
+            });
             var record = new MStoreTable();
             record.url = url.Trim();
             ret.Add(record);

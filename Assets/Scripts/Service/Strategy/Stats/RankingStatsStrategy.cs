@@ -24,12 +24,11 @@ namespace Service.Strategy
             var rankingList = sbl.GetRankingList();
             var userList = new List<MUserTable>();
             var ubl = new UserBizLogic();
-            foreach (var score in rankingList)
+            rankingList.ForEach(score =>
             {
                 var user = ubl.GetUser(score.userId);
                 userList.Add(user);
-            }
-
+            });
             sret.Set("rankinglist", rankingList);
             sret.Set("userlist", userList);
             sret.resultStatus = Response.ServiceStatus.SUCCESS;

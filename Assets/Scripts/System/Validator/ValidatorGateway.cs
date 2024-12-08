@@ -9,6 +9,7 @@
 //======================================================================
 
 using Core.Entity;
+using Core.Extensions;
 using Core.Validator.Config;
 using Core.Validator.Entity;
 using Core.Validator.Factory;
@@ -68,13 +69,16 @@ namespace Core.Validator
                 var validatorUnitList = unitEntity.validatorUnitList[validatorType];
                 var validator = ValidatorFactory.FactoryMethod(validatorType);
                 var unitResponse = validator.IsValid(validateValue, validatorUnitList);
-                foreach (var entity in unitResponse.responseList)
-                    if (!entity.result)
+                unitResponse.responseList.ForEach(respoinse =>
+                {
+                    if (!respoinse.result)
                     {
-                        response.responseList.Add(entity);
-                        break;
+                        response.responseList.Add(respoinse);
+                        return false;
                     }
 
+                    return true;
+                });
                 if (0 != response.responseList.Count) break;
             }
 

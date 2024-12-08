@@ -39,7 +39,7 @@ namespace Service.BizLogic
             if (null != mut) return false;
             var db = DataBase.GetInstance();
             var dao = db.FindBy<MUserTable>();
-            foreach (var table in dao.recordList) table.isPlayer = false;
+            dao.recordList.ForEach(record => { record.isPlayer = false; });
             return dao.Save(master);
         }
 

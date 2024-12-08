@@ -16,7 +16,7 @@ namespace Frontend.Component.Asset.Renderer.Animator.Builder
     {
         public override void Build()
         {
-            foreach (var transform in transformList)
+            transformList.ForEach(transform =>
             {
                 var boxCollider = transform.GetComponent<BoxCollider2D>();
                 if (null != boxCollider)
@@ -24,7 +24,7 @@ namespace Frontend.Component.Asset.Renderer.Animator.Builder
                     boxCollider.enabled = false;
                     boxCollider.isTrigger = true;
                 }
-            }
+            });
         }
     }
 }
