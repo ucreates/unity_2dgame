@@ -16,16 +16,16 @@ namespace Core.Entity
     {
         public Parameter()
         {
-            parameterList = new Dictionary<string, BaseValue>();
+            parameterDictionary = new Dictionary<string, BaseValue>();
         }
 
-        public Dictionary<string, BaseValue> parameterList { get; }
+        public Dictionary<string, BaseValue> parameterDictionary { get; }
 
         public T Get<T>(string parameterName)
         {
-            if (parameterList.ContainsKey(parameterName))
+            if (parameterDictionary.ContainsKey(parameterName))
             {
-                var ret = parameterList[parameterName] as Value<T>;
+                var ret = parameterDictionary[parameterName] as Value<T>;
                 return ret.value;
             }
 
@@ -34,11 +34,11 @@ namespace Core.Entity
 
         public bool Set<T>(string parameterName, T notifyValue)
         {
-            if (false == parameterList.ContainsKey(parameterName))
+            if (false == parameterDictionary.ContainsKey(parameterName))
             {
                 var value = new Value<T>();
                 value.value = notifyValue;
-                parameterList.Add(parameterName, value);
+                parameterDictionary.Add(parameterName, value);
                 return true;
             }
 

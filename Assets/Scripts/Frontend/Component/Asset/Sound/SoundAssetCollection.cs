@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.Extensions;
 
 namespace Frontend.Component.Asset.Sound
 {
@@ -60,19 +61,17 @@ namespace Frontend.Component.Asset.Sound
 
         public void Stop()
         {
-            foreach (var key in soundEffectDictionary.Keys)
+            soundEffectDictionary.ForEach(pair =>
             {
-                var asset = soundEffectDictionary[key];
-                asset.Stop();
-                asset.Reset();
-            }
+                pair.Value.Stop();
+                pair.Value.Reset();
+            });
 
-            foreach (var key in soundBGMDictionary.Keys)
+            soundBGMDictionary.ForEach(pair =>
             {
-                var asset = soundBGMDictionary[key];
-                asset.Stop();
-                asset.Reset();
-            }
+                pair.Value.Stop();
+                pair.Value.Reset();
+            });
         }
 
         public void Clear()

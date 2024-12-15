@@ -54,13 +54,13 @@ namespace Service.Strategy
 
         private void LoadItemMaster()
         {
-            var itemMasterList = new Dictionary<string, int>();
-            itemMasterList.Add("TYPE_A", 100);
-            itemMasterList.Add("TYPE_B", 200);
-            itemMasterList.Add("TYPE_C", 300);
-            itemMasterList.Add("TYPE_D", 400);
+            var itemMasterDictionary = new Dictionary<string, int>();
+            itemMasterDictionary.Add("TYPE_A", 100);
+            itemMasterDictionary.Add("TYPE_B", 200);
+            itemMasterDictionary.Add("TYPE_C", 300);
+            itemMasterDictionary.Add("TYPE_D", 400);
             var ibl = new ItemBizLogic();
-            ibl.InitializeMaster(itemMasterList);
+            ibl.InitializeMaster(itemMasterDictionary);
         }
 
         private void LoadSoundData()

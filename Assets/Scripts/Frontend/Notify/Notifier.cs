@@ -10,6 +10,7 @@
 
 using System.Collections.Generic;
 using Core.Entity;
+using Core.Extensions;
 using Frontend.Component.Property;
 
 namespace Frontend.Notify
@@ -37,12 +38,7 @@ namespace Frontend.Notify
 
         public void Notify(NotifyMessage message)
         {
-            foreach (var id in notifierDictionary.Keys)
-            {
-                var notify = notifierDictionary[id];
-                notify.OnNotify(message);
-            }
-
+            notifierDictionary.ForEach(pair => { pair.Value.OnNotify(message); });
             previousMessage = currentMessage;
             currentMessage = message;
         }
@@ -56,12 +52,7 @@ namespace Frontend.Notify
 
         public void Notify(NotifyMessage message, Parameter parameter)
         {
-            foreach (var id in notifierDictionary.Keys)
-            {
-                var notify = notifierDictionary[id];
-                notify.OnNotify(message, parameter);
-            }
-
+            notifierDictionary.ForEach(pair => { pair.Value.OnNotify(message, parameter); });
             previousMessage = currentMessage;
             currentMessage = message;
         }

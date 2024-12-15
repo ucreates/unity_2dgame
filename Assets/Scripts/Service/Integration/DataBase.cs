@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.Extensions;
 using Service.Integration.Table;
 
 namespace Service.Integration
@@ -17,17 +18,17 @@ namespace Service.Integration
     {
         private DataBase()
         {
-            daoList = new Dictionary<string, BaseDao>();
-            daoList.Add("TScoreTable", new Dao<TScoreTable>());
-            daoList.Add("TSummaryTable", new Dao<TSummaryTable>());
-            daoList.Add("TLoadingTable", new Dao<TLoadingTable>());
-            daoList.Add("MUserTable", new Dao<MUserTable>());
-            daoList.Add("MCorporateTable", new Dao<MCorporateTable>());
-            daoList.Add("MItemTable", new Dao<MItemTable>());
-            daoList.Add("TItemTable", new Dao<TItemTable>());
+            daoDictionary = new Dictionary<string, BaseDao>();
+            daoDictionary.Add("TScoreTable", new Dao<TScoreTable>());
+            daoDictionary.Add("TSummaryTable", new Dao<TSummaryTable>());
+            daoDictionary.Add("TLoadingTable", new Dao<TLoadingTable>());
+            daoDictionary.Add("MUserTable", new Dao<MUserTable>());
+            daoDictionary.Add("MCorporateTable", new Dao<MCorporateTable>());
+            daoDictionary.Add("MItemTable", new Dao<MItemTable>());
+            daoDictionary.Add("TItemTable", new Dao<TItemTable>());
         }
 
-        public Dictionary<string, BaseDao> daoList { get; }
+        public Dictionary<string, BaseDao> daoDictionary { get; }
 
         public static DataBase instance { get; private set; }
 
@@ -39,16 +40,16 @@ namespace Service.Integration
 
         public void Clear()
         {
-            foreach (var key in daoList.Keys) daoList[key].Clear();
+            daoDictionary.ForEach(pair => { pair.Value.Clear(); });
         }
 
         public Dao<T> FindBy<T>() where T : BaseTable, new()
         {
             var type = typeof(T);
             var daoName = type.Name;
-            if (daoList.ContainsKey(daoName))
+            if (daoDictionary.ContainsKey(daoName))
             {
-                var dao = daoList[daoName] as Dao<T>;
+                var dao = daoDictionary[daoName] as Dao<T>;
                 dao.Reset();
                 return dao;
             }

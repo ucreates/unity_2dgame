@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.Extensions;
 using Service.Integration.Communication.Callback;
 using Service.Integration.Communication.Client;
 
@@ -18,7 +19,7 @@ namespace Service.Integration.Communication.Entity
     {
         public CommunicationRequest()
         {
-            requestDataList = new Dictionary<string, object>();
+            requestDataDictionary = new Dictionary<string, object>();
             callback = new BaseResponseCallback();
             clientType = string.Empty;
             type = string.Empty;
@@ -41,7 +42,7 @@ namespace Service.Integration.Communication.Entity
 
         public string methodName { get; set; }
 
-        public Dictionary<string, object> requestDataList { get; set; }
+        public Dictionary<string, object> requestDataDictionary { get; set; }
 
         public DownLoadAsset downLoadFile { get; set; }
 
@@ -50,12 +51,7 @@ namespace Service.Integration.Communication.Entity
             get
             {
                 var length = 0;
-                foreach (var key in requestDataList.Keys)
-                {
-                    var data = requestDataList[key];
-                    length += data.ToString().Length;
-                }
-
+                requestDataDictionary.ForEach(pair => { length += pair.Value.ToString().Length; });
                 return length;
             }
         }

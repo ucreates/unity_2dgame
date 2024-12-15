@@ -9,36 +9,37 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.Extensions;
 using Core.Validator.Entity;
 
 namespace Core.Validator
 {
     public sealed class RequiredValidator : BaseValidator
     {
-        public override ValidatorResponse IsValid(object validateValue, Dictionary<string, object> validatorList)
+        public override ValidatorResponse IsValid(object validateValue, Dictionary<string, object> validatorDictionary)
         {
             var response = new ValidatorResponse();
-            foreach (var typeName in validatorList.Keys)
+            validatorDictionary.ForEach(pair =>
             {
-                var lowerTypeName = typeName.ToLower();
-                var validatorUnit = validatorList[typeName];
+                var lowerTypeName = pair.Key.ToLower();
                 if (lowerTypeName.Equals("int"))
-                    response = IsValid<int>(validatorUnit, validateValue, typeName);
+                    response = IsValid<int>(pair.Value, validateValue, pair.Key);
                 else if (lowerTypeName.Equals("long"))
-                    response = IsValid<long>(validatorUnit, validateValue, typeName);
+                    response = IsValid<long>(pair.Value, validateValue, pair.Key);
                 else if (lowerTypeName.Equals("float"))
-                    response = IsValid<float>(validatorUnit, validateValue, typeName);
+                    response = IsValid<float>(pair.Value, validateValue, pair.Key);
                 else if (lowerTypeName.Equals("double"))
-                    response = IsValid<double>(validatorUnit, validateValue, typeName);
+                    response = IsValid<double>(pair.Value, validateValue, pair.Key);
                 else if (lowerTypeName.Equals("string"))
-                    response = IsValid<string>(validatorUnit, validateValue, typeName);
+                    response = IsValid<string>(pair.Value, validateValue, pair.Key);
                 if (compareOption == CompareOption.Or)
                 {
                     response.responseList.Clear();
-                    break;
+                    return false;
                 }
-            }
 
+                return true;
+            });
             return response;
         }
     }

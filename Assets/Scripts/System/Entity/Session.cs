@@ -17,12 +17,12 @@ namespace Core.Entity
     {
         private Session()
         {
-            valueList = new Dictionary<string, object>();
+            valueDictionary = new Dictionary<string, object>();
         }
 
         private static Session instance { get; set; }
 
-        private Dictionary<string, object> valueList { get; }
+        private Dictionary<string, object> valueDictionary { get; }
 
         public static Session GetInstance()
         {
@@ -32,19 +32,19 @@ namespace Core.Entity
 
         public T Get<T>(string key, bool delete = false)
         {
-            if (valueList.ContainsKey(key))
+            if (valueDictionary.ContainsKey(key))
             {
                 var type = typeof(T);
                 if (type == typeof(string) || type is object)
                 {
-                    var ret = (T)valueList[key];
-                    if (delete) valueList.Remove(key);
+                    var ret = (T)valueDictionary[key];
+                    if (delete) valueDictionary.Remove(key);
                     return ret;
                 }
                 else
                 {
-                    var ret = ConvertUtility.ToGenerics<T>(valueList[key]);
-                    if (delete) valueList.Remove(key);
+                    var ret = ConvertUtility.ToGenerics<T>(valueDictionary[key]);
+                    if (delete) valueDictionary.Remove(key);
                     return ret;
                 }
             }
@@ -54,13 +54,13 @@ namespace Core.Entity
 
         public bool Add(string key, object value)
         {
-            if (valueList.ContainsKey(key))
+            if (valueDictionary.ContainsKey(key))
             {
-                valueList[key] = value;
+                valueDictionary[key] = value;
                 return true;
             }
 
-            valueList.Add(key, value);
+            valueDictionary.Add(key, value);
             return false;
         }
     }

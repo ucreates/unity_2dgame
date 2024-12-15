@@ -27,7 +27,7 @@ namespace Core.Validator.Factory
                     {
                         var attrValue = attribute.Value.ToLower();
                         var ruleMapper = RuleMapperFactory.FactoryMethod(attrValue);
-                        vfr.validatorUnitList[attrValue] = ruleMapper.Map(node.ChildNodes);
+                        vfr.validatorUnitDictionary[attrValue] = ruleMapper.Map(node.ChildNodes);
                     }
                 });
             });

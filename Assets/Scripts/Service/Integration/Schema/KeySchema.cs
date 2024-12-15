@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using Core.Extensions;
 
 namespace Service.Integration.Schema
 {
@@ -29,7 +30,7 @@ namespace Service.Integration.Schema
         public string Get()
         {
             if (false == string.IsNullOrEmpty(keyCache)) return keyCache;
-            foreach (var fieldName in keyHolder.Keys) keyCache += keyHolder[fieldName];
+            keyHolder.ForEach(pair => { keyCache += pair.Value; });
             return keyCache;
         }
 
@@ -63,13 +64,19 @@ namespace Service.Integration.Schema
             if (GetType() != obj.GetType()) return false;
             var right = obj as KeySchema;
             var matchCount = 0;
-            foreach (var leftElement in keyHolder)
-            foreach (var rightElement in right.keyHolder)
-                if (leftElement.Key == rightElement.Key && leftElement.Value == rightElement.Value)
+            keyHolder.ForEach(leftPair =>
+            {
+                right.keyHolder.ForEach(rightPair =>
                 {
-                    matchCount++;
-                    break;
-                }
+                    if (leftPair.Key == rightPair.Key && leftPair.Value == rightPair.Value)
+                    {
+                        matchCount++;
+                        return false;
+                    }
+
+                    return true;
+                });
+            });
 
             if (matchCount != keyHolder.Count) return false;
             return true;
@@ -83,13 +90,19 @@ namespace Service.Integration.Schema
         public static bool operator ==(KeySchema left, KeySchema right)
         {
             var matchCount = 0;
-            foreach (var leftElement in left.keyHolder)
-            foreach (var rightElement in right.keyHolder)
-                if (leftElement.Key == rightElement.Key && leftElement.Value == rightElement.Value)
+            left.keyHolder.ForEach(leftPair =>
+            {
+                right.keyHolder.ForEach(rightPair =>
                 {
-                    matchCount++;
-                    break;
-                }
+                    if (leftPair.Key == rightPair.Key && leftPair.Value == rightPair.Value)
+                    {
+                        matchCount++;
+                        return false;
+                    }
+
+                    return true;
+                });
+            });
 
             if (matchCount != left.keyHolder.Count) return false;
             return true;
@@ -98,13 +111,19 @@ namespace Service.Integration.Schema
         public static bool operator !=(KeySchema left, KeySchema right)
         {
             var matchCount = 0;
-            foreach (var leftElement in left.keyHolder)
-            foreach (var rightElement in right.keyHolder)
-                if (leftElement.Key == rightElement.Key && leftElement.Value == rightElement.Value)
+            left.keyHolder.ForEach(leftPair =>
+            {
+                right.keyHolder.ForEach(rightPair =>
                 {
-                    matchCount++;
-                    break;
-                }
+                    if (leftPair.Key == rightPair.Key && leftPair.Value == rightPair.Value)
+                    {
+                        matchCount++;
+                        return false;
+                    }
+
+                    return true;
+                });
+            });
 
             if (matchCount != left.keyHolder.Count) return true;
             return false;

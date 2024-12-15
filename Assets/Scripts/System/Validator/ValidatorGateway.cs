@@ -40,20 +40,19 @@ namespace Core.Validator
         public override ValidatorResponse IsValid(Parameter parameter)
         {
             var response = new ValidatorResponse();
-            foreach (var validateControlName in parameter.parameterList.Keys)
+            parameter.parameterDictionary.ForEach(pair =>
             {
-                var validateValue = parameter.parameterList[validateControlName] as Value<string>;
-                var ctrlVldRes = IsValid(validateControlName, validateValue.value);
+                var validateValue = pair.Value as Value<string>;
+                var ctrlVldRes = IsValid(pair.Key, validateValue.value);
                 response.responseList.AddRange(ctrlVldRes.responseList);
-            }
-
+            });
             return response;
         }
 
         public ValidatorResponse IsValid(string validateControlName, object validateValue)
         {
             var response = new ValidatorResponse();
-            if (!config.ruleNodeList.ContainsKey(validateControlName))
+            if (!config.ruleNodeDictionary.ContainsKey(validateControlName))
             {
                 var entity = new ValidatorResponseEntity();
                 entity.result = false;
@@ -62,12 +61,12 @@ namespace Core.Validator
                 return response;
             }
 
-            var nodeList = config.ruleNodeList[validateControlName];
-            var unitEntity = ValidatorUnitFactory.FactoryMethod(nodeList);
-            foreach (var validatorType in unitEntity.validatorUnitList.Keys)
+            var nodeDictionary = config.ruleNodeDictionary[validateControlName];
+            var unitEntity = ValidatorUnitFactory.FactoryMethod(nodeDictionary);
+            unitEntity.validatorUnitDictionary.ForEach(pair =>
             {
-                var validatorUnitList = unitEntity.validatorUnitList[validatorType];
-                var validator = ValidatorFactory.FactoryMethod(validatorType);
+                var validatorUnitList = pair.Value;
+                var validator = ValidatorFactory.FactoryMethod(pair.Key);
                 var unitResponse = validator.IsValid(validateValue, validatorUnitList);
                 unitResponse.responseList.ForEach(respoinse =>
                 {
@@ -79,9 +78,9 @@ namespace Core.Validator
 
                     return true;
                 });
-                if (0 != response.responseList.Count) break;
-            }
-
+                if (0 != response.responseList.Count) return false;
+                return true;
+            });
             return response;
         }
     }

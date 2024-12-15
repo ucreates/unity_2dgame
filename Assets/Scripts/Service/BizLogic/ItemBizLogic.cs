@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.Extensions;
 using Service.Integration;
 using Service.Integration.Query.Expression;
 using Service.Integration.Schema;
@@ -18,19 +19,14 @@ namespace Service.BizLogic
 {
     public sealed class ItemBizLogic : BaseBizLogic
     {
-        public void InitializeMaster(Dictionary<string, int> masterList)
+        public void InitializeMaster(Dictionary<string, int> masterDictionary)
         {
             var db = DataBase.GetInstance();
             var dao = db.FindBy<MItemTable>();
             if (0 == dao.recordList.Count)
             {
                 var uow = new UnitOfWork<MItemTable>();
-                foreach (var name in masterList.Keys)
-                {
-                    var price = masterList[name];
-                    uow.addRecordList.Add(new MItemTable(name, price));
-                }
-
+                masterDictionary.ForEach(pair => { uow.addRecordList.Add(new MItemTable(pair.Key, pair.Value)); });
                 uow.Commit();
             }
         }

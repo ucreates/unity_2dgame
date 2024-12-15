@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.Extensions;
 using Core.Validator.Entity;
 using Core.Validator.Message;
 using Core.Validator.Unit;
@@ -17,39 +18,38 @@ namespace Core.Validator
 {
     public sealed class CompareValidator : BaseValidator
     {
-        public override ValidatorResponse IsValid(object validateValue, Dictionary<string, object> validatorList)
+        public override ValidatorResponse IsValid(object validateValue, Dictionary<string, object> validatorDictionary)
         {
             var response = new ValidatorResponse();
-            foreach (var typeName in validatorList.Keys)
+            validatorDictionary.ForEach(pair =>
             {
-                var validatorUnit = validatorList[typeName];
-                if (typeName.Equals("int"))
+                if (pair.Key.Equals("int"))
                 {
-                    response = IsValid<int>(validatorUnit, validateValue, typeName);
+                    response = IsValid<int>(pair.Value, validateValue, pair.Key);
                 }
-                else if (typeName.Equals("long"))
+                else if (pair.Key.Equals("long"))
                 {
-                    response = IsValid<long>(validatorUnit, validateValue, typeName);
+                    response = IsValid<long>(pair.Value, validateValue, pair.Key);
                 }
-                else if (typeName.Equals("float"))
+                else if (pair.Key.Equals("float"))
                 {
-                    response = IsValid<float>(validatorUnit, validateValue, typeName);
+                    response = IsValid<float>(pair.Value, validateValue, pair.Key);
                 }
-                else if (typeName.Equals("double"))
+                else if (pair.Key.Equals("double"))
                 {
-                    response = IsValid<double>(validatorUnit, validateValue, typeName);
+                    response = IsValid<double>(pair.Value, validateValue, pair.Key);
                 }
-                else if (typeName.Equals("string"))
+                else if (pair.Key.Equals("string"))
                 {
-                    var validator = validatorUnit as BaseValidatorUnit<int>;
-                    var ret = validator.IsValid(validateValue.ToString().Length);
+                    var validator = pair.Value as BaseValidatorUnit<int>;
+                    var ret = validator?.IsValid(validateValue.ToString().Length);
                     BaseValidateMessage message = null;
-                    if (!ret)
+                    if (!ret ?? false)
                         message = validator.validateMessage;
                     else
                         message = new SuccessValidateMessage();
                     var entity = new ValidatorResponseEntity();
-                    entity.result = ret;
+                    entity.result = ret ?? false;
                     entity.message = message;
                     response.responseList.Add(entity);
                 }
@@ -57,10 +57,11 @@ namespace Core.Validator
                 if (compareOption == CompareOption.Or)
                 {
                     response.responseList.Clear();
-                    break;
+                    return false;
                 }
-            }
 
+                return true;
+            });
             return response;
         }
     }

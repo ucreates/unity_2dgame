@@ -10,6 +10,7 @@
 
 using System.Collections.Generic;
 using Core.Entity;
+using Core.Extensions;
 using UnityEngine;
 
 namespace Frontend.Component.State
@@ -20,13 +21,13 @@ namespace Frontend.Component.State
         {
             finiteStateEntity = new FiniteStateEntity<T>();
             this.owner = owner;
-            persistentStateList = new Dictionary<string, FiniteState<T>>();
-            stateList = new Dictionary<string, FiniteState<T>>();
+            persistentStateDictionary = new Dictionary<string, FiniteState<T>>();
+            stateDictionary = new Dictionary<string, FiniteState<T>>();
         }
 
-        public Dictionary<string, FiniteState<T>> stateList { get; set; }
+        public Dictionary<string, FiniteState<T>> stateDictionary { get; set; }
 
-        public Dictionary<string, FiniteState<T>> persistentStateList { get; set; }
+        public Dictionary<string, FiniteState<T>> persistentStateDictionary { get; set; }
 
         public FiniteStateEntity<T> finiteStateEntity { get; set; }
 
@@ -69,16 +70,15 @@ namespace Frontend.Component.State
                     false == finiteStateEntity.state.wait) finiteStateEntity.state.Update();
             }
 
-            foreach (var key in persistentStateList.Keys)
+            persistentStateDictionary.ForEach(pair =>
             {
-                var state = persistentStateList[key];
-                if (state.complete) state.Update();
-            }
+                if (pair.Value.complete) pair.Value.Update();
+            });
         }
 
         public FiniteState<T> Get(string stateName)
         {
-            if (stateList.ContainsKey(stateName)) return stateList[stateName];
+            if (stateDictionary.ContainsKey(stateName)) return stateDictionary[stateName];
             return null;
         }
 
@@ -86,19 +86,19 @@ namespace Frontend.Component.State
         {
             if (false == state.persistent)
             {
-                if (false == stateList.ContainsKey(stateName))
+                if (false == stateDictionary.ContainsKey(stateName))
                 {
                     state.owner = owner;
-                    stateList.Add(stateName, state);
+                    stateDictionary.Add(stateName, state);
                     return true;
                 }
             }
             else
             {
-                if (false == persistentStateList.ContainsKey(stateName))
+                if (false == persistentStateDictionary.ContainsKey(stateName))
                 {
                     state.owner = owner;
-                    persistentStateList.Add(stateName, state);
+                    persistentStateDictionary.Add(stateName, state);
                     return true;
                 }
             }
@@ -108,31 +108,29 @@ namespace Frontend.Component.State
 
         public void Play()
         {
-            foreach (var key in stateList.Keys)
+            stateDictionary.ForEach(pair =>
             {
-                var state = stateList[key];
-                state.wait = false;
-                state.complete = false;
-            }
+                pair.Value.wait = false;
+                pair.Value.complete = false;
+            });
 
-            foreach (var key in persistentStateList.Keys)
+            persistentStateDictionary.ForEach(pair =>
             {
-                var state = persistentStateList[key];
-                state.wait = false;
-                state.complete = false;
-                state.Create();
-            }
+                pair.Value.wait = false;
+                pair.Value.complete = false;
+                pair.Value.Create();
+            });
         }
 
         public void Pause()
         {
-            foreach (var key in stateList.Keys) stateList[key].wait = true;
+            stateDictionary.ForEach(pair => { pair.Value.wait = true; });
         }
 
         public void Stop()
         {
-            foreach (var key in stateList.Keys) stateList[key].complete = true;
-            foreach (var key in persistentStateList.Keys) persistentStateList[key].complete = true;
+            stateDictionary.ForEach(pair => { pair.Value.complete = true; });
+            persistentStateDictionary.ForEach(pair => { pair.Value.complete = true; });
         }
     }
 }

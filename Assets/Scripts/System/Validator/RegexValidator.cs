@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.Extensions;
 using Core.Validator.Entity;
 using Core.Validator.Unit;
 
@@ -16,13 +17,12 @@ namespace Core.Validator
 {
     public sealed class RegexValidator : BaseValidator
     {
-        public override ValidatorResponse IsValid(object validateValue, Dictionary<string, object> validatorList)
+        public override ValidatorResponse IsValid(object validateValue, Dictionary<string, object> validatorDictionary)
         {
             var response = new ValidatorResponse();
-            foreach (var typeName in validatorList.Keys)
+            validatorDictionary.ForEach(pair =>
             {
-                var validatorUnit = validatorList[typeName];
-                BaseValidatorUnit<string> validator = validatorUnit as RegexValidatorUnit;
+                BaseValidatorUnit<string> validator = pair.Value as RegexValidatorUnit;
                 var ret = validator.IsValid(validateValue.ToString());
                 var entity = new ValidatorResponseEntity();
                 entity.result = ret;
@@ -47,11 +47,14 @@ namespace Core.Validator
                     if (compareOption == CompareOption.Or)
                     {
                         response.responseList.Clear();
-                        break;
+                        return false;
                     }
-                }
-            }
 
+                    return true;
+                }
+
+                return true;
+            });
             return response;
         }
     }

@@ -9,6 +9,7 @@
 //======================================================================
 
 using System;
+using Foundation;
 using Service.Integration.Schema;
 using UnityEngine;
 
@@ -33,14 +34,42 @@ namespace Service.Integration.Table
         public void Build()
         {
             var PropertyInfoList = GetType().GetProperties();
-            foreach (var pinfo in PropertyInfoList)
+            PropertyInfoList.ForEach(pinfo =>
             {
-                foreach (var attribute in Attribute.GetCustomAttributes(pinfo))
-                    if (attribute.GetType() == typeof(PrimaryKeyAttribute))
+                Attribute.GetCustomAttributes(pinfo).ForEach(attribute =>
+                {
+                    if (attribute.GetType() is PrimaryKeyAttribute)
                     {
                         var fieldValue = pinfo.GetValue(this, null).ToString();
                         primaryKey.Set(pinfo.Name, fieldValue);
                     }
+                });
+                var propertyType = pinfo.PropertyType.Name.ToLower();
+                var propertyValue = pinfo.GetValue(this, null);
+                if (propertyType.Equals("int32"))
+                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<int>(Convert.ToInt32(propertyValue)));
+                else if (propertyType.Equals("long"))
+                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<long>(Convert.ToInt64(propertyValue)));
+                else if (propertyType.Equals("float"))
+                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<float>(Convert.ToSingle(propertyValue)));
+                else if (propertyType.Equals("double"))
+                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<double>(Convert.ToDouble(propertyValue)));
+                else if (propertyType.Equals("boolean"))
+                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<bool>(Convert.ToBoolean(propertyValue)));
+                else if (propertyType.Equals("string"))
+                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<string>(propertyValue.ToString()));
+            });
+
+            PropertyInfoList.ForEach(pinfo =>
+            {
+                Attribute.GetCustomAttributes(pinfo).ForEach(attribute =>
+                {
+                    if (attribute.GetType() is PrimaryKeyAttribute)
+                    {
+                        var fieldValue = pinfo.GetValue(this, null).ToString();
+                        primaryKey.Set(pinfo.Name, fieldValue);
+                    }
+                });
 
                 var propertyType = pinfo.PropertyType.Name.ToLower();
                 var propertyValue = pinfo.GetValue(this, null);
@@ -56,7 +85,7 @@ namespace Service.Integration.Table
                     fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<bool>(Convert.ToBoolean(propertyValue)));
                 else if (propertyType.Equals("string"))
                     fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<string>(propertyValue.ToString()));
-            }
+            });
         }
 
         public virtual BaseTable Clone()
@@ -67,12 +96,15 @@ namespace Service.Integration.Table
         public void Dump()
         {
             var PropertyInfoList = GetType().GetProperties();
-            foreach (var pinfo in PropertyInfoList)
+            PropertyInfoList.ForEach(pinfo =>
             {
-                var propertyType = pinfo.GetType().Name;
-                var propertyValue = pinfo.GetValue(this, null);
-                Debug.Log(pinfo.Name + ":" + propertyValue + "<" + propertyType + ">");
-            }
+                if (pinfo.GetType() is PrimaryKeyAttribute)
+                {
+                    var propertyType = pinfo.GetType().Name;
+                    var propertyValue = pinfo.GetValue(this, null);
+                    Debug.Log($"{pinfo.Name}:{propertyValue} <{propertyType}");
+                }
+            });
         }
     }
 }

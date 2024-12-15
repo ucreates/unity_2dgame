@@ -25,12 +25,12 @@ namespace Core.Validator.Config
 
         public ValidationConfig()
         {
-            ruleNodeList = new Dictionary<string, XmlNodeList>();
+            ruleNodeDictionary = new Dictionary<string, XmlNodeList>();
         }
 
         public string viewName { get; set; }
 
-        public Dictionary<string, XmlNodeList> ruleNodeList { get; set; }
+        public Dictionary<string, XmlNodeList> ruleNodeDictionary { get; set; }
 
         public void Load(string xmlSourceInfo, SourceType type = SourceType.File)
         {

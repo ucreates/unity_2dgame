@@ -38,7 +38,7 @@ namespace Core.Validator
             return new ValidatorResponse();
         }
 
-        public virtual ValidatorResponse IsValid(object validateValue, Dictionary<string, object> validatorList)
+        public virtual ValidatorResponse IsValid(object validateValue, Dictionary<string, object> validatorDictionary)
         {
             return new ValidatorResponse();
         }
