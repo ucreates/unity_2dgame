@@ -7,33 +7,33 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
-using UnityEngine;
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-namespace Service.Integration.Schema 
+using System.Linq;
+
+namespace Service.Integration.Schema
 {
-[Serializable]
-public sealed class FieldSchemaCollection {
-    public Dictionary<string, BaseFieldSchema> fieldSchemaDictionary {
-        get;
-        set;
-    }
-    public FieldSchemaCollection() {
-        this.fieldSchemaDictionary = new Dictionary<string, BaseFieldSchema>();
-    }
-    public bool Set(string fieldSchemaName, BaseFieldSchema field) {
-        if (false != this.fieldSchemaDictionary.ContainsKey(fieldSchemaName)) {
-            return false;
+    [Serializable]
+    public sealed class FieldSchemaCollection
+    {
+        public FieldSchemaCollection()
+        {
+            fieldSchemaDictionary = new Dictionary<string, BaseFieldSchema>();
         }
-        this.fieldSchemaDictionary.Add(fieldSchemaName, field);
-        return true;
-    }
-    public BaseFieldSchema Get(string fieldSchemaName) {
-        if (false == this.fieldSchemaDictionary.ContainsKey(fieldSchemaName)) {
-            return null;
+
+        public Dictionary<string, BaseFieldSchema> fieldSchemaDictionary { get; set; }
+
+        public bool Set(string fieldSchemaName, BaseFieldSchema field)
+        {
+            if (fieldSchemaDictionary.ContainsKey(fieldSchemaName)) return false;
+            fieldSchemaDictionary.Add(fieldSchemaName, field);
+            return true;
         }
-        return this.fieldSchemaDictionary[fieldSchemaName];
+
+        public BaseFieldSchema Get(string fieldSchemaName)
+        {
+            return fieldSchemaDictionary.FirstOrDefault(pair => pair.Key.Equals(fieldSchemaName)).Value;
+        }
     }
-}
 }

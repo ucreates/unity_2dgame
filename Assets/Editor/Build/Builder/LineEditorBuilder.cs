@@ -10,8 +10,7 @@ namespace Editor.Build
 
         protected override void BuildiOS()
         {
-            if (false == pathDictionary.ContainsKey("fromFrameworkRoot") ||
-                false == pathDictionary.ContainsKey("destFrameworkRoot")) return;
+            if (!pathDictionary.ContainsKey("fromFrameworkRoot") || !pathDictionary.ContainsKey("destFrameworkRoot")) return;
             var rootDict = plist.root;
             var frameworks = new[] { "CoreText.framework", "CoreTelephony.framework", "Security.framework" };
             foreach (var framework in frameworks) project.AddFrameworkToProject(targetGUID, framework, false);

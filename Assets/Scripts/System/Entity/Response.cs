@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Entity
 {
@@ -33,18 +34,14 @@ namespace Core.Entity
 
         public T Get<T>(string name)
         {
-            if (responseDictionary.ContainsKey(name))
-            {
-                var ret = responseDictionary[name] as Value<T>;
-                return ret.value;
-            }
+            if (responseDictionary.ContainsKey(name)) return (responseDictionary.FirstOrDefault(pair => pair.Key.Equals(name)).Value as Value<T>).value ?? default(T);
 
             return default;
         }
 
         public bool Set<T>(string name, T responseValue)
         {
-            if (false == responseDictionary.ContainsKey(name))
+            if (!responseDictionary.ContainsKey(name))
             {
                 var value = new Value<T>();
                 value.value = responseValue;

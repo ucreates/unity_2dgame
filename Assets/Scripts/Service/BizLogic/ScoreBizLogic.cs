@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Service.Integration;
 using Service.Integration.Query.Expression;
 using Service.Integration.Schema;
@@ -26,7 +27,7 @@ namespace Service.BizLogic
             var condition = new ConditionExpression("userId", "==", new FieldSchema<int>(userId));
             var ret = dao.FindBy(condition);
             var clearCount = 0;
-            if (0 < ret.Count) clearCount = ret[0].clearCount;
+            if (0 < ret.Count) clearCount = ret.FirstOrDefault()?.clearCount ?? 0;
             return clearCount;
         }
 
@@ -38,8 +39,9 @@ namespace Service.BizLogic
             var ret = dao.FindBy(condition);
             if (0 < ret.Count)
             {
-                ret[0].clearCount += clearCount;
-                return dao.Update(ret[0]);
+                var record = ret.FirstOrDefault();
+                record.clearCount += clearCount;
+                return dao.Update(record);
             }
 
             return false;
@@ -53,8 +55,9 @@ namespace Service.BizLogic
             var ret = dao.FindBy(condition);
             if (0 < ret.Count)
             {
-                ret[0].clearCount = clearCount;
-                return dao.Update(ret[0]);
+                var record = ret.FirstOrDefault();
+                record.clearCount = clearCount;
+                return dao.Update(record);
             }
 
             return false;
@@ -89,8 +92,9 @@ namespace Service.BizLogic
             var ret = dao.FindBy(condition);
             if (0 < ret.Count)
             {
-                ret[0].clearCount = 0;
-                return dao.Update(ret[0]);
+                var record = ret.FirstOrDefault();
+                record.clearCount = 0;
+                return dao.Update(record);
             }
 
             return false;

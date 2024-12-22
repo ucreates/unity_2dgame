@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Linq;
 using Core.Entity;
 using Core.Validator;
 using Frontend.Component.Asset.Renderer.UI;
@@ -79,7 +80,7 @@ public sealed class EventHandler : BaseBehaviour
     {
         BaseAssembler<MStoreTable> assembler = new StoreAssembler();
         var tableList = assembler.WriteToTableList();
-        var url = tableList[0].url;
+        var url = tableList.FirstOrDefault()?.url ?? string.Empty;
         Application.OpenURL(url);
     }
 

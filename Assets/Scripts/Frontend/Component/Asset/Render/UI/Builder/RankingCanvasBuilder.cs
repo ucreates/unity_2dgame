@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Service.Integration.Table;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,7 +45,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
         public override void Build()
         {
             var ny = 0f;
-            var size = spriteList[0].rect.size;
+            var size = spriteList.FirstOrDefault()?.rect.size ?? Vector2.zero;
             for (var i = 0; i < scoreTableList.Count; i++)
             {
                 var spriteIndex = i + 1;
@@ -86,7 +87,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                 var rankingText = textList[i];
                 var score = scoreTableList[i];
                 var user = userTableList[i];
-                rankingText.text = user.nickName + " " + score.clearCount + " points.";
+                rankingText.text = $"{user.nickName} {score.clearCount} points.";
             }
 
             buttonList.ForEach(button =>

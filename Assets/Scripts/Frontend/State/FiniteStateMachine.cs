@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Core.Entity;
 using Core.Extensions;
 using UnityEngine;
@@ -55,7 +56,7 @@ namespace Frontend.Component.State
 
         public void Update()
         {
-            if (false == finiteStateEntity.state.complete)
+            if (!finiteStateEntity.state.complete)
             {
                 if (finiteStateEntity.isNewState)
                 {
@@ -66,8 +67,10 @@ namespace Frontend.Component.State
                     finiteStateEntity.isNewState = false;
                 }
 
-                if (null != finiteStateEntity.state && false == finiteStateEntity.state.complete &&
-                    false == finiteStateEntity.state.wait) finiteStateEntity.state.Update();
+                if (null != finiteStateEntity.state && !
+                        finiteStateEntity.state.complete &&
+                    !finiteStateEntity.state.wait)
+                    finiteStateEntity.state.Update();
             }
 
             persistentStateDictionary.ForEach(pair =>
@@ -78,15 +81,14 @@ namespace Frontend.Component.State
 
         public FiniteState<T> Get(string stateName)
         {
-            if (stateDictionary.ContainsKey(stateName)) return stateDictionary[stateName];
-            return null;
+            return stateDictionary.FirstOrDefault(pair => pair.Key.Equals(stateName)).Value;
         }
 
         public bool Add(string stateName, FiniteState<T> state, bool isFirstState = false)
         {
-            if (false == state.persistent)
+            if (!state.persistent)
             {
-                if (false == stateDictionary.ContainsKey(stateName))
+                if (!stateDictionary.ContainsKey(stateName))
                 {
                     state.owner = owner;
                     stateDictionary.Add(stateName, state);
@@ -95,7 +97,7 @@ namespace Frontend.Component.State
             }
             else
             {
-                if (false == persistentStateDictionary.ContainsKey(stateName))
+                if (!persistentStateDictionary.ContainsKey(stateName))
                 {
                     state.owner = owner;
                     persistentStateDictionary.Add(stateName, state);

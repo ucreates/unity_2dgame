@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Linq;
 using Service.Integration;
 using Service.Integration.Dto.Assembler;
 using Service.Integration.Table;
@@ -24,7 +25,7 @@ namespace Service.BizLogic
             {
                 BaseAssembler<MCorporateTable> assembler = new CorporateAssembler();
                 var ret = assembler.WriteToTableList();
-                var master = ret[0];
+                var master = ret.FirstOrDefault();
                 dao.Save(master);
             }
         }

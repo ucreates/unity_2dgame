@@ -10,8 +10,7 @@ namespace Editor.Build
 
         protected override void BuildiOS()
         {
-            if (false == pathDictionary.ContainsKey("fromFrameworkRoot") ||
-                false == pathDictionary.ContainsKey("destFrameworkRoot")) return;
+            if (!pathDictionary.ContainsKey("fromFrameworkRoot") || !pathDictionary.ContainsKey("destFrameworkRoot")) return;
             var rootDict = plist.root;
             rootDict.SetString("FacebookAppID", FacebookConfigurePlugin.APP_ID);
             rootDict.SetString("FacebookDisplayName", PlayerSettings.productName);

@@ -34,7 +34,7 @@ namespace Frontend.Component.Vfx.Easing
         public static float EaseInOut(float currentTime, float start, float end, float totalTime)
         {
             var switchType = currentTime / totalTime >= 0.5f;
-            if (false == switchType) return EaseIn(currentTime, start, end, totalTime);
+            if (!switchType) return EaseIn(currentTime, start, end, totalTime);
 
             return EaseOut(currentTime, start, end, totalTime);
         }

@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Service.Strategy;
 
@@ -39,13 +40,13 @@ namespace Service
         {
             var protocol = @"service://";
             var regex = new Regex(protocol);
-            if (false == regex.IsMatch(domainName)) return null;
+            if (!regex.IsMatch(domainName)) return null;
             domainName = domainName.Replace(protocol, "");
             var delimiter = new[] { '/' };
             var schema = domainName.Split(delimiter);
             if (0 == schema.Length) return null;
-            var serviceName = schema[0];
-            if (false == serviceDictionary.ContainsKey(serviceName)) return null;
+            var serviceName = schema.FirstOrDefault();
+            if (!serviceDictionary.ContainsKey(serviceName)) return null;
             var service = serviceDictionary[serviceName];
             var strategyName = "";
             for (var i = 1; i < schema.Length; i++)

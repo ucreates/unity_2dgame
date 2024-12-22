@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Entity
 {
@@ -23,18 +24,14 @@ namespace Core.Entity
 
         public T Get<T>(string parameterName)
         {
-            if (parameterDictionary.ContainsKey(parameterName))
-            {
-                var ret = parameterDictionary[parameterName] as Value<T>;
-                return ret.value;
-            }
+            if (parameterDictionary.ContainsKey(parameterName)) return (parameterDictionary.FirstOrDefault(pair => pair.Key.Equals(parameterName)).Value as Value<T>).value ?? default(T);
 
             return default;
         }
 
         public bool Set<T>(string parameterName, T notifyValue)
         {
-            if (false == parameterDictionary.ContainsKey(parameterName))
+            if (!parameterDictionary.ContainsKey(parameterName))
             {
                 var value = new Value<T>();
                 value.value = notifyValue;

@@ -42,11 +42,11 @@ namespace Service.Integration
             var dao = db.FindBy<T>();
             rollBackId = dao.id - addRecordList.Count;
             var ret = Remove();
-            if (false == ret) return false;
+            if (!ret) return false;
             ret = Update();
-            if (false == ret) return false;
+            if (!ret) return false;
             ret = Add();
-            if (false == ret) return false;
+            if (!ret) return false;
             return true;
         }
 
@@ -128,23 +128,23 @@ namespace Service.Integration
 
         public bool registerAddRecord(T record)
         {
-            if (false == IsValid(addRecordList, record)) return false;
+            if (!IsValid(addRecordList, record)) return false;
             addRecordList.Add(record);
             return true;
         }
 
         public bool registerUpdateRecord(T record)
         {
-            if (false == IsValid(removeRecordList, record)) return false;
-            if (false == IsValid(updateRecordList, record)) return false;
+            if (!IsValid(removeRecordList, record)) return false;
+            if (!IsValid(updateRecordList, record)) return false;
             updateRecordList.Add(record);
             return true;
         }
 
         public bool registerRemoveRecord(T record)
         {
-            if (false == IsValid(removeRecordList, record)) return false;
-            if (false == IsValid(updateRecordList, record)) return false;
+            if (!IsValid(removeRecordList, record)) return false;
+            if (!IsValid(updateRecordList, record)) return false;
             removeRecordList.Add(record);
             return true;
         }

@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Core.Extensions;
 using Service.Integration.Dto.Assembler;
 using Service.Integration.Query.Expression;
@@ -141,7 +142,7 @@ namespace Service.Integration
                     else if (cexp.comparisonOperator.Equals("<"))
                         add = cexp.field.LessThan(value);
                     else if (cexp.comparisonOperator.Equals("<=")) add = cexp.field.LessThanEqual(value);
-                    if (condition is AndExpression && false == add)
+                    if (condition is AndExpression && !add)
                         return false;
                     if (condition is OrExpression && add)
                         return false;
@@ -202,8 +203,7 @@ namespace Service.Integration
 
         public T FindFirst()
         {
-            if (0 == recordList.Count) return null;
-            return recordList[0];
+            return recordList.FirstOrDefault();
         }
 
         public T FindLast()

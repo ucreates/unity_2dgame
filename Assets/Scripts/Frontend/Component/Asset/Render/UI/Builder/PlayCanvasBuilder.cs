@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Core.Extensions;
 using Core.Math;
 using UnityEngine;
@@ -73,7 +74,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
 
         public override void Update()
         {
-            var size = spriteList[0].rect.size;
+            var size = spriteList.FirstOrDefault()?.rect.size ?? Vector2.zero;
             if (figure > clearCountImageList.Count)
             {
                 var addCount = figure - clearCountImageList.Count;
@@ -90,7 +91,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                 }
             }
 
-            var totalWidth = figure * spriteList[0].rect.size.x * scale.x;
+            var totalWidth = figure * spriteList.FirstOrDefault()?.rect.size.x * scale.x ?? 0f;
             var ex = totalWidth / 2f;
             for (var i = 1; i <= figure; i++)
             {

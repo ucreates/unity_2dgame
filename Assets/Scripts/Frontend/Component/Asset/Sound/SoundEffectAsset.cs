@@ -25,7 +25,7 @@ namespace Frontend.Component.Asset.Sound
 
         public override void Play()
         {
-            if (false == enablePlay || null == audioClip) return;
+            if (!enablePlay || null == audioClip) return;
             if (onlyOncePlay && enablePlay) enablePlay = false;
             AudioSource.PlayClipAtPoint(audioClip, Vector3.zero, 1.0f);
         }

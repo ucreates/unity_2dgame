@@ -13,8 +13,7 @@ namespace Editor.Build
 
         protected override void BuildiOS()
         {
-            if (false == pathDictionary.ContainsKey("fromFrameworkRoot") ||
-                false == pathDictionary.ContainsKey("destFrameworkRoot")) return;
+            if (!pathDictionary.ContainsKey("fromFrameworkRoot") || !pathDictionary.ContainsKey("destFrameworkRoot")) return;
             var fromFrameworkRootPath = pathDictionary["fromFrameworkRoot"];
             var destFrameworkRootPath = pathDictionary["destFrameworkRoot"];
             var innerBundlePathList = new[]
@@ -67,7 +66,7 @@ namespace Editor.Build
             var process = new Process();
             process.StartInfo = info;
             var ret = process.Start();
-            if (false == ret)
+            if (!ret)
             {
                 Debug.LogError("faild process start.");
                 return;

@@ -52,13 +52,7 @@ namespace Frontend.Behaviour.State.UI.Shop
             if (null != canvas) canvas.enabled = true;
             alphaTimeLine = new TimeLine();
             previousAlpha = 0f;
-            owner.transform.ForEach(child =>
-            {
-                if (child.name.Equals("ConfirmModalDialog"))
-                    child.gameObject.SetActive(true);
-                else
-                    child.gameObject.SetActive(false);
-            });
+            owner.transform.ForEach(child => { child.gameObject.SetActive(child.name.Equals("ConfirmModalDialog")); });
             if (null == builder)
                 builder = new ShopCanvasConfirmModalDialogBuilder();
             else

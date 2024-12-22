@@ -7,57 +7,61 @@
 // If such findings are accepted at any time.
 // We hope the tips and helpful in developing.
 //======================================================================
+
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using Core.Math;
-namespace Frontend.Component.Asset.Renderer.UI.Builder {
-public sealed class ResultCanvasEmblemImageBuilder : BaseUIAssetBuilder {
-    private const int WHITE_MEDAL_SCORE = 0;
-    private const int BRONZE_MEDAL_SCORE = 25;
-    private const int SILVER_MEDAL_SCORE = 50;
-    private Image emblemImage {
-        get;
-        set;
-    }
-    private int clearCount {
-        get;
-        set;
-    }
-    public ResultCanvasEmblemImageBuilder() {
-        this.position = Vector3.one;
-        this.scale = Vector3.one;
-    }
-    public ResultCanvasEmblemImageBuilder AddClearCount(int clearCount) {
-        this.clearCount = clearCount;
-        return this;
-    }
-    public override void Build() {
-        Vector2 size = spriteList[0].rect.size;
-        GameObject image = new GameObject("Emblem");
-        this.emblemImage = image.AddComponent<Image>();
-        this.emblemImage.rectTransform.SetParent(this.canvas.transform);
-        this.emblemImage.rectTransform.sizeDelta = size;
-        this.emblemImage.rectTransform.localScale = this.scale;
-        this.emblemImage.rectTransform.anchoredPosition = Vector3.zero;
-        float totalWidth = spriteList[0].rect.size.x * this.scale.x;
-        float sx = (totalWidth / 2f);
-        Sprite sprite = this.spriteList[0];
-        if (ResultCanvasEmblemImageBuilder.WHITE_MEDAL_SCORE < this.clearCount && this.clearCount <= ResultCanvasEmblemImageBuilder.BRONZE_MEDAL_SCORE) {
-            sprite = this.spriteList[3];
-        } else if (ResultCanvasEmblemImageBuilder.BRONZE_MEDAL_SCORE < this.clearCount && this.clearCount <= ResultCanvasEmblemImageBuilder.SILVER_MEDAL_SCORE) {
-            sprite = this.spriteList[2];
-        } else if (ResultCanvasEmblemImageBuilder.SILVER_MEDAL_SCORE < this.clearCount) {
-            sprite = this.spriteList[1];
+
+namespace Frontend.Component.Asset.Renderer.UI.Builder
+{
+    public sealed class ResultCanvasEmblemImageBuilder : BaseUIAssetBuilder
+    {
+        private const int WHITE_MEDAL_SCORE = 0;
+        private const int BRONZE_MEDAL_SCORE = 25;
+        private const int SILVER_MEDAL_SCORE = 50;
+
+        public ResultCanvasEmblemImageBuilder()
+        {
+            position = Vector3.one;
+            scale = Vector3.one;
         }
-        this.emblemImage.sprite = sprite;
-        this.emblemImage.rectTransform.anchoredPosition = new Vector3(sx + this.position.x , this.position.y, 0f);
-        this.imageList.Add(this.emblemImage);
+
+        private Image emblemImage { get; set; }
+
+        private int clearCount { get; set; }
+
+        public ResultCanvasEmblemImageBuilder AddClearCount(int clearCount)
+        {
+            this.clearCount = clearCount;
+            return this;
+        }
+
+        public override void Build()
+        {
+            var size = spriteList.FirstOrDefault()?.rect.size ?? Vector2.zero;
+            var image = new GameObject("Emblem");
+            emblemImage = image.AddComponent<Image>();
+            emblemImage.rectTransform.SetParent(canvas.transform);
+            emblemImage.rectTransform.sizeDelta = size;
+            emblemImage.rectTransform.localScale = scale;
+            emblemImage.rectTransform.anchoredPosition = Vector3.zero;
+            var totalWidth = spriteList.FirstOrDefault()?.rect.size.x * scale.x ?? 0f;
+            var sx = totalWidth / 2f;
+            var sprite = spriteList.FirstOrDefault();
+            if (WHITE_MEDAL_SCORE < clearCount && clearCount <= BRONZE_MEDAL_SCORE)
+                sprite = spriteList[3];
+            else if (BRONZE_MEDAL_SCORE < clearCount && clearCount <= SILVER_MEDAL_SCORE)
+                sprite = spriteList[2];
+            else if (SILVER_MEDAL_SCORE < clearCount) sprite = spriteList[1];
+            emblemImage.sprite = sprite;
+            emblemImage.rectTransform.anchoredPosition = new Vector3(sx + position.x, position.y, 0f);
+            imageList.Add(emblemImage);
+        }
+
+        public override void Reset()
+        {
+            GameObject.Destroy(emblemImage.gameObject);
+            GameObject.Destroy(emblemImage);
+        }
     }
-    public override void Reset() {
-        UnityEngine.GameObject.Destroy(this.emblemImage.gameObject);
-        UnityEngine.GameObject.Destroy(this.emblemImage);
-    }
-}
 }

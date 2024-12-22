@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Frontend.Component.Asset
 {
@@ -23,8 +24,7 @@ namespace Frontend.Component.Asset
 
         public BaseAsset Get(string assetName)
         {
-            if (false == assetDictionary.ContainsKey(assetName)) return null;
-            return assetDictionary[assetName];
+            return assetDictionary.FirstOrDefault(pair => pair.Key == assetName).Value;
         }
 
         public bool Set(string assetName, BaseAsset asset)

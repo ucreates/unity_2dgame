@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Linq;
 using Core.Validator;
 using Frontend.Component.Asset.Sound;
 using Frontend.Component.State;
@@ -44,7 +45,7 @@ namespace Frontend.Behaviour.State
             BaseValidator validator = new ScreenValidator();
             var res = validator.IsValid(owner.transform.position);
             var ret = res.GetResultList();
-            if (ret[0]) owner.stateMachine.Change("dead");
+            if (ret.FirstOrDefault()) owner.stateMachine.Change("dead");
         }
     }
 }

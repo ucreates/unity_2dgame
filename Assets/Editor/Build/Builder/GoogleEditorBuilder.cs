@@ -10,8 +10,7 @@ namespace Editor.Build
 
         protected override void BuildiOS()
         {
-            if (false == pathDictionary.ContainsKey("fromiOSPluginRoot") ||
-                false == pathDictionary.ContainsKey("destiOSProjectRoot")) return;
+            if (!pathDictionary.ContainsKey("fromiOSPluginRoot") || !pathDictionary.ContainsKey("destiOSProjectRoot")) return;
             var fromiOSRootPath = pathDictionary["fromiOSPluginRoot"];
             var destiOSRootPath = pathDictionary["destiOSProjectRoot"];
             var fromFrameworkRootPath = pathDictionary["fromFrameworkRoot"];

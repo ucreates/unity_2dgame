@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Service.Strategy;
 
 namespace Service
@@ -24,8 +25,7 @@ namespace Service
 
         public BaseStrategy Create(string strategyName)
         {
-            if (strategyDictionary.ContainsKey(strategyName)) return strategyDictionary[strategyName];
-            return null;
+            return strategyDictionary.FirstOrDefault(pair => pair.Key.Equals(strategyName)).Value;
         }
     }
 }

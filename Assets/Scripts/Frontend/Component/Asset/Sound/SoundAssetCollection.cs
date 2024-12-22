@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Core.Extensions;
 
 namespace Frontend.Component.Asset.Sound
@@ -35,14 +36,12 @@ namespace Frontend.Component.Asset.Sound
 
         public BaseSoundAsset GetBGMAsset(string bgmName)
         {
-            if (false == soundBGMDictionary.ContainsKey(bgmName)) return null;
-            return soundBGMDictionary[bgmName];
+            return soundBGMDictionary.FirstOrDefault(pair => pair.Key.Equals(bgmName)).Value;
         }
 
         public BaseSoundAsset GetSEAsset(string seName)
         {
-            if (false == soundEffectDictionary.ContainsKey(seName)) return null;
-            return soundEffectDictionary[seName];
+            return soundEffectDictionary.FirstOrDefault(pair => pair.Key.Equals(seName)).Value;
         }
 
         public bool SetBGMAsset(string bgmName, BaseSoundAsset bgmAsseet)

@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Service.Integration;
 using Service.Integration.Query.Expression;
 using Service.Integration.Schema;
@@ -69,8 +70,7 @@ namespace Service.BizLogic
             var dao = db.FindBy<MUserTable>();
             var condition = new ConditionExpression("isPlayer", "==", new FieldSchema<bool>(true));
             var userList = dao.FindBy(condition);
-            if (0 < userList.Count) return userList[0];
-            return null;
+            return userList.FirstOrDefault();
         }
 
         public MUserTable GetUser(int userId)
@@ -87,8 +87,7 @@ namespace Service.BizLogic
             var dao = db.FindBy<MUserTable>();
             var condition = new ConditionExpression("nickName", "==", new FieldSchema<string>(nickName));
             var userList = dao.FindBy(condition);
-            if (0 < userList.Count) return userList[0];
-            return null;
+            return userList.FirstOrDefault();
         }
     }
 }

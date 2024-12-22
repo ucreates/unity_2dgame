@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.Extensions;
 
 namespace Service.Integration.Schema
@@ -29,15 +30,14 @@ namespace Service.Integration.Schema
 
         public string Get()
         {
-            if (false == string.IsNullOrEmpty(keyCache)) return keyCache;
+            if (!string.IsNullOrEmpty(keyCache)) return keyCache;
             keyHolder.ForEach(pair => { keyCache += pair.Value; });
             return keyCache;
         }
 
         public string Get(string fieldName)
         {
-            if (keyHolder.ContainsKey(fieldName)) return keyHolder[fieldName];
-            return string.Empty;
+            return keyHolder.FirstOrDefault(pair => pair.Key.Equals(fieldName)).Value;
         }
 
         public int GetId()
@@ -50,7 +50,7 @@ namespace Service.Integration.Schema
         public bool Set(string fieldName, object fieldValue)
         {
             var ret = false;
-            if (false == keyHolder.ContainsKey(fieldName))
+            if (!keyHolder.ContainsKey(fieldName))
             {
                 keyHolder.Add(fieldName, fieldValue.ToString());
                 ret = true;
@@ -64,6 +64,7 @@ namespace Service.Integration.Schema
             if (GetType() != obj.GetType()) return false;
             var right = obj as KeySchema;
             var matchCount = 0;
+
             keyHolder.ForEach(leftPair =>
             {
                 right.keyHolder.ForEach(rightPair =>

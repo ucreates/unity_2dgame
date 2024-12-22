@@ -27,7 +27,7 @@ namespace Frontend.Component.Asset.Sound
 
         public void Play(GameObject player, bool loop)
         {
-            if (false == enablePlay) return;
+            if (!enablePlay) return;
             if (onlyOncePlay && enablePlay) enablePlay = false;
             audioSource = player.GetComponent<AudioSource>();
             audioSource.clip = audioClip;

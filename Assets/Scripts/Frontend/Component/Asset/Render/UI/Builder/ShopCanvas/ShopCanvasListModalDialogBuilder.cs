@@ -74,7 +74,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                         text.text = commitMessage;
                         break;
                     case "RemainingCoinText":
-                        text.text = "coin:" + coin;
+                        text.text = $"coin:{coin}";
                         break;
                     case "ItemTypeAText":
                         text.text = itemMasterList[0].name;
@@ -117,10 +117,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                 button.colors = cb;
                 button.enabled = !itemList.Contains(button.name) ? true : false;
             });
-            imageList.ForEach(image =>
-            {
-                image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
-            });
+            imageList.ForEach(image => { image.color = new Color(image.color.r, image.color.g, image.color.b, alpha); });
             textList.ForEach(text => { text.color = new Color(text.color.r, text.color.g, text.color.b, alpha); });
         }
     }

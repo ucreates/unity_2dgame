@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Core.Extensions;
 using Service.Integration;
 using Service.Integration.Query.Expression;
@@ -71,7 +72,7 @@ namespace Service.BizLogic
             }
             else
             {
-                var record = titList[0];
+                var record = titList.FirstOrDefault();
                 record.amount += amont;
                 ret = dao.Update(record);
             }

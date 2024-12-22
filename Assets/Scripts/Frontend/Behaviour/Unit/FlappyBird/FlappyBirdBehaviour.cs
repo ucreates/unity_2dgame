@@ -50,13 +50,12 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
 
     private void FixedUpdate()
     {
-        if (false == stateMachine.finiteStateEntity.currentStateName.Equals("ready")) stateMachine.Update();
+        if (!stateMachine.finiteStateEntity.currentStateName.Equals("ready")) stateMachine.Update();
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.CompareTag("Barrier") &&
-            false == stateMachine.finiteStateEntity.currentStateName.Equals("dead"))
+        if (coll.gameObject.CompareTag("Barrier") && !stateMachine.finiteStateEntity.currentStateName.Equals("dead"))
         {
             var soundAsset = SoundAssetCollection.GetInstance().GetSEAsset("bird_hit") as SoundEffectAsset;
             soundAsset.Play();

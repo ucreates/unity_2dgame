@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Core.Entity;
 using Core.Extensions;
 using Frontend.Component.Property;
@@ -64,16 +65,14 @@ namespace Frontend.Notify
             return true;
         }
 
-        public bool Remove(BaseProperty property)
+        public void Remove(BaseProperty property)
         {
-            return Remove(property.id);
+            Remove(property.id);
         }
 
-        public bool Remove(int id)
+        public void Remove(int id)
         {
-            if (false == notifierDictionary.ContainsKey(id)) return false;
-            notifierDictionary.Remove(id);
-            return true;
+            notifierDictionary.Where(pair => pair.Key == id).ForEach(pair => { notifierDictionary.Remove(pair.Key); });
         }
 
         public void Clear()
