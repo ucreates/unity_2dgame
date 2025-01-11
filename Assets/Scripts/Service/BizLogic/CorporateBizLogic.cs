@@ -35,7 +35,7 @@ namespace Service.BizLogic
             var db = DataBase.GetInstance();
             var dao = db.FindBy<MCorporateTable>();
             var master = dao.FindBy(UNIQUE_RECORD_ID);
-            return master;
+            return master.record;
         }
 
         public string GetCompanyName()

@@ -39,7 +39,8 @@ public sealed class CurtainBehaviour : BaseBehaviour, IStateMachine<CurtainBehav
     {
         if (notifyMessage == NotifyMessage.GameRestart)
             stateMachine.Change("destroy");
-        else if (notifyMessage == NotifyMessage.GameOver) stateMachine.Change("show");
+        else if (notifyMessage == NotifyMessage.GameOver)
+            stateMachine.Change("show");
     }
 
     public FiniteStateMachine<CurtainBehaviour> stateMachine { get; set; }

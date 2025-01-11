@@ -40,7 +40,8 @@ public sealed class StartCanvasBehaviour : BaseBehaviour, IStateMachine<StartCan
             stateMachine.Change("show");
         else if (notifyMessage == NotifyMessage.GameReady || notifyMessage == NotifyMessage.RegulationShow ||
                  notifyMessage == NotifyMessage.RankingShow ||
-                 notifyMessage == NotifyMessage.ShopShow) stateMachine.Change("hide");
+                 notifyMessage == NotifyMessage.ShopShow)
+            stateMachine.Change("hide");
     }
 
     public FiniteStateMachine<StartCanvasBehaviour> stateMachine { get; set; }

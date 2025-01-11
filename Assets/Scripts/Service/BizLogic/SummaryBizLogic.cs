@@ -27,7 +27,7 @@ namespace Service.BizLogic
             var db = DataBase.GetInstance();
             var dao = db.FindBy<TSummaryTable>();
             var tt = dao.FindBy(UNIQUE_RECORD_ID);
-            return tt.bestClearCount;
+            return tt.record.bestClearCount;
         }
 
         public bool UpdateBestClearCount(int clearCount)
@@ -38,8 +38,8 @@ namespace Service.BizLogic
                 var db = DataBase.GetInstance();
                 var dao = db.FindBy<TSummaryTable>();
                 var tt = dao.FindBy(UNIQUE_RECORD_ID);
-                tt.bestClearCount = clearCount;
-                dao.Save(tt);
+                tt.record.bestClearCount = clearCount;
+                dao.Save(tt.record);
                 return true;
             }
 
@@ -51,8 +51,8 @@ namespace Service.BizLogic
             var db = DataBase.GetInstance();
             var dao = db.FindBy<TScoreTable>();
             var tt = dao.FindBy(UNIQUE_RECORD_ID);
-            tt.clearCount = 0;
-            return dao.Update(tt);
+            tt.record.clearCount = 0;
+            return dao.Update(tt.record);
         }
     }
 }

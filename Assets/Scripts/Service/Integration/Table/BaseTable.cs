@@ -9,7 +9,7 @@
 //======================================================================
 
 using System;
-using Foundation;
+using Core.Extensions.Array;
 using Service.Integration.Schema;
 using UnityEngine;
 
@@ -22,19 +22,20 @@ namespace Service.Integration.Table
         {
             id = 0;
             primaryKey = new KeySchema();
-            fieldSchemaCollection = new FieldSchemaCollection();
         }
 
-        public KeySchema primaryKey { get; set; }
+        public BaseTable previous { get; set; }
 
-        public FieldSchemaCollection fieldSchemaCollection { get; set; }
+        public BaseTable next { get; set; }
+
+        public KeySchema primaryKey { get; set; }
 
         [PrimaryKeyAttribute] public int id { get; set; }
 
         public void Build()
         {
-            var PropertyInfoList = GetType().GetProperties();
-            PropertyInfoList.ForEach(pinfo =>
+            var propertyInfoList = GetType().GetProperties();
+            propertyInfoList.ForEach(pinfo =>
             {
                 Attribute.GetCustomAttributes(pinfo).ForEach(attribute =>
                 {
@@ -44,47 +45,6 @@ namespace Service.Integration.Table
                         primaryKey.Set(pinfo.Name, fieldValue);
                     }
                 });
-                var propertyType = pinfo.PropertyType.Name.ToLower();
-                var propertyValue = pinfo.GetValue(this, null);
-                if (propertyType.Equals("int32"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<int>(Convert.ToInt32(propertyValue)));
-                else if (propertyType.Equals("long"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<long>(Convert.ToInt64(propertyValue)));
-                else if (propertyType.Equals("float"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<float>(Convert.ToSingle(propertyValue)));
-                else if (propertyType.Equals("double"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<double>(Convert.ToDouble(propertyValue)));
-                else if (propertyType.Equals("boolean"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<bool>(Convert.ToBoolean(propertyValue)));
-                else if (propertyType.Equals("string"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<string>(propertyValue.ToString()));
-            });
-
-            PropertyInfoList.ForEach(pinfo =>
-            {
-                Attribute.GetCustomAttributes(pinfo).ForEach(attribute =>
-                {
-                    if (attribute.GetType() is PrimaryKeyAttribute)
-                    {
-                        var fieldValue = pinfo.GetValue(this, null).ToString();
-                        primaryKey.Set(pinfo.Name, fieldValue);
-                    }
-                });
-
-                var propertyType = pinfo.PropertyType.Name.ToLower();
-                var propertyValue = pinfo.GetValue(this, null);
-                if (propertyType.Equals("int32"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<int>(Convert.ToInt32(propertyValue)));
-                else if (propertyType.Equals("long"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<long>(Convert.ToInt64(propertyValue)));
-                else if (propertyType.Equals("float"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<float>(Convert.ToSingle(propertyValue)));
-                else if (propertyType.Equals("double"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<double>(Convert.ToDouble(propertyValue)));
-                else if (propertyType.Equals("boolean"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<bool>(Convert.ToBoolean(propertyValue)));
-                else if (propertyType.Equals("string"))
-                    fieldSchemaCollection.Set(pinfo.Name, new FieldSchema<string>(propertyValue.ToString()));
             });
         }
 
@@ -95,8 +55,8 @@ namespace Service.Integration.Table
 
         public void Dump()
         {
-            var PropertyInfoList = GetType().GetProperties();
-            PropertyInfoList.ForEach(pinfo =>
+            var propertyInfoList = GetType().GetProperties();
+            propertyInfoList.ForEach(pinfo =>
             {
                 if (pinfo.GetType() is PrimaryKeyAttribute)
                 {

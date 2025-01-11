@@ -8,9 +8,10 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Extensions;
+using Core.Extensions.Array;
 using Service.Integration.Dto.Assembler;
 using Service.Integration.Query.Expression;
 using Service.Integration.Schema;
@@ -27,8 +28,7 @@ namespace Service.Integration
         public Dao(bool persistent)
         {
             id = 0;
-            seek = 0;
-            name = GetType().FullName.ToLower();
+            name = GetType()?.FullName?.ToLower();
             if (persistent)
             {
                 assembler = new PersistenceAssembler<T>(name);
@@ -49,156 +49,36 @@ namespace Service.Integration
 
         public int id { get; private set; }
 
-        public int seek { get; private set; }
-
-        public bool isFOR => seek == 0;
-
-        public bool isEOR => seek == recordList.Count - 1;
-
-        public T FindBy(int id)
+        public (T record, int index) FindBy(int recordId)
         {
-            int index;
-            return FindBy(id, out index);
-        }
-
-        public T FindBy(int id, out int index)
-        {
-            index = -1;
-            if (0 == recordList.Count) return null;
-            index = -1;
-            var left = 0;
-            var right = recordList.Count - 1;
-            T ret = null;
-            while (left <= right)
-            {
-                var mid = left + (right - left) / 2;
-                var record = recordList[mid];
-                if (id < record.id)
-                {
-                    right = mid - 1;
-                }
-                else if (id > record.id)
-                {
-                    left = mid + 1;
-                }
-                else
-                {
-                    index = mid;
-                    ret = record;
-                    break;
-                }
-            }
-
-            return ret;
+            var record = recordList.FirstOrDefault(record => record.id == recordId);
+            var index = recordList.IndexOf(record);
+            return (record, index);
         }
 
         public T FindBy(KeySchema primaryKey)
         {
-            int index;
-            return FindBy(primaryKey, out index);
-        }
-
-        public T FindBy(KeySchema primaryKey, out int index)
-        {
-            index = -1;
             if (0 == recordList.Count) return null;
-            var id = primaryKey.GetId();
-            var record = FindBy(id, out index);
-            if (null != record && record.primaryKey == primaryKey) return record;
-            return null;
+            var recordId = primaryKey.GetId();
+            var result = FindBy(recordId);
+            return null != result.record && result.record?.primaryKey == primaryKey ? result.record : null;
         }
 
-        public List<T> FindBy(BaseExpression condition, BaseExpression order = null, BaseExpression limit = null)
+        public List<T> FindBy(Func<T, bool> predicate)
         {
-            var ret = new List<T>();
-            if (0 == recordList.Count) return ret;
-            var conditionList = new List<ConditionExpression>();
-            if (condition is AndExpression || condition is OrExpression)
-            {
-                var mcexp = condition as MultiConditionExpression;
-                conditionList = mcexp.conditionList;
-            }
-            else
-            {
-                var cexp = condition as ConditionExpression;
-                conditionList.Add(cexp);
-            }
+            return recordList.Where(predicate).ToList();
+        }
 
-            recordList.ForEach(record =>
+        public List<T> FindAll(params BaseExpression[] expressions)
+        {
+            var result = new List<T>(recordList);
+            expressions.ForEach(expression =>
             {
-                var add = false;
-                conditionList.ForEach(cexp =>
-                {
-                    var pinfo = record.GetType().GetProperty(cexp.fieldName);
-                    var value = pinfo.GetValue(record, null);
-                    if (cexp.comparisonOperator.Equals("=="))
-                        add = cexp.field.Equal(value);
-                    else if (cexp.comparisonOperator.Equals("!="))
-                        add = !cexp.field.Equal(value);
-                    else if (cexp.comparisonOperator.Equals(">"))
-                        add = cexp.field.MoreThan(value);
-                    else if (cexp.comparisonOperator.Equals(">="))
-                        add = cexp.field.MoreThanEqual(value);
-                    else if (cexp.comparisonOperator.Equals("<"))
-                        add = cexp.field.LessThan(value);
-                    else if (cexp.comparisonOperator.Equals("<=")) add = cexp.field.LessThanEqual(value);
-                    if (condition is AndExpression && !add)
-                        return false;
-                    if (condition is OrExpression && add)
-                        return false;
-                    return true;
-                });
-                if (add) ret.Add(record);
+                if (expression is OrderByExpression orderByExpression) result = OrderBy(orderByExpression.orderFieldName, orderByExpression.orderType, result);
+
+                if (expression is LimitExpression limitExpression) result = Limit(limitExpression.limit, result);
             });
-
-            if (1 < ret.Count)
-            {
-                if (null != order && order is OrderByExpression)
-                {
-                    var orderExpression = order as OrderByExpression;
-                    ret = OrderBy(orderExpression.orderFieldName, ret, orderExpression.orderType);
-                }
-
-                if (null != limit && limit is LimitExpression)
-                {
-                    var limitExpression = limit as LimitExpression;
-                    ret = Limit(ret, limitExpression.limit);
-                }
-            }
-
-            return ret;
-        }
-
-        public List<T> FindAll()
-        {
-            return recordList;
-        }
-
-        public List<T> FindAll(BaseExpression expression)
-        {
-            if (null == expression) return recordList;
-            var ret = new List<T>(recordList);
-            if (expression is OrderByExpression)
-            {
-                var orderByExpression = expression as OrderByExpression;
-                return OrderBy(orderByExpression.orderFieldName, ret, orderByExpression.orderType);
-            }
-
-            if (expression is LimitExpression)
-            {
-                var limitExpression = expression as LimitExpression;
-                return Limit(ret, limitExpression.limit);
-            }
-
-            return ret;
-        }
-
-        public List<T> FindAll(OrderByExpression orderBy, LimitExpression limit)
-        {
-            var ret = new List<T>(recordList);
-            if (null != orderBy) ret = OrderBy(orderBy.orderFieldName, ret, orderBy.orderType);
-            if (null != limit) ret = Limit(ret, limit.limit);
-            return ret;
+            return result.ToList();
         }
 
         public T FindFirst()
@@ -208,34 +88,17 @@ namespace Service.Integration
 
         public T FindLast()
         {
-            if (0 == recordList.Count) return null;
-            var lastIdx = recordList.Count - 1;
-            return recordList[lastIdx];
+            return recordList.LastOrDefault();
         }
 
-        public T FindNext()
+        public T FindPrevious(int recordId)
         {
-            seek++;
-            var lastIdx = recordList.Count;
-            if (seek >= lastIdx && 0 == recordList.Count)
-            {
-                seek = lastIdx - 1;
-                return null;
-            }
-
-            return recordList[seek];
+            return FindBy(recordId).record?.previous as T ?? null;
         }
 
-        public T FindPrevious()
+        public T FindNext(int recordId)
         {
-            seek--;
-            if (seek < 0 && 0 == recordList.Count)
-            {
-                seek = 0;
-                return null;
-            }
-
-            return recordList[seek];
+            return FindBy(recordId).record?.next as T ?? null;
         }
 
         public bool Save()
@@ -251,99 +114,77 @@ namespace Service.Integration
 
         public bool Save(T record)
         {
-            if (null != FindBy(record.primaryKey)) return false;
+            var result = FindBy(record.id);
+            if (null != result.record) return false;
+            var getPreviousAndNextRecords = new Func<int, (T previous, T next)>(delegate(int index)
+            {
+                var previousIdx = index - 1;
+                var nextIdx = index + 1;
+                var previous = 0 <= previousIdx ? recordList.ElementAt(previousIdx) : null;
+                var next = recordList.Count - 1 > nextIdx ? recordList.ElementAt(nextIdx) : null;
+                return (previous, next);
+            });
             id++;
             record.id = id;
             record.Build();
             recordList.Add(record);
-            if (null != assembler) assembler.WriteToPlayerPrefs(recordList);
-            return true;
-        }
-
-        public bool Update(int id, T record)
-        {
-            int index;
-            if (null == FindBy(id, out index)) return false;
-            recordList[index] = record;
+            var index = recordList.IndexOf(record);
+            var previousAndNextRecords = getPreviousAndNextRecords(index);
+            record.previous = previousAndNextRecords.previous;
+            record.next = previousAndNextRecords.next;
             if (null != assembler) assembler.WriteToPlayerPrefs(recordList);
             return true;
         }
 
         public bool Update(T record)
         {
-            int index;
-            if (null == FindBy(record.primaryKey, out index)) return false;
-            recordList[index] = record;
+            var result = FindBy(record.id);
+            if (null == result.record) return false;
+            recordList[result.index] = record;
             if (null != assembler) assembler.WriteToPlayerPrefs(recordList);
             return true;
         }
 
-        public bool Remove(int id)
+        public bool Remove(int recordId)
         {
-            int index;
-            if (null == FindBy(id, out index)) return false;
-            recordList.RemoveAt(index);
-            if (null != assembler) assembler.WriteToPlayerPrefs(recordList);
-            return true;
+            var result = FindBy(recordId);
+            return Remove(result.record);
         }
 
         public bool Remove(T record)
         {
-            int index;
-            if (null == FindBy(record.primaryKey, out index)) return false;
-            recordList.RemoveAt(index);
+            var result = FindBy(record.id);
+            if (null == result.record) return false;
+            recordList.RemoveAt(result.index);
             if (null != assembler) assembler.WriteToPlayerPrefs(recordList);
             return true;
         }
 
-        private List<T> OrderBy(string orderFieldName, List<T> recordList, OrderByExpression.OrderType orderType)
+        private List<T> OrderBy(string orderFieldName, OrderByExpression.OrderType orderType, List<T> recordListParams = null)
         {
-            for (var i = 0; i < recordList.Count; i++)
-            for (var j = recordList.Count - 1; j > i; j--)
-            {
-                var previousIndex = j - 1;
-                var recordA = recordList[j];
-                var recordB = recordList[previousIndex];
-                var pinfoA = recordA.GetType().GetProperty(orderFieldName);
-                var pinfoB = recordB.GetType().GetProperty(orderFieldName);
-                var fieldScheamA = recordA.fieldSchemaCollection.Get(orderFieldName);
-                var fieldScheamB = recordB.fieldSchemaCollection.Get(orderFieldName);
-                var valueA = pinfoA.GetValue(recordA, null);
-                var valueB = pinfoB.GetValue(recordB, null);
-                if (orderType == OrderByExpression.OrderType.Asc && fieldScheamA.MoreThan(valueB))
-                {
-                    var table = recordList[previousIndex];
-                    recordList[previousIndex] = recordList[j];
-                    recordList[j] = table;
-                }
-                else if (orderType == OrderByExpression.OrderType.Desc && fieldScheamB.MoreThan(valueA))
-                {
-                    var table = recordList[previousIndex];
-                    recordList[previousIndex] = recordList[j];
-                    recordList[j] = table;
-                }
-            }
-
-            return recordList;
+            var result = null == recordListParams ? recordList : new List<T>(recordListParams);
+            var propertyInfo = typeof(T).GetProperty(orderFieldName) ?? typeof(T).GetProperty("");
+            if (orderType == OrderByExpression.OrderType.Asc)
+                result = result?.OrderBy(record => propertyInfo?.GetValue(record)).ToList();
+            else if (orderType == OrderByExpression.OrderType.Desc)
+                result = result?.OrderByDescending(record => propertyInfo?.GetValue(record)).ToList();
+            return result;
         }
 
-        public List<T> Limit(List<T> originRcordList, int limit)
+        public List<T> Limit(int limit, List<T> recordListParams = null)
         {
-            if (limit < originRcordList.Count)
-            {
-                var ret = new List<T>();
-                var index = 0;
-                originRcordList.ForEach(record =>
-                {
-                    if (limit == index) return false;
-                    ret.Add(record);
-                    index++;
-                    return true;
-                });
-                return ret;
-            }
+            var result = null == recordListParams ? recordList : new List<T>(recordListParams);
+            return result?.Take(limit)?.ToList();
+        }
 
-            return originRcordList;
+        public bool HasRecord(Func<T, bool> predicate)
+        {
+            return recordList.Any(predicate);
+        }
+
+        public bool Empty()
+        {
+            return !recordList.Any();
         }
 
         public override void Clear()
@@ -351,12 +192,6 @@ namespace Service.Integration
             recordList.Clear();
             if (null != assembler) assembler.WriteToPlayerPrefs(recordList);
             id = 0;
-            seek = 0;
-        }
-
-        public void Reset()
-        {
-            seek = 0;
         }
 
         public void Reset(int rollBackId)

@@ -27,8 +27,8 @@ namespace Service.Integration.Communication.Client
 
         public void Dump()
         {
-            Debug.Log("uri:" + uri);
-            Debug.Log("localPath:" + localPath);
+            Debug.Log($"uri:{uri}");
+            Debug.Log($"localPath:{localPath}");
         }
     }
 }

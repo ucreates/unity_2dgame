@@ -43,7 +43,8 @@ public sealed class NoticeCanvasBehaviour : BaseBehaviour, IStateMachine<NoticeC
     {
         if (notifyMessage == NotifyMessage.NoticeShow)
             stateMachine.Change("show");
-        else if (notifyMessage == NotifyMessage.NoticeHide) stateMachine.Change("hide");
+        else if (notifyMessage == NotifyMessage.NoticeHide)
+            stateMachine.Change("hide");
     }
 
     public FiniteStateMachine<NoticeCanvasBehaviour> stateMachine { get; set; }

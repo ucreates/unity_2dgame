@@ -11,8 +11,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Service.Integration;
-using Service.Integration.Query.Expression;
-using Service.Integration.Schema;
 using Service.Integration.Table;
 using UnityEngine;
 
@@ -24,8 +22,7 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db.FindBy<TScoreTable>();
-            var condition = new ConditionExpression("userId", "==", new FieldSchema<int>(userId));
-            var ret = dao.FindBy(condition);
+            var ret = dao.FindBy(record => record.userId == userId);
             var clearCount = 0;
             if (0 < ret.Count) clearCount = ret.FirstOrDefault()?.clearCount ?? 0;
             return clearCount;
@@ -35,8 +32,7 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db.FindBy<TScoreTable>();
-            var condition = new ConditionExpression("userId", "==", new FieldSchema<int>(userId));
-            var ret = dao.FindBy(condition);
+            var ret = dao.FindBy(record => record.userId == userId);
             if (0 < ret.Count)
             {
                 var record = ret.FirstOrDefault();
@@ -51,8 +47,7 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db.FindBy<TScoreTable>();
-            var condition = new ConditionExpression("userId", "==", new FieldSchema<int>(userId));
-            var ret = dao.FindBy(condition);
+            var ret = dao.FindBy(record => record.userId == userId);
             if (0 < ret.Count)
             {
                 var record = ret.FirstOrDefault();
@@ -88,8 +83,7 @@ namespace Service.BizLogic
             var mut = ubl.GetPlayer();
             var db = DataBase.GetInstance();
             var dao = db.FindBy<TScoreTable>();
-            var condition = new ConditionExpression("userId", "==", new FieldSchema<int>(mut.id));
-            var ret = dao.FindBy(condition);
+            var ret = dao.FindBy(record => record.userId == mut.id);
             if (0 < ret.Count)
             {
                 var record = ret.FirstOrDefault();
@@ -111,8 +105,7 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db.FindBy<TScoreTable>();
-            var condition = new ConditionExpression("userId", "==", new FieldSchema<int>(table.userId));
-            var ret = dao.FindBy(condition);
+            var ret = dao.FindBy(record => record.userId == table.userId);
             if (0 != ret.Count) return false;
             return dao.Save(table);
         }

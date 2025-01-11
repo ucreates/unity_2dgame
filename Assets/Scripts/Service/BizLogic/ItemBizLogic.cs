@@ -12,8 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Extensions;
 using Service.Integration;
-using Service.Integration.Query.Expression;
-using Service.Integration.Schema;
 using Service.Integration.Table;
 
 namespace Service.BizLogic
@@ -44,7 +42,7 @@ namespace Service.BizLogic
             var db = DataBase.GetInstance();
             var dao = db.FindBy<MItemTable>();
             var mit = dao.FindBy(itemId);
-            return mit;
+            return mit.record;
         }
 
         public int GetPriceByItemId(int itemId)
@@ -58,10 +56,7 @@ namespace Service.BizLogic
             var ret = false;
             var db = DataBase.GetInstance();
             var dao = db.FindBy<TItemTable>();
-            var condition = new AndExpression();
-            condition.conditionList.Add(new ConditionExpression("userId", "==", new FieldSchema<int>(userId)));
-            condition.conditionList.Add(new ConditionExpression("itemId", "==", new FieldSchema<int>(itemId)));
-            var titList = dao.FindBy(condition);
+            var titList = dao.FindBy(record => record.userId == userId && record.itemId == itemId);
             if (0 == titList.Count)
             {
                 var record = new TItemTable();
@@ -85,10 +80,7 @@ namespace Service.BizLogic
             var ret = false;
             var db = DataBase.GetInstance();
             var dao = db.FindBy<TItemTable>();
-            var condition = new AndExpression();
-            condition.conditionList.Add(new ConditionExpression("userId", "==", new FieldSchema<int>(userId)));
-            condition.conditionList.Add(new ConditionExpression("itemId", "==", new FieldSchema<int>(itemId)));
-            var titList = dao.FindBy(condition);
+            var titList = dao.FindBy(record => record.userId == userId && record.itemId == itemId);
             if (0 < titList.Count) ret = true;
             return ret;
         }

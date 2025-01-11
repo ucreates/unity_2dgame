@@ -50,7 +50,6 @@ namespace Service.Integration
             if (daoDictionary.ContainsKey(daoName))
             {
                 var dao = daoDictionary[daoName] as Dao<T>;
-                dao.Reset();
                 return dao;
             }
 

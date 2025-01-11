@@ -9,7 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
-using Core.Extensions;
+using System.Linq;
 using Service.Integration.Communication.Callback;
 using Service.Integration.Communication.Client;
 
@@ -48,17 +48,12 @@ namespace Service.Integration.Communication.Entity
 
         public int dataLength
         {
-            get
-            {
-                var length = 0;
-                requestDataDictionary.ForEach(pair => { length += pair.Value.ToString().Length; });
-                return length;
-            }
+            get { return requestDataDictionary.Sum(pair => { return pair.Value.ToString().Length; }); }
         }
 
         public string GetURL()
         {
-            return setting.uri.AbsoluteUri + downLoadFile.uri;
+            return $"{setting.uri.AbsoluteUri}{downLoadFile.uri}";
         }
 
         public string GetQueryString()

@@ -11,8 +11,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Service.Integration;
-using Service.Integration.Query.Expression;
-using Service.Integration.Schema;
 using Service.Integration.Table;
 
 namespace Service.BizLogic
@@ -68,8 +66,7 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db.FindBy<MUserTable>();
-            var condition = new ConditionExpression("isPlayer", "==", new FieldSchema<bool>(true));
-            var userList = dao.FindBy(condition);
+            var userList = dao.FindBy(record => record.isPlayer);
             return userList.FirstOrDefault();
         }
 
@@ -78,15 +75,14 @@ namespace Service.BizLogic
             var db = DataBase.GetInstance();
             var dao = db.FindBy<MUserTable>();
             var mut = dao.FindBy(userId);
-            return mut;
+            return mut.record;
         }
 
         public MUserTable FindByNickName(string nickName)
         {
             var db = DataBase.GetInstance();
             var dao = db.FindBy<MUserTable>();
-            var condition = new ConditionExpression("nickName", "==", new FieldSchema<string>(nickName));
-            var userList = dao.FindBy(condition);
+            var userList = dao.FindBy(record => record.nickName == nickName);
             return userList.FirstOrDefault();
         }
     }

@@ -34,7 +34,7 @@ namespace Service.Integration.Communication.Entity
 
         public string GetDownLoadPath()
         {
-            return request.setting.localPath + request.downLoadFile.uri;
+            return $"{request.setting.localPath}{request.downLoadFile.uri}";
         }
     }
 }

@@ -39,7 +39,8 @@ public sealed class ClayPipeGeneratorBehaviour : BaseBehaviour, IStateMachine<Cl
     {
         if (notifyMessage == NotifyMessage.FlappyBirdDead)
             stateMachine.Change("stop");
-        else if (notifyMessage == NotifyMessage.GameStart) stateMachine.Change("generate");
+        else if (notifyMessage == NotifyMessage.GameStart)
+            stateMachine.Change("generate");
     }
 
     public FiniteStateMachine<ClayPipeGeneratorBehaviour> stateMachine { get; set; }

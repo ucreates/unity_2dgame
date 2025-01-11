@@ -1,8 +1,7 @@
 using System;
 
-namespace Foundation
+namespace Core.Extensions.Array
 {
-    //C#:3.0
     public static class ArrayExtension
     {
         public static void For<T>(this T[] array, Action<T> action)
@@ -29,8 +28,8 @@ namespace Foundation
 
         public static void Sort<T>(this T[] array, bool desc = false) where T : IComparable<T>
         {
-            Array.Sort(array);
-            if (desc) Array.Reverse(array);
+            System.Array.Sort(array);
+            if (desc) System.Array.Reverse(array);
         }
     }
 }

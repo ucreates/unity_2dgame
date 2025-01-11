@@ -47,7 +47,8 @@ public sealed class ShopCanvasBehaviour : BaseBehaviour, IStateMachine<ShopCanva
             stateMachine.Change("listhide");
         else if (notifyMessage == NotifyMessage.ShopCommitShow)
             stateMachine.Change("commitshow", parameter);
-        else if (notifyMessage == NotifyMessage.ShopConfirmShow) stateMachine.Change("confirmshow", parameter);
+        else if (notifyMessage == NotifyMessage.ShopConfirmShow)
+            stateMachine.Change("confirmshow", parameter);
     }
 
     public FiniteStateMachine<ShopCanvasBehaviour> stateMachine { get; set; }

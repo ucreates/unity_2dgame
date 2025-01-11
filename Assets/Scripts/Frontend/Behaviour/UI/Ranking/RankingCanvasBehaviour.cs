@@ -32,7 +32,8 @@ public sealed class RankingCanvasBehaviour : BaseBehaviour, IStateMachine<Rankin
     {
         if (notifyMessage == NotifyMessage.RankingShow)
             stateMachine.Change("show");
-        else if (notifyMessage == NotifyMessage.RankingHide) stateMachine.Change("hide");
+        else if (notifyMessage == NotifyMessage.RankingHide)
+            stateMachine.Change("hide");
     }
 
     public FiniteStateMachine<RankingCanvasBehaviour> stateMachine { get; set; }

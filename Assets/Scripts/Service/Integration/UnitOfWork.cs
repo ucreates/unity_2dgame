@@ -83,8 +83,8 @@ namespace Service.Integration
             {
                 if (!result) return;
                 result = dao.Save(record);
-                var savedRecord = dao.FindBy(dao.id);
-                postAddRecordList.Add(savedRecord);
+                var savedResult = dao.FindBy(dao.id);
+                postAddRecordList.Add(savedResult.record);
             });
             return result;
         }
@@ -126,14 +126,14 @@ namespace Service.Integration
             postAddRecordList.Clear();
         }
 
-        public bool registerAddRecord(T record)
+        public bool RegisterAddRecord(T record)
         {
             if (!IsValid(addRecordList, record)) return false;
             addRecordList.Add(record);
             return true;
         }
 
-        public bool registerUpdateRecord(T record)
+        public bool RegisterUpdateRecord(T record)
         {
             if (!IsValid(removeRecordList, record)) return false;
             if (!IsValid(updateRecordList, record)) return false;
@@ -141,7 +141,7 @@ namespace Service.Integration
             return true;
         }
 
-        public bool registerRemoveRecord(T record)
+        public bool RegisterRemoveRecord(T record)
         {
             if (!IsValid(removeRecordList, record)) return false;
             if (!IsValid(updateRecordList, record)) return false;
