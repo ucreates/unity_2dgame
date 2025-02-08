@@ -47,7 +47,7 @@ namespace Frontend.Behaviour.State
             {
                 owner.stateMachine.Change("hide");
                 var notifier = Notifier.GetInstance();
-                if (notifier.currentMessage != NotifyMessage.GameStart) notifier.Notify(NotifyMessage.GameStart);
+                if (notifier.currentMessage.title != NotifyMessage.Title.GameStart) notifier.Notify(NotifyMessage.Title.GameStart);
             }
         }
     }

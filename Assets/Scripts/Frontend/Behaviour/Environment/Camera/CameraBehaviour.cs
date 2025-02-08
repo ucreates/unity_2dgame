@@ -8,11 +8,11 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 
 public sealed class CameraBehaviour : BaseBehaviour, IStateMachine<CameraBehaviour>, INotify
 {
@@ -20,13 +20,12 @@ public sealed class CameraBehaviour : BaseBehaviour, IStateMachine<CameraBehavio
 
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead; }).Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<CameraBehaviour>(this);
         stateMachine.Add("stop", new CameraStopState());
         stateMachine.Add("shake", new CameraShakeState());
         stateMachine.Change("stop");
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     // Update is called once per frame
@@ -35,9 +34,10 @@ public sealed class CameraBehaviour : BaseBehaviour, IStateMachine<CameraBehavio
         stateMachine.Update();
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.FlappyBirdDead) stateMachine.Change("shake");
+        if (notifyMessage.title == NotifyMessage.Title.FlappyBirdDead) 
+            stateMachine.Change("shake");
     }
 
     public FiniteStateMachine<CameraBehaviour> stateMachine { get; set; }

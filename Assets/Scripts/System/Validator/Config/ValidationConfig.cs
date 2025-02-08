@@ -51,33 +51,27 @@ namespace Core.Validator.Config
             }
 
             var validationList = document.GetElementsByTagName("validation");
-            validationList.ForEach(node =>
+            validationList.ForEach(attribute =>
                 {
-                    node.Attributes.ForEach(attribute =>
+                    if (attribute.Name.Equals("viewname"))
                     {
-                        if (attribute.Name.Equals("viewname"))
-                        {
-                            viewName = attribute.Value;
-                            return false;
-                        }
+                        ruleNodeDictionary.Add(attribute.Value, validationList);
+                        return false;
+                    }
 
-                        return true;
-                    });
+                    return true;
                 }
             );
             var componentList = document.GetElementsByTagName("component");
-            componentList.ForEach(node =>
+            componentList.ForEach(attribute =>
                 {
-                    node.Attributes.ForEach(attribute =>
+                    if (attribute.Name.Equals("name"))
                     {
-                        if (attribute.Name.Equals("name"))
-                        {
-                            viewName = attribute.Value;
-                            return false;
-                        }
+                        ruleNodeDictionary.Add(attribute.Value, componentList);
+                        return false;
+                    }
 
-                        return true;
-                    });
+                    return true;
                 }
             );
         }

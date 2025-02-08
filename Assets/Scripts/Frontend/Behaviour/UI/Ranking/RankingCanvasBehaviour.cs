@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Core.Entity;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 using UnityEngine;
 
 public sealed class RankingCanvasBehaviour : BaseBehaviour, IStateMachine<RankingCanvasBehaviour>, INotify
@@ -12,6 +12,7 @@ public sealed class RankingCanvasBehaviour : BaseBehaviour, IStateMachine<Rankin
 
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.RankingHide; }).Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<RankingCanvasBehaviour>(this);
         stateMachine.Add("show", new RankingCanvasShowState());
@@ -19,8 +20,6 @@ public sealed class RankingCanvasBehaviour : BaseBehaviour, IStateMachine<Rankin
         stateMachine.Add("hide", new RankingCanvasHideState());
         stateMachine.Change("hide");
         stateMachine.Play();
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     public void Update()
@@ -28,11 +27,11 @@ public sealed class RankingCanvasBehaviour : BaseBehaviour, IStateMachine<Rankin
         stateMachine.Update();
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.RankingShow)
+        if (notifyMessage.title == NotifyMessage.Title.RankingShow)
             stateMachine.Change("show");
-        else if (notifyMessage == NotifyMessage.RankingHide)
+        else if (notifyMessage.title == NotifyMessage.Title.RankingHide)
             stateMachine.Change("hide");
     }
 

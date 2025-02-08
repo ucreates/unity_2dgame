@@ -8,12 +8,12 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Behaviour.State;
 using Frontend.Component.Asset.Render;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 
 public sealed class LandBehaviour : BaseBehaviour, IStateMachine<LandBehaviour>, INotify
 {
@@ -21,6 +21,7 @@ public sealed class LandBehaviour : BaseBehaviour, IStateMachine<LandBehaviour>,
 
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameStart; }).Subscribe(message => { OnNotify(message); });
         assetCollection.Set("anime", new MaterialAsset(this));
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<LandBehaviour>(this);
@@ -28,8 +29,6 @@ public sealed class LandBehaviour : BaseBehaviour, IStateMachine<LandBehaviour>,
         stateMachine.Add("stop", new LandStopState());
         stateMachine.Change("scroll");
         stateMachine.Play();
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     public void Update()
@@ -37,11 +36,12 @@ public sealed class LandBehaviour : BaseBehaviour, IStateMachine<LandBehaviour>,
         stateMachine.Update();
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.FlappyBirdDead)
+        if (notifyMessage.title == NotifyMessage.Title.FlappyBirdDead)
             stateMachine.Change("stop");
-        else if (notifyMessage == NotifyMessage.GameStart) stateMachine.Change("scroll");
+        else if (notifyMessage.title == NotifyMessage.Title.GameStart) 
+            stateMachine.Change("scroll");
     }
 
     public FiniteStateMachine<LandBehaviour> stateMachine { get; set; }

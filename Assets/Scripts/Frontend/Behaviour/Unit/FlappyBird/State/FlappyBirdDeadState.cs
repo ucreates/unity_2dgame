@@ -33,9 +33,9 @@ namespace Frontend.Behaviour.State
             deadPosition = owner.transform.position;
             timeLine = new TimeLine();
             var notifier = Notifier.GetInstance();
-            if (notifier.currentMessage != NotifyMessage.FlappyBirdDead) notifier.Notify(NotifyMessage.FlappyBirdDead);
+            if (notifier.currentMessage.title != NotifyMessage.Title.FlappyBirdDead) notifier.Notify(NotifyMessage.Title.FlappyBirdDead);
             ResourceGenerator.Generate("Prefabs/Curtain", new Vector3(0f, 0f, 0f), Quaternion.identity);
-            var soundAsset = SoundAssetCollection.GetInstance().GetSEAsset("bird_die") as SoundEffectAsset;
+            var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("bird_die");
             owner.StartCoroutine(soundAsset.Delay(1.0f));
         }
 

@@ -7,13 +7,16 @@ namespace Core.Extensions
     {
         public static void ForEach(this XmlNodeList xmlNodeList, Action<XmlAttribute> action)
         {
-            foreach (XmlAttribute item in xmlNodeList) action?.Invoke(item);
+            foreach (XmlElement item in xmlNodeList)
+            foreach (XmlAttribute attribute in item.Attributes)
+                action?.Invoke(attribute);
         }
 
         public static void ForEach(this XmlNodeList xmlNodeList, Func<XmlAttribute, bool> callback)
         {
-            foreach (XmlAttribute item in xmlNodeList)
-                if (!callback?.Invoke(item) ?? false)
+            foreach (XmlElement item in xmlNodeList)
+            foreach (XmlAttribute attribute in item.Attributes)
+                if (!callback?.Invoke(attribute) ?? false)
                     break;
         }
     }

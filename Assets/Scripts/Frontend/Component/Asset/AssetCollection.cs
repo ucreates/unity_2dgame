@@ -17,26 +17,25 @@ namespace Frontend.Component.Asset
     {
         public AssetCollection()
         {
-            assetDictionary = new Dictionary<string, BaseAsset>();
+            assetList = new List<BaseAsset>();
         }
 
-        public Dictionary<string, BaseAsset> assetDictionary { get; set; }
+        public List<BaseAsset> assetList { get; }
 
-        public BaseAsset Get(string assetName)
+        public T Get<T>(string assetName) where T : BaseAsset
         {
-            return assetDictionary.FirstOrDefault(pair => pair.Key == assetName).Value;
+            return assetList.OfType<T>().FirstOrDefault(asset => asset.name.Equals(assetName));
         }
 
-        public bool Set(string assetName, BaseAsset asset)
+        public void Set(string assetName, BaseAsset asset)
         {
-            if (assetDictionary.ContainsKey(assetName)) return false;
-            assetDictionary.Add(assetName, asset);
-            return true;
+            asset.name = assetName;
+            assetList.Add(asset);
         }
 
         public void Clear()
         {
-            assetDictionary.Clear();
+            assetList.Clear();
         }
     }
 }

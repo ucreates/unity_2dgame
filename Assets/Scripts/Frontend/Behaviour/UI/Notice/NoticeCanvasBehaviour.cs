@@ -8,11 +8,11 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 using UnityPlugin;
 using UnityPlugin.Frontend.View;
 
@@ -22,6 +22,7 @@ public sealed class NoticeCanvasBehaviour : BaseBehaviour, IStateMachine<NoticeC
 
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.NoticeShow || message.title == NotifyMessage.Title.NoticeHide; }).Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<NoticeCanvasBehaviour>(this);
         stateMachine.Add("show", new NoticeCanvasShowState());
@@ -30,8 +31,6 @@ public sealed class NoticeCanvasBehaviour : BaseBehaviour, IStateMachine<NoticeC
         stateMachine.Change("hide");
         stateMachine.Play();
         webViewPlugin = PluginFactory.GetPlugin<WebViewPlugin>();
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     public void Update()
@@ -39,11 +38,11 @@ public sealed class NoticeCanvasBehaviour : BaseBehaviour, IStateMachine<NoticeC
         stateMachine.Update();
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.NoticeShow)
+        if (notifyMessage.title == NotifyMessage.Title.NoticeShow)
             stateMachine.Change("show");
-        else if (notifyMessage == NotifyMessage.NoticeHide)
+        else if (notifyMessage.title == NotifyMessage.Title.NoticeHide)
             stateMachine.Change("hide");
     }
 

@@ -1,18 +1,6 @@
-//======================================================================
-// Project Name    : hetappy bird
-//
-// Copyright © 2016 U-CREATES. All rights reserved.
-//
-// This source code is the property of U-CREATES.
-// If such findings are accepted at any time.
-// We hope the tips and helpful in developing.
-//======================================================================
-
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using Core.Entity;
-using Core.Extensions;
-using Frontend.Component.Property;
+using UniRx;
 
 namespace Frontend.Notify
 {
@@ -20,16 +8,16 @@ namespace Frontend.Notify
     {
         private Notifier()
         {
-            notifierDictionary = new Dictionary<int, INotify>();
         }
 
         public NotifyMessage previousMessage { get; set; }
 
         public NotifyMessage currentMessage { get; set; }
 
-        public Dictionary<int, INotify> notifierDictionary { get; set; }
 
         private static Notifier instance { get; set; }
+
+        private event Action<NotifyMessage> onNotify;
 
         public static Notifier GetInstance()
         {
@@ -37,47 +25,30 @@ namespace Frontend.Notify
             return instance;
         }
 
-        public void Notify(NotifyMessage message)
+        public void Notify(NotifyMessage.Title title, Parameter parameter = null)
         {
-            notifierDictionary.ForEach(pair => { pair.Value.OnNotify(message); });
+            var message = new NotifyMessage();
+            message.title = title;
+            message.parameter = parameter;
+            Notify(message);
+        }
+
+        private void Notify(NotifyMessage message)
+        {
+            if (onNotify == null) return;
+            onNotify(message);
             previousMessage = currentMessage;
             currentMessage = message;
         }
 
-        public void Notify(int id, NotifyMessage message)
+        public void Dispose()
         {
-            notifierDictionary[id].OnNotify(message);
-            previousMessage = currentMessage;
-            currentMessage = message;
+            onNotify = null;
         }
 
-        public void Notify(NotifyMessage message, Parameter parameter)
+        public IObservable<NotifyMessage> OnNotify()
         {
-            notifierDictionary.ForEach(pair => { pair.Value.OnNotify(message, parameter); });
-            previousMessage = currentMessage;
-            currentMessage = message;
-        }
-
-        public bool Add(INotify notify, BaseProperty property)
-        {
-            if (notifierDictionary.ContainsKey(property.id)) return false;
-            notifierDictionary.Add(property.id, notify);
-            return true;
-        }
-
-        public void Remove(BaseProperty property)
-        {
-            Remove(property.id);
-        }
-
-        public void Remove(int id)
-        {
-            notifierDictionary.Where(pair => pair.Key == id).ForEach(pair => { notifierDictionary.Remove(pair.Key); });
-        }
-
-        public void Clear()
-        {
-            notifierDictionary.Clear();
+            return Observable.FromEvent<NotifyMessage>(message => onNotify += message, message => onNotify -= message);
         }
     }
 }

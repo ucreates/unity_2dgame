@@ -8,38 +8,37 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Component.Asset.Sound;
 using Frontend.Component.Property;
 using Frontend.Notify;
+using UniRx;
 
 public sealed class BGMPlayerBehaviour : BaseBehaviour, INotify
 {
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.GameStart || message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameOver || message.title == NotifyMessage.Title.GameRestart; }).Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.GameStart)
+        if (notifyMessage.title == NotifyMessage.Title.GameStart)
         {
-            var bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("athletic") as BGMAsset;
+            var bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("athletic");
             bgmAsset.Play(gameObject, true);
         }
-        else if (notifyMessage == NotifyMessage.FlappyBirdDead)
+        else if (notifyMessage.title == NotifyMessage.Title.FlappyBirdDead)
         {
-            var bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("athletic") as BGMAsset;
+            var bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("athletic");
             bgmAsset.Stop();
         }
-        else if (notifyMessage == NotifyMessage.GameOver)
+        else if (notifyMessage.title == NotifyMessage.Title.GameOver)
         {
-            var bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("player_down") as BGMAsset;
+            var bgmAsset = SoundAssetCollection.GetInstance().GetBGMAsset("player_down");
             bgmAsset.Play(gameObject);
         }
-        else if (notifyMessage == NotifyMessage.GameRestart)
+        else if (notifyMessage.title == NotifyMessage.Title.GameRestart)
         {
             SoundAssetCollection.GetInstance().Stop();
         }

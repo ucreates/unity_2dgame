@@ -22,7 +22,7 @@ namespace Frontend.Behaviour.State
 
         public override void Create()
         {
-            var asset = owner.assetCollection.Get("anime") as AnimatorAsset;
+            var asset = owner.assetCollection.Get<AnimatorAsset>("anime");
             asset.Play("fly");
             owner.GetComponent<Renderer>().enabled = true;
             owner.deadTimeLine = new TimeLine();

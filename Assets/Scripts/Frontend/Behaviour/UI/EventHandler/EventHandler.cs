@@ -44,7 +44,7 @@ public sealed class EventHandler : BaseBehaviour
         {
             var parameter = new Parameter();
             parameter.Set("ValidateResponse", res);
-            notifier.Notify(NotifyMessage.InputProfileError, parameter);
+            notifier.Notify(NotifyMessage.Title.InputProfileError, parameter);
             return;
         }
 
@@ -54,26 +54,26 @@ public sealed class EventHandler : BaseBehaviour
         ServiceGateway.GetInstance()
             .Request("service://player/commit")
             .Request(sparam);
-        notifier.Notify(NotifyMessage.NoticeShow);
+        notifier.Notify(NotifyMessage.Title.NoticeShow);
     }
 
     public void OnConfirm()
     {
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.InputProfile);
+        notifier.Notify(NotifyMessage.Title.InputProfile);
     }
 
     public void OnPlay()
     {
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.GameReady);
+        notifier.Notify(NotifyMessage.Title.GameReady);
     }
 
     public void OnReplay()
     {
         ServiceGateway.GetInstance().Request("service://player/clear").Update();
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.GameRestart);
+        notifier.Notify(NotifyMessage.Title.GameRestart);
     }
 
     public void OnRate()
@@ -96,35 +96,35 @@ public sealed class EventHandler : BaseBehaviour
     public void OnRankingShow()
     {
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.RankingShow);
+        notifier.Notify(NotifyMessage.Title.RankingShow);
     }
 
     public void OnRankingHide()
     {
         var notifier = Notifier.GetInstance();
         var previousMessage = notifier.previousMessage;
-        notifier.Notify(NotifyMessage.RankingHide);
-        notifier.Notify(previousMessage);
+        notifier.Notify(NotifyMessage.Title.RankingHide);
+        notifier.Notify(previousMessage.title);
     }
 
     public void OnNoticeHide()
     {
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.NoticeHide);
-        notifier.Notify(NotifyMessage.GameTitle);
+        notifier.Notify(NotifyMessage.Title.NoticeHide);
+        notifier.Notify(NotifyMessage.Title.GameTitle);
     }
 
     public void OnShopShow()
     {
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.ShopShow);
+        notifier.Notify(NotifyMessage.Title.ShopShow);
     }
 
     public void OnShopHide()
     {
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.ShopHide);
-        notifier.Notify(NotifyMessage.GameTitle);
+        notifier.Notify(NotifyMessage.Title.ShopHide);
+        notifier.Notify(NotifyMessage.Title.GameTitle);
     }
 
     public void OnBuyItemConfirm(int itemId)
@@ -132,13 +132,13 @@ public sealed class EventHandler : BaseBehaviour
         var nparam = new Parameter();
         nparam.Set("itemId", itemId);
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.ShopConfirmShow, nparam);
+        notifier.Notify(NotifyMessage.Title.ShopConfirmShow, nparam);
     }
 
     public void OnBuyItemCancel()
     {
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.ShopShow);
+        notifier.Notify(NotifyMessage.Title.ShopShow);
     }
 
     public void OnBuyItem()
@@ -153,7 +153,7 @@ public sealed class EventHandler : BaseBehaviour
         parameter = new Parameter();
         parameter.Set("message", response.Get<string>("message"));
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.ShopCommitShow, parameter);
+        notifier.Notify(NotifyMessage.Title.ShopCommitShow, parameter);
     }
 
     public void OnClickWebSiteButton()

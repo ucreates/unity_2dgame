@@ -16,6 +16,7 @@ using Frontend.Component.Asset.Renderer.UI;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,7 @@ public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCan
 {
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.InputProfileError || message.title == NotifyMessage.Title.InputProfile || message.title == NotifyMessage.Title.GameTitle; }).Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<InputCanvasBehaviour>(this);
         stateMachine.Add("show", new InputCanvasShowState());
@@ -32,8 +34,6 @@ public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCan
         stateMachine.Add("error", new InputCanvasErrorState());
         stateMachine.Change("show");
         stateMachine.Play();
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     public void Update()
@@ -68,13 +68,13 @@ public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCan
         return parmeter;
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.InputProfileError)
-            stateMachine.Change("error", parameter);
-        else if (notifyMessage == NotifyMessage.InputProfile)
+        if (notifyMessage.title == NotifyMessage.Title.InputProfileError)
+            stateMachine.Change("error", notifyMessage.parameter);
+        else if (notifyMessage.title == NotifyMessage.Title.InputProfile)
             stateMachine.Change("show");
-        else if (notifyMessage == NotifyMessage.GameTitle) stateMachine.Change("hide");
+        else if (notifyMessage.title == NotifyMessage.Title.GameTitle) stateMachine.Change("hide");
     }
 
     public FiniteStateMachine<InputCanvasBehaviour> stateMachine { get; set; }

@@ -30,10 +30,10 @@ namespace Frontend.Behaviour.State
             }
 
             var notifier = Notifier.GetInstance();
-            if (notifier.currentMessage != NotifyMessage.GameOver &&
-                notifier.currentMessage != NotifyMessage.RankingShow)
+            if (notifier.currentMessage.title != NotifyMessage.Title.GameOver &&
+                notifier.currentMessage.title != NotifyMessage.Title.RankingShow)
             {
-                notifier.Notify(NotifyMessage.GameOver);
+                notifier.Notify(NotifyMessage.Title.GameOver);
                 complete = true;
             }
         }

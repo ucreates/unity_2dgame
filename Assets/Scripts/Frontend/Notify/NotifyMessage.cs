@@ -8,28 +8,37 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System;
+using Core.Entity;
+
 namespace Frontend.Notify
 {
-    public enum NotifyMessage
+    public class NotifyMessage : EventArgs
     {
-        GameTitle = 0,
-        GameReady = 1,
-        GameStart = 2,
-        GameOver = 3,
-        GameRestart = 4,
-        FlappyBirdDead = 5,
-        InputProfileError = 6,
-        InputProfile = 7,
-        RegulationShow = 8,
-        RegulationHide = 9,
-        RankingShow = 10,
-        RankingHide = 11,
-        CameraShake = 12,
-        NoticeShow = 13,
-        NoticeHide = 14,
-        ShopShow = 15,
-        ShopHide = 16,
-        ShopConfirmShow = 17,
-        ShopCommitShow = 18
+        public enum Title
+        {
+            GameTitle = 0,
+            GameReady = 1,
+            GameStart = 2,
+            GameOver = 3,
+            GameRestart = 4,
+            FlappyBirdDead = 5,
+            InputProfileError = 6,
+            InputProfile = 7,
+            RegulationShow = 8,
+            RegulationHide = 9,
+            RankingShow = 10,
+            RankingHide = 11,
+            CameraShake = 12,
+            NoticeShow = 13,
+            NoticeHide = 14,
+            ShopShow = 15,
+            ShopHide = 16,
+            ShopConfirmShow = 17,
+            ShopCommitShow = 18
+        }
+
+        public Parameter parameter;
+        public Title title;
     }
 }

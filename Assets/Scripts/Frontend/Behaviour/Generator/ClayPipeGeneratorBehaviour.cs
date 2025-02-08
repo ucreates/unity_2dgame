@@ -8,25 +8,24 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 
 public sealed class ClayPipeGeneratorBehaviour : BaseBehaviour, IStateMachine<ClayPipeGeneratorBehaviour>, INotify
 {
     // Use this for initialization
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameStart; }).Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ClayPipeGeneratorBehaviour>(this);
         stateMachine.Add("generate", new ClayPipeGeneratorGenerateState());
         stateMachine.Add("stop", new ClayPipeGeneratorStopState());
         stateMachine.Change("stop");
         stateMachine.Play();
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     // Update is called once per frame
@@ -35,11 +34,11 @@ public sealed class ClayPipeGeneratorBehaviour : BaseBehaviour, IStateMachine<Cl
         stateMachine.Update();
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.FlappyBirdDead)
+        if (notifyMessage.title == NotifyMessage.Title.FlappyBirdDead)
             stateMachine.Change("stop");
-        else if (notifyMessage == NotifyMessage.GameStart)
+        else if (notifyMessage.title == NotifyMessage.Title.GameStart)
             stateMachine.Change("generate");
     }
 

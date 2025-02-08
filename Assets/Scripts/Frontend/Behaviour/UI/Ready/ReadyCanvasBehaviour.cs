@@ -8,24 +8,23 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 
 public sealed class ReadyCanvasBehaviour : BaseBehaviour, IStateMachine<ReadyCanvasBehaviour>, INotify
 {
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.GameReady || message.title == NotifyMessage.Title.GameStart || message.title == NotifyMessage.Title.GameRestart; }).Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ReadyCanvasBehaviour>(this);
         stateMachine.Add("show", new ReadyCanvasShowState());
         stateMachine.Add("hide", new ReadyCanvasHideState());
         stateMachine.Change("hide");
         stateMachine.Play();
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     public void Update()
@@ -33,13 +32,13 @@ public sealed class ReadyCanvasBehaviour : BaseBehaviour, IStateMachine<ReadyCan
         stateMachine.Update();
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.GameReady)
+        if (notifyMessage.title == NotifyMessage.Title.GameReady)
             stateMachine.Change("show");
-        else if (notifyMessage == NotifyMessage.GameStart)
+        else if (notifyMessage.title == NotifyMessage.Title.GameStart)
             stateMachine.Change("hide");
-        else if (notifyMessage == NotifyMessage.GameRestart) stateMachine.Change("show");
+        else if (notifyMessage.title == NotifyMessage.Title.GameRestart) stateMachine.Change("show");
     }
 
     public FiniteStateMachine<ReadyCanvasBehaviour> stateMachine { get; set; }

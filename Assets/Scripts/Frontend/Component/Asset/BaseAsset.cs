@@ -13,5 +13,7 @@ namespace Frontend.Component.Asset
     public abstract class BaseAsset
     {
         public virtual string type => string.Empty;
+
+        public string name { get; set; }
     }
 }

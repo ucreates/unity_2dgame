@@ -17,6 +17,7 @@ using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Notify;
 using Service;
+using UniRx;
 using UnityEngine;
 
 public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBirdBehaviour>, INotify
@@ -27,6 +28,7 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
 
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.GameStart || message.title == NotifyMessage.Title.RegulationShow || message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.GameRestart || message.title == NotifyMessage.Title.GameTitle || message.title == NotifyMessage.Title.GameOver; }).Subscribe(message => { OnNotify(message); });
         assetCollection.Set("anime", new AnimatorAsset(this));
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<FlappyBirdBehaviour>(this);
@@ -38,8 +40,6 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
         stateMachine.Add("gameover", new FlappyBIrdGameOverState());
         stateMachine.Change("hide");
         stateMachine.Play();
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
         deadTimeLine = new TimeLine();
     }
 
@@ -57,7 +57,7 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
     {
         if (coll.gameObject.CompareTag("Barrier") && !stateMachine.finiteStateEntity.currentStateName.Equals("dead"))
         {
-            var soundAsset = SoundAssetCollection.GetInstance().GetSEAsset("bird_hit") as SoundEffectAsset;
+            var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("bird_hit");
             soundAsset.Play();
             stateMachine.Change("dead");
         }
@@ -74,7 +74,7 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
             (stateMachine.finiteStateEntity.currentStateName.Equals("go") ||
              stateMachine.finiteStateEntity.currentStateName.Equals("fall")))
         {
-            var soundAsset = SoundAssetCollection.GetInstance().GetSEAsset("point") as SoundEffectAsset;
+            var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("point");
             soundAsset.Play();
             var parameter = new Parameter();
             parameter.Set("clearcount", 1);
@@ -84,22 +84,22 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
         }
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.GameStart)
+        if (notifyMessage.title == NotifyMessage.Title.GameStart)
         {
             stateMachine.Change("go");
         }
-        else if (notifyMessage == NotifyMessage.RegulationShow || notifyMessage == NotifyMessage.RankingShow)
+        else if (notifyMessage.title == NotifyMessage.Title.RegulationShow || notifyMessage.title == NotifyMessage.Title.RankingShow)
         {
             stateMachine.Change("hide");
         }
-        else if (notifyMessage == NotifyMessage.GameRestart || notifyMessage == NotifyMessage.GameTitle)
+        else if (notifyMessage.title == NotifyMessage.Title.GameRestart || notifyMessage.title == NotifyMessage.Title.GameTitle)
         {
             stateMachine.Change("ready");
             stateMachine.Play();
         }
-        else if (notifyMessage == NotifyMessage.GameOver)
+        else if (notifyMessage.title == NotifyMessage.Title.GameOver)
         {
             stateMachine.Stop();
         }

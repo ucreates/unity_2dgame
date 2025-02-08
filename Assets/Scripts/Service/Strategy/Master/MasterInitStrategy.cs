@@ -68,10 +68,10 @@ namespace Service.Strategy
             var collection = SoundAssetCollection.GetInstance();
             collection.SetBGMAsset("athletic", new BGMAsset("Audio/BGM/athletic"));
             collection.SetBGMAsset("player_down", new BGMAsset("Audio/BGM/player_down", true));
-            collection.SetSEAsset("bird_wing", new SoundEffectAsset("Audio/SE/sfx_wing"));
-            collection.SetSEAsset("bird_hit", new SoundEffectAsset("Audio/SE/sfx_hit"));
-            collection.SetSEAsset("bird_die", new SoundEffectAsset("Audio/SE/sfx_die"));
-            collection.SetSEAsset("point", new SoundEffectAsset("Audio/SE/sfx_point"));
+            collection.SetSeAsset("bird_wing", new SoundEffectAsset("Audio/SE/sfx_wing"));
+            collection.SetSeAsset("bird_hit", new SoundEffectAsset("Audio/SE/sfx_hit"));
+            collection.SetSeAsset("bird_die", new SoundEffectAsset("Audio/SE/sfx_die"));
+            collection.SetSeAsset("point", new SoundEffectAsset("Audio/SE/sfx_point"));
         }
     }
 }

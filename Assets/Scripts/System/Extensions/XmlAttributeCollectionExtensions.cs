@@ -5,14 +5,16 @@ namespace Core.Extensions
 {
     public static class XmlAttributeCollectionExtensions
     {
-        public static void ForEach(this XmlAttributeCollection collection, Action<XmlNode> action)
+        public static void ForEach(this XmlAttributeCollection collection, Action<XmlAttribute> action)
         {
-            foreach (XmlNode item in collection) action?.Invoke(item);
+            if (null == collection) return;
+            foreach (XmlAttribute item in collection) action?.Invoke(item);
         }
 
-        public static void ForEach(this XmlAttributeCollection collection, Func<XmlNode, bool> callback)
+        public static void ForEach(this XmlAttributeCollection collection, Func<XmlAttribute, bool> callback)
         {
-            foreach (XmlNode item in collection)
+            if (null == collection) return;
+            foreach (XmlAttribute item in collection)
                 if (!callback?.Invoke(item) ?? false)
                     break;
         }

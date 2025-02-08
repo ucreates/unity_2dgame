@@ -10,7 +10,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Core.Extensions;
 
 namespace Frontend.Component.Asset.Sound
 {
@@ -18,13 +17,10 @@ namespace Frontend.Component.Asset.Sound
     {
         private SoundAssetCollection()
         {
-            soundBGMDictionary = new Dictionary<string, BaseSoundAsset>();
-            soundEffectDictionary = new Dictionary<string, BaseSoundAsset>();
+            soundList = new List<BaseSoundAsset>();
         }
 
-        public Dictionary<string, BaseSoundAsset> soundBGMDictionary { get; set; }
-
-        public Dictionary<string, BaseSoundAsset> soundEffectDictionary { get; set; }
+        public List<BaseSoundAsset> soundList { get; set; }
 
         private static SoundAssetCollection instance { get; set; }
 
@@ -34,49 +30,40 @@ namespace Frontend.Component.Asset.Sound
             return instance;
         }
 
-        public BaseSoundAsset GetBGMAsset(string bgmName)
+        public BGMAsset GetBGMAsset(string bgmName)
         {
-            return soundBGMDictionary.FirstOrDefault(pair => pair.Key.Equals(bgmName)).Value;
+            return soundList.OfType<BGMAsset>().FirstOrDefault(bgm => bgm.name.Equals(bgmName));
         }
 
-        public BaseSoundAsset GetSEAsset(string seName)
+        public SoundEffectAsset GetSeAsset(string seName)
         {
-            return soundEffectDictionary.FirstOrDefault(pair => pair.Key.Equals(seName)).Value;
+            return soundList.OfType<SoundEffectAsset>().FirstOrDefault(se => se.name.Equals(seName));
         }
 
-        public bool SetBGMAsset(string bgmName, BaseSoundAsset bgmAsseet)
+        public void SetBGMAsset(string bgmName, BaseSoundAsset bgmAsseet)
         {
-            if (soundBGMDictionary.ContainsKey(bgmName)) return false;
-            soundBGMDictionary.Add(bgmName, bgmAsseet);
-            return true;
+            bgmAsseet.name = bgmName;
+            soundList.Add(bgmAsseet);
         }
 
-        public bool SetSEAsset(string seName, BaseSoundAsset seAsseet)
+        public void SetSeAsset(string seName, BaseSoundAsset seAsseet)
         {
-            if (soundBGMDictionary.ContainsKey(seName)) return false;
-            soundEffectDictionary.Add(seName, seAsseet);
-            return true;
+            seAsseet.name = seName;
+            soundList.Add(seAsseet);
         }
 
         public void Stop()
         {
-            soundEffectDictionary.ForEach(pair =>
+            soundList.ForEach(sound =>
             {
-                pair.Value.Stop();
-                pair.Value.Reset();
-            });
-
-            soundBGMDictionary.ForEach(pair =>
-            {
-                pair.Value.Stop();
-                pair.Value.Reset();
+                sound.Stop();
+                sound.Reset();
             });
         }
 
         public void Clear()
         {
-            soundEffectDictionary.Clear();
-            soundBGMDictionary.Clear();
+            soundList.Clear();
         }
     }
 }

@@ -8,16 +8,17 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Behaviour.State.UI.Shop;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 
 public sealed class ShopCanvasBehaviour : BaseBehaviour, IStateMachine<ShopCanvasBehaviour>, INotify
 {
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.ShopShow || message.title == NotifyMessage.Title.ShopHide || message.title == NotifyMessage.Title.ShopCommitShow || message.title == NotifyMessage.Title.ShopConfirmShow; }).Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ShopCanvasBehaviour>(this);
         stateMachine.Add("listshow", new ListModalDialogShowState());
@@ -29,8 +30,6 @@ public sealed class ShopCanvasBehaviour : BaseBehaviour, IStateMachine<ShopCanva
         stateMachine.Add("commitstay", new CommitModalDialogStayState());
         stateMachine.Change("listhide");
         stateMachine.Play();
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     // Update is called once per frame
@@ -39,16 +38,16 @@ public sealed class ShopCanvasBehaviour : BaseBehaviour, IStateMachine<ShopCanva
         stateMachine.Update();
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.ShopShow)
+        if (notifyMessage.title == NotifyMessage.Title.ShopShow)
             stateMachine.Change("listshow");
-        else if (notifyMessage == NotifyMessage.ShopHide)
+        else if (notifyMessage.title == NotifyMessage.Title.ShopHide)
             stateMachine.Change("listhide");
-        else if (notifyMessage == NotifyMessage.ShopCommitShow)
-            stateMachine.Change("commitshow", parameter);
-        else if (notifyMessage == NotifyMessage.ShopConfirmShow)
-            stateMachine.Change("confirmshow", parameter);
+        else if (notifyMessage.title == NotifyMessage.Title.ShopCommitShow)
+            stateMachine.Change("commitshow", notifyMessage.parameter);
+        else if (notifyMessage.title == NotifyMessage.Title.ShopConfirmShow)
+            stateMachine.Change("confirmshow", notifyMessage.parameter);
     }
 
     public FiniteStateMachine<ShopCanvasBehaviour> stateMachine { get; set; }

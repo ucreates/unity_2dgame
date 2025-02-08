@@ -9,11 +9,11 @@
 //======================================================================
 
 using System.Collections.Generic;
-using Core.Entity;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 using UnityEngine;
 
 public sealed class PlayCanvasBehaviour : BaseBehaviour, IStateMachine<PlayCanvasBehaviour>, INotify
@@ -22,14 +22,13 @@ public sealed class PlayCanvasBehaviour : BaseBehaviour, IStateMachine<PlayCanva
 
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<PlayCanvasBehaviour>(this);
         stateMachine.Add("show", new PlayCanvasShowState());
         stateMachine.Add("hide", new PlayCanvasHideState());
         stateMachine.Change("hide");
         stateMachine.Play();
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     public void Update()
@@ -37,9 +36,9 @@ public sealed class PlayCanvasBehaviour : BaseBehaviour, IStateMachine<PlayCanva
         stateMachine.Update();
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.GameStart)
+        if (notifyMessage.title == NotifyMessage.Title.GameStart)
             stateMachine.Change("show");
         else
             stateMachine.Change("hide");

@@ -67,7 +67,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                 rankingText.rectTransform.sizeDelta = new Vector2(100f, 30f);
                 rankingText.fontSize = 14;
                 rankingText.alignment = TextAnchor.MiddleLeft;
-                rankingText.font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+                rankingText.font = (Font)Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf");
                 rankingText.fontStyle = FontStyle.Normal;
                 rankingText.text = user.nickName + " " + score.clearCount + " points.";
                 rankingText.color = Color.black;

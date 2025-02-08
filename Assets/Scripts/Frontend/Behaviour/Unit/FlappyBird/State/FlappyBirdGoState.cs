@@ -26,7 +26,7 @@ namespace Frontend.Behaviour.State
             rigidBody.gravityScale = 0.25f;
             rigidBody.linearVelocity = Vector2.zero;
             rigidBody.AddForce(new Vector2(0f, 2f), ForceMode2D.Impulse);
-            var soundAsset = SoundAssetCollection.GetInstance().GetSEAsset("bird_wing") as SoundEffectAsset;
+            var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("bird_wing");
             soundAsset.Play();
         }
 

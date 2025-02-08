@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b879645f640b02b43a8e78e210c1da1f
+timeCreated: 1455373896
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 17276
+  packageName: UniRx - Reactive Extensions for Unity
+  packageVersion: 7.1.0
+  assetPath: Assets/Plugins/UniRx/Examples/Sample13Scene.unity
+  uploadId: 318694

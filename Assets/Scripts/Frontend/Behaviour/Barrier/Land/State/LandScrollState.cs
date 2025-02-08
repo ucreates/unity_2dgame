@@ -21,7 +21,7 @@ namespace Frontend.Behaviour.State
         public override void Create()
         {
             timeLine = new TimeLine();
-            renderAsset = owner.assetCollection.Get("anime") as MaterialAsset;
+            renderAsset = owner.assetCollection.Get<MaterialAsset>("anime");
         }
 
         public override void Update()

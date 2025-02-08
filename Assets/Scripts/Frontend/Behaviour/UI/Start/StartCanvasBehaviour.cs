@@ -8,24 +8,23 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 
 public sealed class StartCanvasBehaviour : BaseBehaviour, IStateMachine<StartCanvasBehaviour>, INotify
 {
     public void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.GameTitle || message.title == NotifyMessage.Title.GameReady || message.title == NotifyMessage.Title.RegulationShow || message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.ShopShow; }).Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<StartCanvasBehaviour>(this);
         stateMachine.Add("show", new StartCanvasShowState());
         stateMachine.Add("hide", new StartCanvasHideState());
         stateMachine.Change("hide");
         stateMachine.Play();
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     // Update is called once per frame
@@ -34,13 +33,13 @@ public sealed class StartCanvasBehaviour : BaseBehaviour, IStateMachine<StartCan
         stateMachine.Update();
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.GameTitle)
+        if (notifyMessage.title == NotifyMessage.Title.GameTitle)
             stateMachine.Change("show");
-        else if (notifyMessage == NotifyMessage.GameReady || notifyMessage == NotifyMessage.RegulationShow ||
-                 notifyMessage == NotifyMessage.RankingShow ||
-                 notifyMessage == NotifyMessage.ShopShow)
+        else if (notifyMessage.title == NotifyMessage.Title.GameReady || notifyMessage.title == NotifyMessage.Title.RegulationShow ||
+                 notifyMessage.title == NotifyMessage.Title.RankingShow ||
+                 notifyMessage.title == NotifyMessage.Title.ShopShow)
             stateMachine.Change("hide");
     }
 

@@ -8,25 +8,24 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Behaviour.State;
 using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
+using UniRx;
 
 public sealed class CurtainBehaviour : BaseBehaviour, IStateMachine<CurtainBehaviour>, INotify
 {
     // Use this for initialization
     private void Start()
     {
+        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.GameRestart || message.title == NotifyMessage.Title.GameOver; }).Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<CurtainBehaviour>(this);
         stateMachine.Add("blink", new CurtainBlinkState());
         stateMachine.Add("show", new CurtainShowState());
         stateMachine.Add("destroy", new CurtainDestroyState());
         stateMachine.Change("blink");
-        var notifier = Notifier.GetInstance();
-        notifier.Add(this, property);
     }
 
     // Update is called once per frame
@@ -35,11 +34,11 @@ public sealed class CurtainBehaviour : BaseBehaviour, IStateMachine<CurtainBehav
         stateMachine.Update();
     }
 
-    public void OnNotify(NotifyMessage notifyMessage, Parameter parameter = null)
+    public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage == NotifyMessage.GameRestart)
+        if (notifyMessage.title == NotifyMessage.Title.GameRestart)
             stateMachine.Change("destroy");
-        else if (notifyMessage == NotifyMessage.GameOver)
+        else if (notifyMessage.title == NotifyMessage.Title.GameOver)
             stateMachine.Change("show");
     }
 

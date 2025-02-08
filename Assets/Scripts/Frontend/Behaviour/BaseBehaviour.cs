@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System;
 using Frontend.Component.Asset;
 using Frontend.Component.Property;
 using Frontend.Component.Vfx;
@@ -21,9 +22,16 @@ public abstract class BaseBehaviour : MonoBehaviour
         timeLine = new TimeLine();
     }
 
+    protected IDisposable rx { get; set; }
+
     public AssetCollection assetCollection { get; set; }
 
     public TimeLine timeLine { get; set; }
 
     public BaseProperty property { get; protected set; }
+
+    protected void OnDestroy()
+    {
+        rx?.Dispose();
+    }
 }
