@@ -8,7 +8,6 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Core.Extensions;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
@@ -25,12 +24,12 @@ namespace Frontend.Behaviour.State.UI.Shop
 
         private float previousAlpha { get; set; }
 
-        private Parameter notifyParameter { get; set; }
+        private object notifyParameter { get; set; }
 
-        public override void Create(Parameter paramter)
+        public override void Create(object paramter)
         {
             notifyParameter = paramter;
-            var message = paramter.Get<string>("message");
+            var message = paramter.ToString();
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             alphaTimeLine = new TimeLine();

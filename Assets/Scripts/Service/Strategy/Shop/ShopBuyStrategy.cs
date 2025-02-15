@@ -16,16 +16,15 @@ namespace Service.Strategy
 {
     public sealed class ShopBuyStrategy : BaseStrategy
     {
-        public override Response Update(Parameter parameter)
+        public override Response Update(object parameter)
         {
-            var itemId = parameter.Get<int>("itemId");
-            var amount = parameter.Get<int>("amount");
+            var paramBody = ((int itemId, int amount))parameter;
             var sret = new Response();
             var ubl = new UserBizLogic();
             var ibl = new ItemBizLogic();
-            var price = ibl.GetPriceByItemId(itemId);
+            var price = ibl.GetPriceByItemId(paramBody.itemId);
             var mut = ubl.GetPlayer();
-            if (ibl.HasItem(mut.id, itemId))
+            if (ibl.HasItem(mut.id, paramBody.itemId))
             {
                 sret.Set("message", StoreAssembler.VALID_PURCHASE_FAILD_HAD_ITEM);
                 sret.resultStatus = Response.ServiceStatus.FAILED;
@@ -35,7 +34,7 @@ namespace Service.Strategy
             var ret = ubl.UseCoin(price);
             if (ret)
             {
-                ibl.BuyItem(mut.id, itemId, amount);
+                ibl.BuyItem(mut.id, paramBody.itemId, paramBody.amount);
                 sret.Set("message", StoreAssembler.VALID_PURCHASE_SUCCESS);
                 sret.resultStatus = Response.ServiceStatus.SUCCESS;
             }

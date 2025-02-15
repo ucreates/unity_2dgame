@@ -30,7 +30,7 @@ namespace Service.Integration.Schema
 
         public string Get()
         {
-            if (!string.IsNullOrEmpty(keyCache)) return keyCache;
+            if (!keyCache.IsNullOrEmpty()) return keyCache;
             keyHolder.ForEach(pair => { keyCache += pair.Value; });
             return keyCache;
         }
@@ -44,7 +44,7 @@ namespace Service.Integration.Schema
         {
             var id = Get("id");
             if (string.Empty == id) return -1;
-            return Convert.ToInt32(id);
+            return id.ToInt32();
         }
 
         public bool Set(string fieldName, object fieldValue)

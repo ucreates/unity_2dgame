@@ -8,7 +8,6 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
 
@@ -18,15 +17,14 @@ namespace Frontend.Behaviour.State.UI.Shop
     {
         private ShopCanvasListModalDialogBuilder builder { get; set; }
 
-        public override void Create(Parameter paramter)
+        public override void Create(object paramter)
         {
-            var message = paramter.Get<string>("message");
             if (null == builder)
                 builder = new ShopCanvasListModalDialogBuilder();
             else
                 builder.Reset();
             builder
-                .AddCommitMessage(message)
+                .AddCommitMessage(paramter.ToString())
                 .AddTransform(owner.transform)
                 .AddAlpha(1f)
                 .AddEnabled(true)

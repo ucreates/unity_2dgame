@@ -8,7 +8,6 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Core.Validator.Entity;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
@@ -25,9 +24,9 @@ namespace Frontend.Behaviour.State
 
         private float previousAlpha { get; set; }
 
-        public override void Create(Parameter parameter)
+        public override void Create(object parameter)
         {
-            var vres = parameter.Get<ValidatorResponse>("ValidateResponse");
+            var paramBody = (ValidatorResponse)parameter;
             previousAlpha = 0f;
             alphaTimeLine = new TimeLine();
             var md = owner.transform.Find("ModalDialog");
@@ -41,7 +40,7 @@ namespace Frontend.Behaviour.State
             else
                 builder.Reset();
             builder
-                .AddErrorMessage(vres.GetMessageList())
+                .AddErrorMessage(paramBody.GetMessageList())
                 .AddAlpha(0f)
                 .AddTransform(ed)
                 .Build();

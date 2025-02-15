@@ -1,5 +1,4 @@
 using System;
-using Core.Entity;
 using UniRx;
 
 namespace Frontend.Notify
@@ -25,7 +24,7 @@ namespace Frontend.Notify
             return instance;
         }
 
-        public void Notify(NotifyMessage.Title title, Parameter parameter = null)
+        public void Notify(NotifyMessage.Title title, object parameter = null)
         {
             var message = new NotifyMessage();
             message.title = title;

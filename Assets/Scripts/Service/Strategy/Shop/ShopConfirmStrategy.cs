@@ -9,15 +9,16 @@
 //======================================================================
 
 using Core.Entity;
+using Core.Extensions;
 using Service.BizLogic;
 
 namespace Service.Strategy
 {
     public sealed class ShopConfirmStrategy : BaseStrategy
     {
-        public override Response Get(Parameter parameter = null)
+        public override Response Get(object parameter = null)
         {
-            var itemId = parameter.Get<int>("itemId");
+            var itemId = parameter.ToInt32();
             var sret = new Response();
             var ibl = new ItemBizLogic();
             var mit = ibl.GetMasterByItemId(itemId);

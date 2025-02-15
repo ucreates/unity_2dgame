@@ -8,12 +8,13 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
+using System.Collections.Generic;
 using Core.Extensions;
 using Core.Validator.Config;
 using Core.Validator.Entity;
 using Core.Validator.Factory;
 using Core.Validator.Message;
+using UnityEngine;
 
 namespace Core.Validator
 {
@@ -37,13 +38,12 @@ namespace Core.Validator
             return instance;
         }
 
-        public override ValidatorResponse IsValid(Parameter parameter)
+        public override ValidatorResponse IsValid(object parameter)
         {
             var response = new ValidatorResponse();
-            parameter.parameterDictionary.ForEach(pair =>
+            (parameter as Dictionary<string, object>).ForEach(pair =>
             {
-                var validateValue = pair.Value as Value<string>;
-                var ctrlVldRes = IsValid(pair.Key, validateValue.value);
+                var ctrlVldRes = IsValid(pair.Key.ToLower(), pair.Value.ToString());
                 response.responseList.AddRange(ctrlVldRes.responseList);
             });
             return response;
@@ -56,7 +56,7 @@ namespace Core.Validator
             {
                 var entity = new ValidatorResponseEntity();
                 entity.result = false;
-                entity.message = new ErrorValidateMessage("nothing validate parameter.");
+                entity.message = new ErrorValidateMessage($"{validateControlName} is nothing validate parameter.");
                 response.responseList.Add(entity);
                 return response;
             }

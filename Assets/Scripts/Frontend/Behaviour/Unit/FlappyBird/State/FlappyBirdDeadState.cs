@@ -8,11 +8,12 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System;
+using Core.Extensions;
 using Core.Generator;
 using Frontend.Component.Asset.Sound;
 using Frontend.Component.State;
 using Frontend.Component.Vfx;
-using Frontend.Component.Vfx.Easing;
 using Frontend.Notify;
 using UnityEngine;
 
@@ -25,6 +26,8 @@ namespace Frontend.Behaviour.State
         private Vector3 currentEuler { get; set; }
 
         private Vector3 deadPosition { get; set; }
+
+        private Func<float, float, float, Vector3> cb => delegate(float x, float y, float z) { return new Vector3(x, y, z) * -1f; };
 
         public override void Create()
         {
@@ -41,9 +44,7 @@ namespace Frontend.Behaviour.State
 
         public override void Update()
         {
-            var falldown = Quadratic.EaseIn(timeLine.currentTime, 0.0f, 90.0f, 1.5f);
-            var nextEuler = new Vector3(0f, 0f, falldown) * -1f;
-            owner.transform.rotation = Quaternion.Euler(nextEuler);
+            owner.transform.Easing(EaseType.QuadraticIn, Afin.Rotation, timeLine.currentTime, 0.0f, 90.0f, 1.5f, false, false, true, cb);
             timeLine.Next();
         }
     }

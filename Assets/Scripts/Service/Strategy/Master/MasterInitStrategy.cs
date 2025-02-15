@@ -22,7 +22,7 @@ namespace Service.Strategy
         public const int DUMMY_USER_NUMBER = 10;
         public const int FIRST_DUMMY_USER_ID = 1;
 
-        public override Response Update(Parameter parameter)
+        public override Response Update(object parameter)
         {
             var response = new Response();
             response.resultStatus = Response.ServiceStatus.SUCCESS;

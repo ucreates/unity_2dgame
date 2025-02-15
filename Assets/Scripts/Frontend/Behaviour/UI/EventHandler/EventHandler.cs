@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using System.Linq;
 using Core.Entity;
 using Core.Validator;
@@ -42,18 +43,16 @@ public sealed class EventHandler : BaseBehaviour
         var res = validator.IsValid();
         if (!res.isSuccess())
         {
-            var parameter = new Parameter();
-            parameter.Set("ValidateResponse", res);
-            notifier.Notify(NotifyMessage.Title.InputProfileError, parameter);
+            notifier.Notify(NotifyMessage.Title.InputProfileError, res);
             return;
         }
 
         var input = icanvas.GetComponent<InputCanvasBehaviour>() as IInputUIAsset;
-        var sparam = input.GetInput();
-        sparam.Set("coin", Random.Range(300, 1000));
+        var paramBody = (Dictionary<string, object>)input.GetInput();
+        paramBody.Add("coin", Random.Range(300, 1000));
         ServiceGateway.GetInstance()
             .Request("service://player/commit")
-            .Request(sparam);
+            .Request(paramBody);
         notifier.Notify(NotifyMessage.Title.NoticeShow);
     }
 
@@ -129,10 +128,8 @@ public sealed class EventHandler : BaseBehaviour
 
     public void OnBuyItemConfirm(int itemId)
     {
-        var nparam = new Parameter();
-        nparam.Set("itemId", itemId);
         var notifier = Notifier.GetInstance();
-        notifier.Notify(NotifyMessage.Title.ShopConfirmShow, nparam);
+        notifier.Notify(NotifyMessage.Title.ShopConfirmShow, itemId);
     }
 
     public void OnBuyItemCancel()
@@ -144,14 +141,11 @@ public sealed class EventHandler : BaseBehaviour
     public void OnBuyItem()
     {
         var itemId = Session.GetInstance().Get<int>("itemId");
-        var parameter = new Parameter();
-        parameter.Set("itemId", itemId);
-        parameter.Set("amount", 1);
+        (int itemId, int amount, string message) parameter = (itemId, 1, string.Empty);
         var response = ServiceGateway.GetInstance()
             .Request("service://shop/buy")
             .Update(parameter);
-        parameter = new Parameter();
-        parameter.Set("message", response.Get<string>("message"));
+        parameter.message = response.Get<string>("message");
         var notifier = Notifier.GetInstance();
         notifier.Notify(NotifyMessage.Title.ShopCommitShow, parameter);
     }

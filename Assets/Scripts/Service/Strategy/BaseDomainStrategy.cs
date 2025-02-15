@@ -14,22 +14,22 @@ namespace Service.Strategy
 {
     public class BaseStrategy
     {
-        public virtual Response Get(Parameter parameter = null)
+        public virtual Response Get(object parameter = null)
         {
             return null;
         }
 
-        public virtual Response Load(Parameter parameter = null)
+        public virtual Response Load(object parameter = null)
         {
             return null;
         }
 
-        public virtual Response Request(Parameter parameter = null)
+        public virtual Response Request(object parameter = null)
         {
             return null;
         }
 
-        public virtual Response Update(Parameter parameter = null)
+        public virtual Response Update(object parameter = null)
         {
             return null;
         }

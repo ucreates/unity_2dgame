@@ -10,7 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using Core.Entity;
 using Core.Utility;
 using Core.Validator.Entity;
 using Core.Validator.Message;
@@ -28,12 +27,7 @@ namespace Core.Validator
 
         public CompareOption compareOption { get; set; }
 
-        public virtual ValidatorResponse IsValid(object validateValue)
-        {
-            return new ValidatorResponse();
-        }
-
-        public virtual ValidatorResponse IsValid(Parameter parameter)
+        public virtual ValidatorResponse IsValid(object parameter)
         {
             return new ValidatorResponse();
         }

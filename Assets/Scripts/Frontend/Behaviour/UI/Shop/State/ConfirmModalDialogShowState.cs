@@ -28,9 +28,9 @@ namespace Frontend.Behaviour.State.UI.Shop
 
         private float previousAlpha { get; set; }
 
-        private Parameter notifyParameter { get; set; }
+        private object notifyParameter { get; set; }
 
-        public override void Create(Parameter paramter)
+        public override void Create(object paramter)
         {
             var allSpriteList = Resources.LoadAll<Sprite>("Textures");
             var itemSpriteList = new List<Sprite>();
@@ -40,13 +40,11 @@ namespace Frontend.Behaviour.State.UI.Shop
                 if (sprite.name.Contains("shop_item_type")) itemSpriteList.Add(sprite);
             }
 
-            var itemId = paramter.Get<int>("itemId");
+            var itemId = paramter.ToInt32();
             Session.GetInstance().Add("itemId", itemId);
-            var sparam = new Parameter();
-            sparam.Set("itemId", itemId);
             var response = ServiceGateway.GetInstance()
                 .Request("service://shop/confirm")
-                .Get(sparam);
+                .Get(itemId);
             var itemmaster = response.Get<MItemTable>("itemmaster");
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;

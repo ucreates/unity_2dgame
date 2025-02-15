@@ -8,7 +8,6 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Component.Vfx;
 using UnityEngine;
 
@@ -39,7 +38,7 @@ namespace Frontend.Component.State
         {
         }
 
-        public virtual void Create(Parameter paramter)
+        public virtual void Create(object paramter)
         {
         }
 

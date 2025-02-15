@@ -8,7 +8,6 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
 
@@ -18,7 +17,7 @@ namespace Frontend.Behaviour.State.UI.Shop
     {
         private ShopCanvasConfirmModalDialogBuilder builder { get; set; }
 
-        public override void Create(Parameter paramter)
+        public override void Create(object paramter)
         {
             if (null == builder)
                 builder = new ShopCanvasConfirmModalDialogBuilder();

@@ -9,7 +9,6 @@
 //======================================================================
 
 using System;
-using Core.Entity;
 
 namespace Frontend.Notify
 {
@@ -38,7 +37,7 @@ namespace Frontend.Notify
             ShopCommitShow = 18
         }
 
-        public Parameter parameter;
+        public object parameter;
         public Title title;
     }
 }

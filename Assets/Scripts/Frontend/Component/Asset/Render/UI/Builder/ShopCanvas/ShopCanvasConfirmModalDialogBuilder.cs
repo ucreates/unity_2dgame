@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Extensions;
 using Service.Integration.Table;
 using UnityEngine;
 using UnityEngine.UI;
@@ -54,17 +55,9 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
 
         public override void Update()
         {
-            buttonList.ForEach(button =>
-            {
-                var cb = button.colors;
-                cb.normalColor = new Color(cb.normalColor.r, cb.normalColor.g, cb.normalColor.b, alpha);
-                cb.pressedColor = new Color(cb.pressedColor.r, cb.pressedColor.g, cb.pressedColor.b, alpha);
-                cb.highlightedColor = new Color(cb.highlightedColor.r, cb.highlightedColor.g, cb.highlightedColor.b,
-                    alpha);
-                button.colors = cb;
-            });
-            imageList.ForEach(image => { image.color = new Color(image.color.r, image.color.g, image.color.b, alpha); });
-            textList.ForEach(text => { text.color = new Color(text.color.r, text.color.g, text.color.b, alpha); });
+            buttonList.ForEach(button => { button.FillAlpha(alpha, true, true, true); });
+            imageList.ForEach(image => { image.FillAlpha(alpha); });
+            textList.ForEach(text => { text.FillAlpha(alpha); });
         }
     }
 }

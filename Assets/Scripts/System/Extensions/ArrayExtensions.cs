@@ -2,7 +2,7 @@ using System;
 
 namespace Core.Extensions.Array
 {
-    public static class ArrayExtension
+    public static class ArrayExtensions
     {
         public static void For<T>(this T[] array, Action<T> action)
         {

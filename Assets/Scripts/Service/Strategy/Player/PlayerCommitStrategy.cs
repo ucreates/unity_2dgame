@@ -8,22 +8,21 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
+using System.Extensions;
 using Core.Entity;
+using Core.Extensions;
 using Service.BizLogic;
 
 namespace Service.Strategy
 {
     public sealed class PlayerCommitStrategy : BaseStrategy
     {
-        public override Response Request(Parameter parameter)
+        public override Response Request(object parameter)
         {
-            var nickName = parameter.Get<string>("nickname");
-            var password = parameter.Get<string>("password");
-            var gender = parameter.Get<int>("gender");
-            var coin = parameter.Get<int>("coin");
-            var mailOrPhone = parameter.Get<string>("mailphone");
+            var paramBody = (Dictionary<string, object>)parameter;
             var ubl = new UserBizLogic();
-            var ret = ubl.AddNewUser(nickName, password, gender, mailOrPhone, coin, true);
+            var ret = ubl.AddNewUser(paramBody["nickName"].ToString(), paramBody["password"].ToString(), paramBody["gender"].ToInt32(), paramBody["mailPhone"].ToString(), paramBody["coin"].ToInt32(), true);
             var mut = ubl.GetPlayer();
             var sbl = new ScoreBizLogic();
             ret = sbl.AddNewUserScore(mut.id);

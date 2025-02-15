@@ -15,7 +15,7 @@ namespace Service.Strategy
 {
     public sealed class ResultStatsStrategy : BaseStrategy
     {
-        public override Response Get(Parameter parameter = null)
+        public override Response Get(object parameter = null)
         {
             var sret = new Response();
             var ubl = new UserBizLogic();

@@ -10,7 +10,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Core.Entity;
 using Core.Extensions;
 using UnityEngine;
 
@@ -32,7 +31,7 @@ namespace Frontend.Component.State
 
         public FiniteStateEntity<T> finiteStateEntity { get; set; }
 
-        private Parameter paramter { get; set; }
+        private object paramter { get; set; }
 
         public T owner { get; }
 
@@ -46,7 +45,7 @@ namespace Frontend.Component.State
             Change(newStateName, null, update);
         }
 
-        public void Change(string newStateName, Parameter paramter, bool update = false)
+        public void Change(string newStateName, object paramter, bool update = false)
         {
             this.paramter = paramter;
             var nextState = Get(newStateName);

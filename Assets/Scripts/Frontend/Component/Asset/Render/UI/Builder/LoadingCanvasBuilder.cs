@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using Core.Extensions;
 using UnityEngine;
 
 namespace Frontend.Component.Asset.Renderer.UI.Builder
@@ -34,7 +35,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
             imageList.ForEach(image =>
             {
                 if (enabled)
-                    image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
+                    image.FillAlpha(alpha);
                 else
                     image.color = Color.white;
             });

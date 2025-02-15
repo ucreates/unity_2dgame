@@ -9,6 +9,7 @@
 //======================================================================
 
 using System;
+using Core.Extensions;
 
 namespace Core.Validator.Unit
 {
@@ -21,7 +22,7 @@ namespace Core.Validator.Unit
             if (type.Name.ToLower().Equals("string"))
             {
                 var strValue = value.ToString();
-                if (string.IsNullOrEmpty(strValue)) return false;
+                if (strValue.IsNullOrEmpty()) return false;
             }
 
             return true;

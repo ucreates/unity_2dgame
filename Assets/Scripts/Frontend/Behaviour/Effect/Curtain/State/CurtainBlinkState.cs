@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using Core.Extensions;
 using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using UnityEngine;
@@ -28,9 +29,7 @@ namespace Frontend.Behaviour.State
             blinkTimeLine = new TimeLine();
             blinkTimeLine.rate = FRAME_RATE;
             renderer = owner.GetComponent<SpriteRenderer>();
-            var color = renderer.color;
-            color.a = 0.1f;
-            renderer.color = color;
+            renderer.FillAlpha(0.1f);
         }
 
         public override void Update()
@@ -38,9 +37,7 @@ namespace Frontend.Behaviour.State
             var frame = blinkTimeLine.currentFrame;
             var alpha = Flash.Update(frame, 1.0f, 0.8f);
             if (LIMIT_FRAME <= frame) alpha = 0f;
-            var color = renderer.color;
-            color.a = alpha;
-            renderer.color = color;
+            renderer.FillAlpha(alpha);
             blinkTimeLine.Next();
         }
     }

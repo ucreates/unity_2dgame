@@ -8,7 +8,6 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using Core.Entity;
 using Frontend.Behaviour.State;
 using Frontend.Component.Asset.Render;
 using Frontend.Component.Asset.Sound;
@@ -76,11 +75,9 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
         {
             var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("point");
             soundAsset.Play();
-            var parameter = new Parameter();
-            parameter.Set("clearcount", 1);
             ServiceGateway.GetInstance()
                 .Request("service://player/score")
-                .Update(parameter);
+                .Update(1);
         }
     }
 

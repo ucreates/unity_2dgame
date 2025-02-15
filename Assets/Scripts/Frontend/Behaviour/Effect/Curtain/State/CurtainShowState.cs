@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using Core.Extensions;
 using Frontend.Component.State;
 using UnityEngine;
 
@@ -17,10 +18,8 @@ namespace Frontend.Behaviour.State
     {
         public override void Create()
         {
-            var sr = owner.GetComponent<SpriteRenderer>();
-            var color = sr.color;
-            color.a = 1f;
-            sr.color = color;
+            var renderer = owner.GetComponent<SpriteRenderer>();
+            renderer.FillAlpha(1f);
         }
     }
 }

@@ -9,15 +9,16 @@
 //======================================================================
 
 using Core.Entity;
+using Core.Extensions;
 using Service.BizLogic;
 
 namespace Service.Strategy
 {
     public sealed class PlayerScoreStrategy : BaseStrategy
     {
-        public override Response Update(Parameter parameter)
+        public override Response Update(object parameter)
         {
-            var clearCount = parameter.Get<int>("clearcount");
+            var clearCount = parameter.ToInt32();
             var ubl = new UserBizLogic();
             var mut = ubl.GetPlayer();
             var sbl = new ScoreBizLogic();

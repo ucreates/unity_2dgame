@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Reflection;
+using Core.Extensions;
 
 namespace Core.Utility
 {
@@ -16,7 +17,7 @@ namespace Core.Utility
     {
         public static T ToGenerics<T>(object value)
         {
-            if (null == value || string.IsNullOrEmpty(value.ToString())) return default;
+            if (null == value || value.ToString().IsNullOrEmpty()) return default;
             var type = typeof(T);
             if (type.Name.ToLower().Equals("string")) return (T)value;
             var flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.InvokeMethod;
