@@ -19,7 +19,7 @@ namespace Frontend.Behaviour.State
         public override void Create()
         {
             var renderer = owner.GetComponent<SpriteRenderer>();
-            renderer.FillAlpha(1f);
+            renderer?.FillAlpha(1f);
         }
     }
 }

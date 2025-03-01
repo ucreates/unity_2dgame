@@ -12,22 +12,8 @@ namespace Core.Device
 {
     public sealed class Screen
     {
-        public static float HalfWidth
-        {
-            get
-            {
-                var val = UnityEngine.Screen.width / 2f;
-                return val;
-            }
-        }
+        public static float HalfWidth => UnityEngine.Screen.width / 2f;
 
-        public static float HalfHeight
-        {
-            get
-            {
-                var val = UnityEngine.Screen.height / 2f;
-                return val;
-            }
-        }
+        public static float HalfHeight => UnityEngine.Screen.height / 2f;
     }
 }

@@ -11,6 +11,7 @@
 using Core.Entity;
 using Core.Extensions;
 using Service.BizLogic;
+using Service.Integration.Table;
 
 namespace Service.Strategy
 {
@@ -21,8 +22,8 @@ namespace Service.Strategy
             var itemId = parameter.ToInt32();
             var sret = new Response();
             var ibl = new ItemBizLogic();
-            var mit = ibl.GetMasterByItemId(itemId);
-            sret.Set("itemmaster", mit);
+            var mit = ibl?.GetMasterByItemId(itemId) ?? null;
+            sret.Set<MItemTable>("itemmaster", mit);
             return sret;
         }
     }

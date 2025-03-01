@@ -18,14 +18,14 @@ public sealed class BackGroundBehaviour : BaseBehaviour, IStateMachine<BackGroun
     {
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<BackGroundBehaviour>(this);
-        stateMachine.Add("show", new BackGroundShowState());
-        stateMachine.Change("show");
-        stateMachine.Play();
+        stateMachine?.Add("show", new BackGroundShowState());
+        stateMachine?.Change("show");
+        stateMachine?.Play();
     }
 
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public FiniteStateMachine<BackGroundBehaviour> stateMachine { get; set; }

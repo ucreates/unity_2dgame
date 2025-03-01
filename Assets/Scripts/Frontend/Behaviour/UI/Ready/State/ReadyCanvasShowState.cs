@@ -37,17 +37,17 @@ namespace Frontend.Behaviour.State
         {
             if (!Input.GetMouseButtonDown(0))
             {
-                var alpha = Flash.Update(alphaTimeLine.currentTime, 2f);
-                var scale = Flash.Update(alphaTimeLine.currentTime, 7.0f, 0.1f);
+                var alpha = Flash.Update(alphaTimeLine?.currentTime ?? 0f, 2f);
+                var scale = Flash.Update(alphaTimeLine?.currentTime ?? 0f, 7.0f, 0.1f);
                 getReadyImage.color = new Color(1.0f, 1.0f, 1.0f, alpha);
                 tapLogoImage.rectTransform.localScale = new Vector2(1f + scale, 1f + scale);
-                alphaTimeLine.Next();
+                alphaTimeLine?.Next();
             }
             else
             {
-                owner.stateMachine.Change("hide");
+                owner?.stateMachine?.Change("hide");
                 var notifier = Notifier.GetInstance();
-                if (notifier.currentMessage.title != NotifyMessage.Title.GameStart) notifier.Notify(NotifyMessage.Title.GameStart);
+                if (notifier.currentMessage.title != NotifyMessage.Title.GameStart) notifier?.Notify(NotifyMessage.Title.GameStart);
             }
         }
     }

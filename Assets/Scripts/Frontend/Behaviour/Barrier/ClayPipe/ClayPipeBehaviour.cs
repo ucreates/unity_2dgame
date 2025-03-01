@@ -18,27 +18,27 @@ public sealed class ClayPipeBehaviour : BaseBehaviour, IStateMachine<ClayPipeBeh
 {
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameRestart; }).Subscribe(message => { OnNotify(message); });
+        rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameRestart; })?.Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ClayPipeBehaviour>(this);
-        stateMachine.Add("move", new ClayPipeMoveState());
-        stateMachine.Add("destroy", new ClayPipeDestroyState());
-        stateMachine.Add("stop", new ClayPipeStopState());
-        stateMachine.Change("move");
-        stateMachine.Play();
+        stateMachine?.Add("move", new ClayPipeMoveState());
+        stateMachine?.Add("destroy", new ClayPipeDestroyState());
+        stateMachine?.Add("stop", new ClayPipeStopState());
+        stateMachine?.Change("move");
+        stateMachine?.Play();
     }
 
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.FlappyBirdDead)
-            stateMachine.Change("stop");
-        else if (notifyMessage.title == NotifyMessage.Title.GameRestart) 
-            stateMachine.Change("destroy");
+        if (notifyMessage?.title == NotifyMessage.Title.FlappyBirdDead)
+            stateMachine?.Change("stop");
+        else if (notifyMessage?.title == NotifyMessage.Title.GameRestart)
+            stateMachine?.Change("destroy");
     }
 
     public FiniteStateMachine<ClayPipeBehaviour> stateMachine { get; set; }

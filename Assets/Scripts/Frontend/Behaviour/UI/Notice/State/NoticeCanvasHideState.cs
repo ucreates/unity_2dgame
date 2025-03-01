@@ -17,7 +17,7 @@ namespace Frontend.Behaviour.State
     {
         public override void Create()
         {
-            owner.webViewPlugin.Hide();
+            owner.webViewPlugin?.Hide();
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = false;
         }

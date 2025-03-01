@@ -21,14 +21,14 @@ namespace Frontend.Behaviour.State
         public override void Create()
         {
             timeLine = new TimeLine();
-            renderAsset = owner.assetCollection.Get<MaterialAsset>("anime");
+            renderAsset = owner?.assetCollection?.Get<MaterialAsset>("anime");
         }
 
         public override void Update()
         {
-            var offset = timeLine.currentTime * LandBehaviour.UV_SCROLL_RATE;
-            renderAsset.Play(offset);
-            timeLine.Next();
+            var offset = timeLine?.currentTime * LandBehaviour.UV_SCROLL_RATE ?? 0f;
+            renderAsset?.Play(offset);
+            timeLine?.Next();
         }
     }
 }

@@ -27,29 +27,29 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
 
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.GameStart || message.title == NotifyMessage.Title.RegulationShow || message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.GameRestart || message.title == NotifyMessage.Title.GameTitle || message.title == NotifyMessage.Title.GameOver; }).Subscribe(message => { OnNotify(message); });
-        assetCollection.Set("anime", new AnimatorAsset(this));
+        rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.GameStart || message.title == NotifyMessage.Title.RegulationShow || message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.GameRestart || message.title == NotifyMessage.Title.GameTitle || message.title == NotifyMessage.Title.GameOver; })?.Subscribe(message => { OnNotify(message); });
+        assetCollection?.Set("anime", new AnimatorAsset(this));
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<FlappyBirdBehaviour>(this);
-        stateMachine.Add("ready", new FlappyBirdReadyState());
-        stateMachine.Add("go", new FlappyBirdGoState());
-        stateMachine.Add("fall", new FlappyBirdFallState());
-        stateMachine.Add("dead", new FlappyBirdDeadState());
-        stateMachine.Add("hide", new FlappyBIrdHideState());
-        stateMachine.Add("gameover", new FlappyBIrdGameOverState());
-        stateMachine.Change("hide");
-        stateMachine.Play();
+        stateMachine?.Add("ready", new FlappyBirdReadyState());
+        stateMachine?.Add("go", new FlappyBirdGoState());
+        stateMachine?.Add("fall", new FlappyBirdFallState());
+        stateMachine?.Add("dead", new FlappyBirdDeadState());
+        stateMachine?.Add("hide", new FlappyBIrdHideState());
+        stateMachine?.Add("gameover", new FlappyBIrdGameOverState());
+        stateMachine?.Change("hide");
+        stateMachine?.Play();
         deadTimeLine = new TimeLine();
     }
 
     public void Update()
     {
-        if (stateMachine.finiteStateEntity.currentStateName.Equals("ready")) stateMachine.Update();
+        if (stateMachine.finiteStateEntity.currentStateName.Equals("ready")) stateMachine?.Update();
     }
 
     private void FixedUpdate()
     {
-        if (!stateMachine.finiteStateEntity.currentStateName.Equals("ready")) stateMachine.Update();
+        if (!stateMachine.finiteStateEntity.currentStateName.Equals("ready")) stateMachine?.Update();
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
@@ -57,14 +57,14 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
         if (coll.gameObject.CompareTag("Barrier") && !stateMachine.finiteStateEntity.currentStateName.Equals("dead"))
         {
             var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("bird_hit");
-            soundAsset.Play();
-            stateMachine.Change("dead");
+            soundAsset?.Play();
+            stateMachine?.Change("dead");
         }
     }
 
     private void OnCollisionStay2D(Collision2D coll)
     {
-        if (coll.gameObject.name.Equals("LandCollision")) stateMachine.Change("gameover");
+        if (coll.gameObject.name.Equals("LandCollision")) stateMachine?.Change("gameover");
     }
 
     private void OnTriggerEnter2D(Collider2D coll)
@@ -74,31 +74,31 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
              stateMachine.finiteStateEntity.currentStateName.Equals("fall")))
         {
             var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("point");
-            soundAsset.Play();
+            soundAsset?.Play();
             ServiceGateway.GetInstance()
-                .Request("service://player/score")
-                .Update(1);
+                ?.Request("service://player/score")
+                ?.Update(1);
         }
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.GameStart)
+        if (notifyMessage?.title == NotifyMessage.Title.GameStart)
         {
-            stateMachine.Change("go");
+            stateMachine?.Change("go");
         }
-        else if (notifyMessage.title == NotifyMessage.Title.RegulationShow || notifyMessage.title == NotifyMessage.Title.RankingShow)
+        else if (notifyMessage?.title == NotifyMessage.Title.RegulationShow || notifyMessage?.title == NotifyMessage.Title.RankingShow)
         {
-            stateMachine.Change("hide");
+            stateMachine?.Change("hide");
         }
-        else if (notifyMessage.title == NotifyMessage.Title.GameRestart || notifyMessage.title == NotifyMessage.Title.GameTitle)
+        else if (notifyMessage?.title == NotifyMessage.Title.GameRestart || notifyMessage?.title == NotifyMessage.Title.GameTitle)
         {
-            stateMachine.Change("ready");
-            stateMachine.Play();
+            stateMachine?.Change("ready");
+            stateMachine?.Play();
         }
-        else if (notifyMessage.title == NotifyMessage.Title.GameOver)
+        else if (notifyMessage?.title == NotifyMessage.Title.GameOver)
         {
-            stateMachine.Stop();
+            stateMachine?.Stop();
         }
     }
 

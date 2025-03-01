@@ -21,8 +21,8 @@ namespace Service.BizLogic
         public void InitializeMaster(Dictionary<string, int> masterDictionary)
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<MItemTable>();
-            if (0 == dao.recordList.Count)
+            var dao = db?.FindBy<MItemTable>();
+            if (0 == dao?.recordList.Count)
             {
                 var uow = new UnitOfWork<MItemTable>();
                 masterDictionary.ForEach(pair => { uow.addRecordList.Add(new MItemTable(pair.Key, pair.Value)); });
@@ -33,16 +33,16 @@ namespace Service.BizLogic
         public List<MItemTable> GetAllItemMaster()
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<MItemTable>();
-            return dao.recordList;
+            var dao = db?.FindBy<MItemTable>();
+            return dao?.recordList;
         }
 
         public MItemTable GetMasterByItemId(int itemId)
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<MItemTable>();
-            var mit = dao.FindBy(itemId);
-            return mit.record;
+            var dao = db?.FindBy<MItemTable>();
+            var mit = dao?.FindBy(itemId);
+            return mit?.record;
         }
 
         public int GetPriceByItemId(int itemId)
@@ -55,21 +55,21 @@ namespace Service.BizLogic
         {
             var ret = false;
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TItemTable>();
-            var titList = dao.FindBy(record => record.userId == userId && record.itemId == itemId);
+            var dao = db?.FindBy<TItemTable>();
+            var titList = dao?.FindBy(record => record.userId == userId && record.itemId == itemId);
             if (0 == titList.Count)
             {
                 var record = new TItemTable();
                 record.userId = userId;
                 record.itemId = itemId;
                 record.amount = amont;
-                ret = dao.Save(record);
+                ret = dao?.Save(record) ?? false;
             }
             else
             {
                 var record = titList.FirstOrDefault();
                 record.amount += amont;
-                ret = dao.Update(record);
+                ret = dao?.Update(record) ?? false;
             }
 
             return ret;
@@ -79,8 +79,8 @@ namespace Service.BizLogic
         {
             var ret = false;
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TItemTable>();
-            var titList = dao.FindBy(record => record.userId == userId && record.itemId == itemId);
+            var dao = db?.FindBy<TItemTable>();
+            var titList = dao?.FindBy(record => record.userId == userId && record.itemId == itemId);
             if (0 < titList.Count) ret = true;
             return ret;
         }

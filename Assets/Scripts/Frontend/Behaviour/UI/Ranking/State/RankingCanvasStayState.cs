@@ -27,10 +27,10 @@ namespace Frontend.Behaviour.State
             var confirmButton = sb.GetComponent<Button>();
             builder = new RankingCanvasBuilder();
             builder
-                .AddButton(confirmButton)
-                .AddAlpha(1f)
-                .AddEnabled(true)
-                .Update();
+                ?.AddButton(confirmButton)
+                ?.AddAlpha(1f)
+                ?.AddEnabled(true)
+                ?.Update();
         }
     }
 }

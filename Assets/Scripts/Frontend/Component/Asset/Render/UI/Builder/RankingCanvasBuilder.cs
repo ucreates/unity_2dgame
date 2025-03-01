@@ -70,7 +70,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                 rankingText.alignment = TextAnchor.MiddleLeft;
                 rankingText.font = (Font)Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf");
                 rankingText.fontStyle = FontStyle.Normal;
-                rankingText.text = user.nickName + " " + score.clearCount + " points.";
+                rankingText.text = $"{user.nickName} {score.clearCount} points.";
                 rankingText.color = Color.black;
                 rankingText.horizontalOverflow = HorizontalWrapMode.Wrap;
                 rankingText.verticalOverflow = VerticalWrapMode.Overflow;

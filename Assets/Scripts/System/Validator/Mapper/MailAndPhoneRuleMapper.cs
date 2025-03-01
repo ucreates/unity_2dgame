@@ -10,9 +10,10 @@
 
 using System.Collections.Generic;
 using System.Xml;
-using Core.Extensions;
 using Core.Validator.Builder;
 using Core.Validator.Message;
+using Core.Extensions;
+using Core.Extensions.Array;
 
 namespace Core.Validator.Mapper
 {
@@ -24,26 +25,17 @@ namespace Core.Validator.Mapper
         public override Dictionary<string, object> Map(XmlNodeList ruleNodeList)
         {
             var ret = new Dictionary<string, object>();
-            for (var i = 0; i < 2; i++)
+            var patterns = new[] { EMAIL_ADRRESS_REGEX, PHONE_NUMBER_REGEX };
+            patterns.ForEach(pattern =>
             {
                 var builder = new RegexValidatorUnitBuilder();
-                if (i == 0)
-                    builder.AddPattern(EMAIL_ADRRESS_REGEX);
-                else
-                    builder.AddPattern(PHONE_NUMBER_REGEX);
+                builder.AddPattern(pattern);
                 ruleNodeList.ForEach(node =>
                 {
                     node.Attributes.ForEach(attribute =>
                     {
                         var attrValue = attribute.Value.ToLower();
-                        if (i == 0 && attrValue.Equals("mailerrorsummary"))
-                        {
-                            var summary = node.InnerText;
-                            builder.AddMessage(new ErrorValidateMessage(summary));
-                            return false;
-                        }
-
-                        if (i == 1 && attrValue.Equals("phoneerrorsummary"))
+                        if ((pattern.Equals(EMAIL_ADRRESS_REGEX) && attrValue.Equals("mailerrorsummary")) || (pattern.Equals(PHONE_NUMBER_REGEX) && attrValue.Equals("phoneerrorsummary")))
                         {
                             var summary = node.InnerText;
                             builder.AddMessage(new ErrorValidateMessage(summary));
@@ -53,14 +45,9 @@ namespace Core.Validator.Mapper
                         return true;
                     });
                 });
-                var builderType = string.Empty;
-                if (i == 0)
-                    builderType = builder.type + "::mail";
-                else
-                    builderType = builder.type + "::phone";
+                var builderType = pattern.Equals(EMAIL_ADRRESS_REGEX) ? $"{builder.type}::mail" : $"{builder.type}::phone";
                 ret.Add(builderType, builder.Build());
-            }
-
+            });
             return ret;
         }
     }

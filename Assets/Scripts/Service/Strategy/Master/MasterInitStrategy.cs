@@ -41,15 +41,15 @@ namespace Service.Strategy
             for (var i = FIRST_DUMMY_USER_ID; i <= DUMMY_USER_NUMBER; i++)
             {
                 var id = i.ToString();
-                dummyUserList.Add(new MUserTable("User" + id, "password" + id, i, "09098765432", random.Next(300, 1000),
+                dummyUserList.Add(new MUserTable($"User{id}", $"password{id}", i, "09098765432", random.Next(300, 1000),
                     false));
             }
 
-            ubl.AddNewUser(dummyUserList);
+            ubl?.AddNewUser(dummyUserList);
             var dummyScoreList = new List<TScoreTable>();
             for (var i = FIRST_DUMMY_USER_ID; i <= DUMMY_USER_NUMBER; i++)
                 dummyScoreList.Add(new TScoreTable(i, random.Next(1, 20)));
-            sbl.AddNewUserScore(dummyScoreList);
+            sbl?.AddNewUserScore(dummyScoreList);
         }
 
         private void LoadItemMaster()
@@ -60,18 +60,18 @@ namespace Service.Strategy
             itemMasterDictionary.Add("TYPE_C", 300);
             itemMasterDictionary.Add("TYPE_D", 400);
             var ibl = new ItemBizLogic();
-            ibl.InitializeMaster(itemMasterDictionary);
+            ibl?.InitializeMaster(itemMasterDictionary);
         }
 
         private void LoadSoundData()
         {
             var collection = SoundAssetCollection.GetInstance();
-            collection.SetBGMAsset("athletic", new BGMAsset("Audio/BGM/athletic"));
-            collection.SetBGMAsset("player_down", new BGMAsset("Audio/BGM/player_down", true));
-            collection.SetSeAsset("bird_wing", new SoundEffectAsset("Audio/SE/sfx_wing"));
-            collection.SetSeAsset("bird_hit", new SoundEffectAsset("Audio/SE/sfx_hit"));
-            collection.SetSeAsset("bird_die", new SoundEffectAsset("Audio/SE/sfx_die"));
-            collection.SetSeAsset("point", new SoundEffectAsset("Audio/SE/sfx_point"));
+            collection?.SetBGMAsset("athletic", new BGMAsset("Audio/BGM/athletic"));
+            collection?.SetBGMAsset("player_down", new BGMAsset("Audio/BGM/player_down", true));
+            collection?.SetSeAsset("bird_wing", new SoundEffectAsset("Audio/SE/sfx_wing"));
+            collection?.SetSeAsset("bird_hit", new SoundEffectAsset("Audio/SE/sfx_hit"));
+            collection?.SetSeAsset("bird_die", new SoundEffectAsset("Audio/SE/sfx_die"));
+            collection?.SetSeAsset("point", new SoundEffectAsset("Audio/SE/sfx_point"));
         }
     }
 }

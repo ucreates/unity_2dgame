@@ -38,27 +38,27 @@ namespace Frontend.Behaviour.State.UI.Shop
             if (null == builder)
                 builder = new ShopCanvasListModalDialogBuilder();
             else
-                builder.Reset();
+                builder?.Reset();
             builder
-                .AddCommitMessage(message)
-                .AddTransform(owner.transform)
-                .AddAlpha(0f)
-                .AddEnabled(false)
-                .Build();
+                ?.AddCommitMessage(message)
+                ?.AddTransform(owner.transform)
+                ?.AddAlpha(0f)
+                ?.AddEnabled(false)
+                ?.Build();
         }
 
         public override void Update()
         {
-            var alpha = Flash.Update(alphaTimeLine.currentTime);
+            var alpha = Flash.Update(alphaTimeLine?.currentTime ?? 0f);
             if (alpha < previousAlpha)
             {
-                owner.stateMachine.Change("commitstay", notifyParameter);
+                owner?.stateMachine?.Change("commitstay", notifyParameter);
                 return;
             }
 
             builder
-                .AddAlpha(alpha)
-                .Update();
+                ?.AddAlpha(alpha)
+                ?.Update();
             previousAlpha = alpha;
             alphaTimeLine.Next(1.5f);
         }

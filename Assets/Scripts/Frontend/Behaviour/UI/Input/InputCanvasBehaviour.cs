@@ -25,20 +25,20 @@ public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCan
 {
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.InputProfileError || message.title == NotifyMessage.Title.InputProfile || message.title == NotifyMessage.Title.GameTitle; }).Subscribe(message => { OnNotify(message); });
+        rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.InputProfileError || message.title == NotifyMessage.Title.InputProfile || message.title == NotifyMessage.Title.GameTitle; })?.Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<InputCanvasBehaviour>(this);
-        stateMachine.Add("show", new InputCanvasShowState());
-        stateMachine.Add("stay", new InputCanvasStayState());
-        stateMachine.Add("hide", new InputCanvasHideState());
-        stateMachine.Add("error", new InputCanvasErrorState());
-        stateMachine.Change("show");
-        stateMachine.Play();
+        stateMachine?.Add("show", new InputCanvasShowState());
+        stateMachine?.Add("stay", new InputCanvasStayState());
+        stateMachine?.Add("hide", new InputCanvasHideState());
+        stateMachine?.Add("error", new InputCanvasErrorState());
+        stateMachine?.Change("show");
+        stateMachine?.Play();
     }
 
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public object GetInput()
@@ -80,11 +80,11 @@ public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCan
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.InputProfileError)
-            stateMachine.Change("error", notifyMessage.parameter);
-        else if (notifyMessage.title == NotifyMessage.Title.InputProfile)
-            stateMachine.Change("show");
-        else if (notifyMessage.title == NotifyMessage.Title.GameTitle) stateMachine.Change("hide");
+        if (notifyMessage?.title == NotifyMessage.Title.InputProfileError)
+            stateMachine?.Change("error", notifyMessage.parameter);
+        else if (notifyMessage?.title == NotifyMessage.Title.InputProfile)
+            stateMachine?.Change("show");
+        else if (notifyMessage?.title == NotifyMessage.Title.GameTitle) stateMachine?.Change("hide");
     }
 
     public FiniteStateMachine<InputCanvasBehaviour> stateMachine { get; set; }
@@ -93,7 +93,7 @@ public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCan
     {
         var parameter = GetInput();
         var validator = ValidatorGateway.GetInstance();
-        var res = validator.IsValid(parameter);
+        var res = validator?.IsValid(parameter);
         return res;
     }
 }

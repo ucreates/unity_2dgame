@@ -25,7 +25,7 @@ namespace Frontend.Behaviour.State
 
         public override void Create()
         {
-            owner.webViewPlugin.Show("http://u-creates.com/template/notice/", Screen.width * 0.3f, Screen.height * 0.3f,
+            owner.webViewPlugin?.Show("http://u-creates.com/template/notice/", Screen.width * 0.3f, Screen.height * 0.3f,
                 Screen.width * 0.3f, Screen.height * 0.35f);
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
@@ -33,24 +33,24 @@ namespace Frontend.Behaviour.State
             previousAlpha = 0f;
             builder = new NoticeCanvasBuilder();
             builder
-                .AddTransform(owner.transform)
-                .AddAlpha(0f)
-                .AddEnabled(false)
-                .Build();
+                ?.AddTransform(owner.transform)
+                ?.AddAlpha(0f)
+                ?.AddEnabled(false)
+                ?.Build();
         }
 
         public override void Update()
         {
-            var alpha = Flash.Update(alphaTimeLine.currentTime);
+            var alpha = Flash.Update(alphaTimeLine?.currentTime ?? 0f);
             if (alpha < previousAlpha)
             {
-                owner.stateMachine.Change("stay");
+                owner?.stateMachine?.Change("stay");
                 return;
             }
 
             builder
-                .AddAlpha(alpha)
-                .Update();
+                ?.AddAlpha(alpha)
+                ?.Update();
             previousAlpha = alpha;
             alphaTimeLine.Next(1.5f);
         }

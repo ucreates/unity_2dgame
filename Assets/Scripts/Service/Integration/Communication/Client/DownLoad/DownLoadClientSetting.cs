@@ -18,7 +18,7 @@ namespace Service.Integration.Communication.Client
         public DownLoadClientSetting(Uri uri, string localRootPath)
         {
             this.uri = uri;
-            localPath = localRootPath + uri.LocalPath;
+            localPath = string.Join(localRootPath, uri.LocalPath);
         }
 
         public Uri uri { get; set; }

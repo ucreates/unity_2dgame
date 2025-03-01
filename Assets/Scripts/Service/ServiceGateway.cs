@@ -48,7 +48,7 @@ namespace Service
             var serviceName = schema.FirstOrDefault();
             if (!serviceDictionary.ContainsKey(serviceName)) return null;
             var service = serviceDictionary[serviceName];
-            var strategyName = schema.Aggregate((result, name) => result + name).Replace(serviceName, string.Empty);
+            var strategyName = schema.Aggregate((result, name) => string.Join(result, name)).Replace(serviceName, string.Empty);
             return service.Create(strategyName);
         }
     }

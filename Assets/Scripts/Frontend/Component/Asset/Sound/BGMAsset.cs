@@ -41,7 +41,7 @@ namespace Frontend.Component.Asset.Sound
             var player = GameObject.Find(playerName);
             if (null == player)
             {
-                Debug.LogError("not exist audio player::" + playerName);
+                Debug.LogError($"not exist audio player::{playerName}");
                 return;
             }
 

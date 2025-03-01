@@ -22,13 +22,13 @@ namespace Frontend.Behaviour.State.UI.Shop
             if (null == builder)
                 builder = new ShopCanvasConfirmModalDialogBuilder();
             else
-                builder.Reset();
+                builder?.Reset();
             var roottrsfrm = owner.transform.Find("ConfirmModalDialog");
             builder
-                .AddAlpha(1f)
-                .AddTransform(roottrsfrm)
-                .AddEnabled(true)
-                .Update();
+                ?.AddAlpha(1f)
+                ?.AddTransform(roottrsfrm)
+                ?.AddEnabled(true)
+                ?.Update();
         }
     }
 }

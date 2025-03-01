@@ -20,22 +20,22 @@ namespace Service.BizLogic
         public CorporateBizLogic()
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<MCorporateTable>();
-            if (0 == dao.recordList.Count)
+            var dao = db?.FindBy<MCorporateTable>();
+            if (0 == dao?.recordList.Count)
             {
                 BaseAssembler<MCorporateTable> assembler = new CorporateAssembler();
                 var ret = assembler.WriteToTableList();
                 var master = ret.FirstOrDefault();
-                dao.Save(master);
+                dao?.Save(master);
             }
         }
 
         public MCorporateTable GetCoporateInfo()
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<MCorporateTable>();
-            var master = dao.FindBy(UNIQUE_RECORD_ID);
-            return master.record;
+            var dao = db?.FindBy<MCorporateTable>();
+            var master = dao?.FindBy(UNIQUE_RECORD_ID);
+            return master?.record;
         }
 
         public string GetCompanyName()

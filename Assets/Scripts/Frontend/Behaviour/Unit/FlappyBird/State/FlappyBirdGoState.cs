@@ -27,7 +27,7 @@ namespace Frontend.Behaviour.State
             rigidBody.linearVelocity = Vector2.zero;
             rigidBody.AddForce(new Vector2(0f, 2f), ForceMode2D.Impulse);
             var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("bird_wing");
-            soundAsset.Play();
+            soundAsset?.Play();
         }
 
         public override void Update()
@@ -39,13 +39,13 @@ namespace Frontend.Behaviour.State
             }
             else
             {
-                owner.stateMachine.Change("fall", true);
+                owner?.stateMachine?.Change("fall", true);
             }
 
             BaseValidator validator = new ScreenValidator();
-            var res = validator.IsValid(owner.transform.position);
-            var ret = res.GetResultList();
-            if (ret.FirstOrDefault()) owner.stateMachine.Change("dead");
+            var res = validator?.IsValid(owner.transform.position);
+            var ret = res?.GetResultList();
+            if (ret.FirstOrDefault()) owner?.stateMachine?.Change("dead");
         }
     }
 }

@@ -34,12 +34,12 @@ namespace Frontend.Behaviour.State
             {
                 rigidBody.linearVelocity = Vector2.zero;
                 rigidBody.AddForce(new Vector2(0f, 2f), ForceMode2D.Impulse);
-                owner.stateMachine.Change("go", true);
+                owner?.stateMachine?.Change("go", true);
             }
             else
             {
-                owner.transform.Easing(EaseType.QuadraticIn, Afin.Rotation, timeLine.currentTime, 0.0f, 90.0f, 1.5f, false, false, true, cb);
-                timeLine.Next();
+                owner.transform.Easing(EaseType.QuadraticIn, Afin.Rotation, timeLine?.currentTime ?? 0f, 0.0f, 90.0f, 1.5f, false, false, true, cb);
+                timeLine?.Next();
             }
         }
     }

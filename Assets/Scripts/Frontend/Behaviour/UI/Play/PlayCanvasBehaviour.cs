@@ -22,26 +22,26 @@ public sealed class PlayCanvasBehaviour : BaseBehaviour, IStateMachine<PlayCanva
 
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Subscribe(message => { OnNotify(message); });
+        rx = Notifier.GetInstance().OnNotify()?.Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<PlayCanvasBehaviour>(this);
-        stateMachine.Add("show", new PlayCanvasShowState());
-        stateMachine.Add("hide", new PlayCanvasHideState());
-        stateMachine.Change("hide");
-        stateMachine.Play();
+        stateMachine?.Add("show", new PlayCanvasShowState());
+        stateMachine?.Add("hide", new PlayCanvasHideState());
+        stateMachine?.Change("hide");
+        stateMachine?.Play();
     }
 
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.GameStart)
-            stateMachine.Change("show");
+        if (notifyMessage?.title == NotifyMessage.Title.GameStart)
+            stateMachine?.Change("show");
         else
-            stateMachine.Change("hide");
+            stateMachine?.Change("hide");
     }
 
     public FiniteStateMachine<PlayCanvasBehaviour> stateMachine { get; set; }

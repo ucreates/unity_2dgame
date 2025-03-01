@@ -32,7 +32,7 @@ namespace Service.Integration
             if (persistent)
             {
                 assembler = new PersistenceAssembler<T>(name);
-                recordList = assembler.WriteToTableList();
+                recordList = assembler?.WriteToTableList();
                 if (null == recordList) recordList = new List<T>();
             }
             else
@@ -126,7 +126,7 @@ namespace Service.Integration
             });
             id++;
             record.id = id;
-            record.Build();
+            record?.Build();
             recordList.Add(record);
             var index = recordList.IndexOf(record);
             var previousAndNextRecords = getPreviousAndNextRecords(index);

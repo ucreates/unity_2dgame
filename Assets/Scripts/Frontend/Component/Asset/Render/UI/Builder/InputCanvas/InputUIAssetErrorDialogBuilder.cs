@@ -40,7 +40,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
             textList.ForEach(text =>
             {
                 text.FillAlpha(alpha);
-                if (!text.transform.parent.gameObject.name.Contains("Button")) errorMessageList.ForEach(error => { text.text += $"{error.message}\n"; });
+                if (!text.transform.parent.gameObject.name.Contains("Button")) errorMessageList.ForEach(error => { string.Join(text.text, $"{error.message}\n"); });
             });
             Update();
         }

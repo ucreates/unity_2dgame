@@ -11,6 +11,7 @@
 using System.Collections.Generic;
 using Core.Entity;
 using Service.BizLogic;
+using Service.Integration.Table;
 
 namespace Service.Strategy
 {
@@ -21,18 +22,18 @@ namespace Service.Strategy
             var ret = new Response();
             var ubl = new UserBizLogic();
             var ibl = new ItemBizLogic();
-            var mut = ubl.GetPlayer();
+            var mut = ubl?.GetPlayer();
             var hadItemIdList = new List<string>();
-            var recordList = ibl.GetAllItemMaster();
+            var recordList = ibl?.GetAllItemMaster();
             recordList.ForEach(record =>
             {
                 if (ibl.HasItem(mut.id, record.id))
                     hadItemIdList.Add(record.name);
             });
             var itemMasterList = ibl.GetAllItemMaster();
-            ret.Set("itemidlist", hadItemIdList);
-            ret.Set("itemmasterlist", itemMasterList);
-            ret.Set("coin", mut.coin);
+            ret.Set<List<string>>("itemidlist", hadItemIdList);
+            ret.Set<List<MItemTable>>("itemmasterlist", itemMasterList);
+            ret.Set<int>("coin", mut.coin);
             return ret;
         }
     }

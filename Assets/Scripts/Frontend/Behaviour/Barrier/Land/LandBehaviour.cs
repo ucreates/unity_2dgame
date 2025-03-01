@@ -21,27 +21,27 @@ public sealed class LandBehaviour : BaseBehaviour, IStateMachine<LandBehaviour>,
 
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameStart; }).Subscribe(message => { OnNotify(message); });
-        assetCollection.Set("anime", new MaterialAsset(this));
+        rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameStart; })?.Subscribe(message => { OnNotify(message); });
+        assetCollection?.Set("anime", new MaterialAsset(this));
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<LandBehaviour>(this);
-        stateMachine.Add("scroll", new LandScrollState());
-        stateMachine.Add("stop", new LandStopState());
-        stateMachine.Change("scroll");
-        stateMachine.Play();
+        stateMachine?.Add("scroll", new LandScrollState());
+        stateMachine?.Add("stop", new LandStopState());
+        stateMachine?.Change("scroll");
+        stateMachine?.Play();
     }
 
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.FlappyBirdDead)
-            stateMachine.Change("stop");
-        else if (notifyMessage.title == NotifyMessage.Title.GameStart) 
-            stateMachine.Change("scroll");
+        if (notifyMessage?.title == NotifyMessage.Title.FlappyBirdDead)
+            stateMachine?.Change("stop");
+        else if (notifyMessage?.title == NotifyMessage.Title.GameStart)
+            stateMachine?.Change("scroll");
     }
 
     public FiniteStateMachine<LandBehaviour> stateMachine { get; set; }

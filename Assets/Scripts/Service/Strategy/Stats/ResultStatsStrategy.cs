@@ -19,14 +19,14 @@ namespace Service.Strategy
         {
             var sret = new Response();
             var ubl = new UserBizLogic();
-            var mut = ubl.GetPlayer();
+            var mut = ubl?.GetPlayer();
             var sbl = new ScoreBizLogic();
-            var clearCount = sbl.GetClearCount(mut.id);
+            var clearCount = sbl?.GetClearCount(mut.id) ?? 0;
             var psbl = new SummaryBizLogic();
-            psbl.UpdateBestClearCount(clearCount);
-            var bestClearCount = psbl.GetBestClearCount();
-            sret.Set("clearcount", clearCount);
-            sret.Set("bestclearcount", bestClearCount);
+            psbl?.UpdateBestClearCount(clearCount);
+            var bestClearCount = psbl?.GetBestClearCount() ?? 0;
+            sret.Set<int>("clearcount", clearCount);
+            sret.Set<int>("bestclearcount", bestClearCount);
             sret.resultStatus = Response.ServiceStatus.SUCCESS;
             return sret;
         }

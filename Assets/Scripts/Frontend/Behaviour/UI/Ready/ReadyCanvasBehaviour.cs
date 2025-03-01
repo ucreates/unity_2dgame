@@ -18,27 +18,27 @@ public sealed class ReadyCanvasBehaviour : BaseBehaviour, IStateMachine<ReadyCan
 {
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.GameReady || message.title == NotifyMessage.Title.GameStart || message.title == NotifyMessage.Title.GameRestart; }).Subscribe(message => { OnNotify(message); });
+        rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.GameReady || message.title == NotifyMessage.Title.GameStart || message.title == NotifyMessage.Title.GameRestart; })?.Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ReadyCanvasBehaviour>(this);
-        stateMachine.Add("show", new ReadyCanvasShowState());
-        stateMachine.Add("hide", new ReadyCanvasHideState());
-        stateMachine.Change("hide");
-        stateMachine.Play();
+        stateMachine?.Add("show", new ReadyCanvasShowState());
+        stateMachine?.Add("hide", new ReadyCanvasHideState());
+        stateMachine?.Change("hide");
+        stateMachine?.Play();
     }
 
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.GameReady)
-            stateMachine.Change("show");
-        else if (notifyMessage.title == NotifyMessage.Title.GameStart)
-            stateMachine.Change("hide");
-        else if (notifyMessage.title == NotifyMessage.Title.GameRestart) stateMachine.Change("show");
+        if (notifyMessage?.title == NotifyMessage.Title.GameReady)
+            stateMachine?.Change("show");
+        else if (notifyMessage?.title == NotifyMessage.Title.GameStart)
+            stateMachine?.Change("hide");
+        else if (notifyMessage?.title == NotifyMessage.Title.GameRestart) stateMachine?.Change("show");
     }
 
     public FiniteStateMachine<ReadyCanvasBehaviour> stateMachine { get; set; }

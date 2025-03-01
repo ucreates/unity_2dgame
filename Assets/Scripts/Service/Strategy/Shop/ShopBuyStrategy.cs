@@ -22,11 +22,11 @@ namespace Service.Strategy
             var sret = new Response();
             var ubl = new UserBizLogic();
             var ibl = new ItemBizLogic();
-            var price = ibl.GetPriceByItemId(paramBody.itemId);
-            var mut = ubl.GetPlayer();
+            var price = ibl?.GetPriceByItemId(paramBody.itemId) ?? 0;
+            var mut = ubl?.GetPlayer() ?? null;
             if (ibl.HasItem(mut.id, paramBody.itemId))
             {
-                sret.Set("message", StoreAssembler.VALID_PURCHASE_FAILD_HAD_ITEM);
+                sret.Set<string>("message", StoreAssembler.VALID_PURCHASE_FAILD_HAD_ITEM);
                 sret.resultStatus = Response.ServiceStatus.FAILED;
                 return sret;
             }
@@ -35,12 +35,12 @@ namespace Service.Strategy
             if (ret)
             {
                 ibl.BuyItem(mut.id, paramBody.itemId, paramBody.amount);
-                sret.Set("message", StoreAssembler.VALID_PURCHASE_SUCCESS);
+                sret.Set<string>("message", StoreAssembler.VALID_PURCHASE_SUCCESS);
                 sret.resultStatus = Response.ServiceStatus.SUCCESS;
             }
             else
             {
-                sret.Set("message", StoreAssembler.VALID_PURCHASE_FAILD_NO_COIN);
+                sret.Set<string>("message", StoreAssembler.VALID_PURCHASE_FAILD_NO_COIN);
                 sret.resultStatus = Response.ServiceStatus.FAILED;
             }
 

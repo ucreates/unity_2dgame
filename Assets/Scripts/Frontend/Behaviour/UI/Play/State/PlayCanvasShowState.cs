@@ -25,35 +25,35 @@ namespace Frontend.Behaviour.State
 
         public override void Create()
         {
-            strategy = ServiceGateway.GetInstance().Request("service://stats/player");
-            strategy.Clear();
-            var ret = strategy.Get();
-            var nickName = ret.Get<string>("nickname");
-            var copyright = ret.Get<string>("copyright");
+            strategy = ServiceGateway.GetInstance()?.Request("service://stats/player");
+            strategy?.Clear();
+            var ret = strategy?.Get();
+            var nickName = ret?.Get<string>("nickname");
+            var copyright = ret?.Get<string>("copyright");
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             if (null == builder)
                 builder = new PlayCanvasBuilder();
             else
-                builder.Reset();
+                builder?.Reset();
             builder
-                .AddNickName(nickName)
-                .AddCopyright(copyright)
-                .AddSprite(owner.scoreSpriteList)
-                .AddTransform(owner.transform)
-                .AddPosition(new Vector3(0f, 250f, 0f))
-                .Build();
+                ?.AddNickName(nickName)
+                ?.AddCopyright(copyright)
+                ?.AddSprite(owner.scoreSpriteList)
+                ?.AddTransform(owner.transform)
+                ?.AddPosition(new Vector3(0f, 250f, 0f))
+                ?.Build();
         }
 
         public override void Update()
         {
             var ret = strategy.Get();
-            var clearCount = ret.Get<int>("clearcount");
+            var clearCount = ret?.Get<int>("clearcount") ?? 0;
             var figure = Figure.CountFigure(clearCount);
             builder
-                .AddClearCount(clearCount)
-                .AddFigure(figure)
-                .Update();
+                ?.AddClearCount(clearCount)
+                ?.AddFigure(figure)
+                ?.Update();
         }
     }
 }

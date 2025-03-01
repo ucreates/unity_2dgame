@@ -39,7 +39,7 @@ namespace Service.Integration
         public bool Commit()
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<T>();
+            var dao = db?.FindBy<T>();
             rollBackId = dao.id - addRecordList.Count;
             var ret = Remove();
             if (!ret) return false;
@@ -54,22 +54,22 @@ namespace Service.Integration
         {
             var result = true;
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<T>();
+            var dao = db?.FindBy<T>();
             postAddRecordList.ForEach(record =>
             {
                 if (!result) return;
-                result = dao.Remove(record);
+                result = dao?.Remove(record) ?? false;
             });
             preUpdateRecordList.ForEach(record =>
             {
                 if (!result) return;
-                result = dao.Update(record);
+                result = dao?.Update(record) ?? false;
             });
-            dao.Reset(rollBackId);
+            dao?.Reset(rollBackId);
             removeRecordList.ForEach(record =>
             {
                 if (!result) return;
-                result = dao.Save(record);
+                result = dao?.Save(record) ?? false;
             });
             return result;
         }
@@ -78,13 +78,13 @@ namespace Service.Integration
         {
             var result = true;
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<T>();
+            var dao = db?.FindBy<T>();
             addRecordList.ForEach(record =>
             {
                 if (!result) return;
-                result = dao.Save(record);
-                var savedResult = dao.FindBy(dao.id);
-                postAddRecordList.Add(savedResult.record);
+                result = dao?.Save(record) ?? false;
+                var savedResult = dao?.FindBy(dao.id) ?? null;
+                postAddRecordList.Add(savedResult?.record);
             });
             return result;
         }
@@ -93,13 +93,13 @@ namespace Service.Integration
         {
             var result = true;
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<T>();
+            var dao = db?.FindBy<T>();
             updateRecordList.ForEach(record =>
             {
                 if (!result) return;
-                var oldRecord = dao.FindBy(record.primaryKey);
+                var oldRecord = dao?.FindBy(record.primaryKey);
                 preUpdateRecordList.Add(oldRecord.Clone() as T);
-                result = dao.Update(record);
+                result = dao?.Update(record) ?? false;
             });
             return true;
         }
@@ -108,11 +108,11 @@ namespace Service.Integration
         {
             var result = true;
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<T>();
+            var dao = db?.FindBy<T>();
             removeRecordList.ForEach(record =>
             {
                 if (!result) return;
-                result = dao.Remove(record);
+                result = dao?.Remove(record) ?? false;
             });
             return true;
         }

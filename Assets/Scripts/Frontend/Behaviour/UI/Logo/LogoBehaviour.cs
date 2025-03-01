@@ -21,10 +21,10 @@ public sealed class LogoBehaviour : BaseBehaviour
         property = new BaseProperty(this);
         ServiceGateway
             .GetInstance()
-            .Request("service://master/init")
-            .Update();
+            ?.Request("service://master/init")
+            ?.Update();
         AnimationState.TrackEntryDelegate callback = state => { StartCoroutine(Director.Translate("game", 0.0f)); };
         var asset = new AnimatorAsset(this);
-        asset.Play("show", callback, false);
+        asset?.Play("show", callback, false);
     }
 }

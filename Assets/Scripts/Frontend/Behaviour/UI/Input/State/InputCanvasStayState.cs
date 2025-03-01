@@ -23,14 +23,14 @@ namespace Frontend.Behaviour.State
             if (null == builder)
                 builder = new InputCanvasModalDialogBuilder();
             else
-                builder.Reset();
+                builder?.Reset();
             var mdtr = owner.transform.Find("ModalDialog");
             var modalDialogBG = mdtr.GetComponent<Image>();
             builder
-                .AddAlpha(1f)
-                .AddTransform(modalDialogBG.transform)
-                .AddEnabled(true)
-                .Build();
+                ?.AddAlpha(1f)
+                ?.AddTransform(modalDialogBG.transform)
+                ?.AddEnabled(true)
+                ?.Build();
         }
     }
 }

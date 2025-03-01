@@ -20,24 +20,24 @@ public sealed class CameraBehaviour : BaseBehaviour, IStateMachine<CameraBehavio
 
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead; }).Subscribe(message => { OnNotify(message); });
+        rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead; })?.Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<CameraBehaviour>(this);
-        stateMachine.Add("stop", new CameraStopState());
-        stateMachine.Add("shake", new CameraShakeState());
-        stateMachine.Change("stop");
+        stateMachine?.Add("stop", new CameraStopState());
+        stateMachine?.Add("shake", new CameraShakeState());
+        stateMachine?.Change("stop");
     }
 
     // Update is called once per frame
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.FlappyBirdDead) 
-            stateMachine.Change("shake");
+        if (notifyMessage?.title == NotifyMessage.Title.FlappyBirdDead)
+            stateMachine?.Change("shake");
     }
 
     public FiniteStateMachine<CameraBehaviour> stateMachine { get; set; }

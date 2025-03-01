@@ -38,21 +38,21 @@ namespace Frontend.Behaviour.State
             if (null == builder)
                 builder = new InputUIAssetErrorDialogBuilder();
             else
-                builder.Reset();
+                builder?.Reset();
             builder
-                .AddErrorMessage(paramBody.GetMessageList())
-                .AddAlpha(0f)
-                .AddTransform(ed)
-                .Build();
+                ?.AddErrorMessage(paramBody.GetMessageList())
+                ?.AddAlpha(0f)
+                ?.AddTransform(ed)
+                ?.Build();
         }
 
         public override void Update()
         {
-            var alpha = Flash.Update(alphaTimeLine.currentTime);
+            var alpha = Flash.Update(alphaTimeLine?.currentTime ?? 0f);
             if (alpha < previousAlpha) return;
             builder
-                .AddAlpha(alpha)
-                .Update();
+                ?.AddAlpha(alpha)
+                ?.Update();
             previousAlpha = alpha;
             alphaTimeLine.Next(1.5f);
         }

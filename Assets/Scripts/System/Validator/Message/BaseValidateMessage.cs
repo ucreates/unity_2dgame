@@ -21,7 +21,7 @@ namespace Core.Validator.Message
 
         public BaseValidateMessage(string message)
         {
-            this.message = messageType + message;
+            this.message = string.Join(messageType, message);
         }
 
         public virtual string messageType => string.Empty;

@@ -22,7 +22,7 @@ namespace Service.Strategy
             var ubl = new UserBizLogic();
             var mut = ubl.GetPlayer();
             var sbl = new ScoreBizLogic();
-            sbl.AddClearCount(mut.id, clearCount);
+            sbl?.AddClearCount(mut.id, clearCount);
             var ret = new Response();
             ret.resultStatus = Response.ServiceStatus.SUCCESS;
             return ret;

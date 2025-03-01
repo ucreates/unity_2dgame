@@ -23,14 +23,11 @@ namespace Service.Strategy
             var paramBody = (Dictionary<string, object>)parameter;
             var ubl = new UserBizLogic();
             var ret = ubl.AddNewUser(paramBody["nickName"].ToString(), paramBody["password"].ToString(), paramBody["gender"].ToInt32(), paramBody["mailPhone"].ToString(), paramBody["coin"].ToInt32(), true);
-            var mut = ubl.GetPlayer();
+            var mut = ubl?.GetPlayer() ?? null;
             var sbl = new ScoreBizLogic();
-            ret = sbl.AddNewUserScore(mut.id);
+            ret = sbl?.AddNewUserScore(mut.id) ?? false;
             var response = new Response();
-            if (ret)
-                response.resultStatus = Response.ServiceStatus.SUCCESS;
-            else
-                response.resultStatus = Response.ServiceStatus.FAILED;
+            response.resultStatus = ret ? Response.ServiceStatus.SUCCESS : Response.ServiceStatus.FAILED;
             return response;
         }
     }

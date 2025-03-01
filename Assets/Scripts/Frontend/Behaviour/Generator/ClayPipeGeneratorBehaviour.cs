@@ -19,27 +19,27 @@ public sealed class ClayPipeGeneratorBehaviour : BaseBehaviour, IStateMachine<Cl
     // Use this for initialization
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameStart; }).Subscribe(message => { OnNotify(message); });
+        rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameStart; })?.Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ClayPipeGeneratorBehaviour>(this);
-        stateMachine.Add("generate", new ClayPipeGeneratorGenerateState());
-        stateMachine.Add("stop", new ClayPipeGeneratorStopState());
-        stateMachine.Change("stop");
-        stateMachine.Play();
+        stateMachine?.Add("generate", new ClayPipeGeneratorGenerateState());
+        stateMachine?.Add("stop", new ClayPipeGeneratorStopState());
+        stateMachine?.Change("stop");
+        stateMachine?.Play();
     }
 
     // Update is called once per frame
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.FlappyBirdDead)
-            stateMachine.Change("stop");
-        else if (notifyMessage.title == NotifyMessage.Title.GameStart)
-            stateMachine.Change("generate");
+        if (notifyMessage?.title == NotifyMessage.Title.FlappyBirdDead)
+            stateMachine?.Change("stop");
+        else if (notifyMessage?.title == NotifyMessage.Title.GameStart)
+            stateMachine?.Change("generate");
     }
 
     public FiniteStateMachine<ClayPipeGeneratorBehaviour> stateMachine { get; set; }

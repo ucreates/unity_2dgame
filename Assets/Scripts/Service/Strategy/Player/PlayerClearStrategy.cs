@@ -19,7 +19,7 @@ namespace Service.Strategy
         {
             var ret = new Response();
             var sbl = new ScoreBizLogic();
-            sbl.Clear();
+            sbl?.Clear();
             ret.resultStatus = Response.ServiceStatus.SUCCESS;
             return ret;
         }

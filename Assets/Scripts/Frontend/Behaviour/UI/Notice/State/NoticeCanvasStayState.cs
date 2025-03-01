@@ -23,15 +23,15 @@ namespace Frontend.Behaviour.State
             if (null == builder)
                 builder = new NoticeCanvasBuilder();
             else
-                builder.Reset();
+                builder?.Reset();
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             builder = new NoticeCanvasBuilder();
             builder
-                .AddTransform(owner.transform)
-                .AddAlpha(1f)
-                .AddEnabled(true)
-                .Update();
+                ?.AddTransform(owner.transform)
+                ?.AddAlpha(1f)
+                ?.AddEnabled(true)
+                ?.Update();
         }
     }
 }

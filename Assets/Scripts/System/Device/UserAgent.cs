@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Core.Device
@@ -27,15 +28,7 @@ namespace Core.Device
 
         public string Create()
         {
-            var ua = "(";
-            for (var i = 0; i < deviceInfoList.Count; i++)
-            {
-                var data = deviceInfoList[i];
-                if (i < deviceInfoList.Count - 1) ua += $"{data} ";
-            }
-
-            ua += ")";
-            return ua;
+            return $"({deviceInfoList.Aggregate((result, current) => string.Join(result, current))})";
         }
     }
 }

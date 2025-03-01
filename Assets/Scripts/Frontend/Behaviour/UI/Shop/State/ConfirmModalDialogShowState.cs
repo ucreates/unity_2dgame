@@ -41,10 +41,10 @@ namespace Frontend.Behaviour.State.UI.Shop
             }
 
             var itemId = paramter.ToInt32();
-            Session.GetInstance().Add("itemId", itemId);
+            Session.GetInstance()?.Add("itemId", itemId);
             var response = ServiceGateway.GetInstance()
-                .Request("service://shop/confirm")
-                .Get(itemId);
+                ?.Request("service://shop/confirm")
+                ?.Get(itemId);
             var itemmaster = response.Get<MItemTable>("itemmaster");
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
@@ -54,29 +54,29 @@ namespace Frontend.Behaviour.State.UI.Shop
             if (null == builder)
                 builder = new ShopCanvasConfirmModalDialogBuilder();
             else
-                builder.Reset();
+                builder?.Reset();
             var roottrsfrm = owner.transform.Find("ConfirmModalDialog");
             builder
-                .AddItemSpriteList(itemSpriteList)
-                .AddItemMaster(itemmaster)
-                .AddTransform(roottrsfrm)
-                .AddAlpha(0f)
-                .AddEnabled(false)
-                .Build();
+                ?.AddItemSpriteList(itemSpriteList)
+                ?.AddItemMaster(itemmaster)
+                ?.AddTransform(roottrsfrm)
+                ?.AddAlpha(0f)
+                ?.AddEnabled(false)
+                ?.Build();
         }
 
         public override void Update()
         {
-            var alpha = Flash.Update(alphaTimeLine.currentTime);
+            var alpha = Flash.Update(alphaTimeLine?.currentTime ?? 0f);
             if (alpha < previousAlpha)
             {
-                owner.stateMachine.Change("confirmstay");
+                owner?.stateMachine?.Change("confirmstay");
                 return;
             }
 
             builder
-                .AddAlpha(alpha)
-                .Update();
+                ?.AddAlpha(alpha)
+                ?.Update();
             previousAlpha = alpha;
             alphaTimeLine.Next(1.5f);
         }

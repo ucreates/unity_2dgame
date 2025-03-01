@@ -12,27 +12,27 @@ public sealed class RankingCanvasBehaviour : BaseBehaviour, IStateMachine<Rankin
 
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.RankingHide; }).Subscribe(message => { OnNotify(message); });
+        rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.RankingHide; })?.Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<RankingCanvasBehaviour>(this);
-        stateMachine.Add("show", new RankingCanvasShowState());
-        stateMachine.Add("stay", new RankingCanvasStayState());
-        stateMachine.Add("hide", new RankingCanvasHideState());
-        stateMachine.Change("hide");
-        stateMachine.Play();
+        stateMachine?.Add("show", new RankingCanvasShowState());
+        stateMachine?.Add("stay", new RankingCanvasStayState());
+        stateMachine?.Add("hide", new RankingCanvasHideState());
+        stateMachine?.Change("hide");
+        stateMachine?.Play();
     }
 
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.RankingShow)
-            stateMachine.Change("show");
-        else if (notifyMessage.title == NotifyMessage.Title.RankingHide)
-            stateMachine.Change("hide");
+        if (notifyMessage?.title == NotifyMessage.Title.RankingShow)
+            stateMachine?.Change("show");
+        else if (notifyMessage?.title == NotifyMessage.Title.RankingHide)
+            stateMachine?.Change("hide");
     }
 
     public FiniteStateMachine<RankingCanvasBehaviour> stateMachine { get; set; }

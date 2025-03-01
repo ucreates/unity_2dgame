@@ -29,16 +29,16 @@ namespace Frontend.Behaviour.State
             blinkTimeLine = new TimeLine();
             blinkTimeLine.rate = FRAME_RATE;
             renderer = owner.GetComponent<SpriteRenderer>();
-            renderer.FillAlpha(0.1f);
+            renderer?.FillAlpha(0.1f);
         }
 
         public override void Update()
         {
-            var frame = blinkTimeLine.currentFrame;
+            var frame = blinkTimeLine?.currentFrame ?? 0f;
             var alpha = Flash.Update(frame, 1.0f, 0.8f);
             if (LIMIT_FRAME <= frame) alpha = 0f;
-            renderer.FillAlpha(alpha);
-            blinkTimeLine.Next();
+            renderer?.FillAlpha(alpha);
+            blinkTimeLine?.Next();
         }
     }
 }

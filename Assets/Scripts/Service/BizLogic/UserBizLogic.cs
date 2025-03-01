@@ -37,9 +37,9 @@ namespace Service.BizLogic
             var mut = FindByNickName(master.nickName);
             if (null != mut) return false;
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<MUserTable>();
-            dao.recordList.ForEach(record => { record.isPlayer = false; });
-            return dao.Save(master);
+            var dao = db?.FindBy<MUserTable>();
+            dao?.recordList.ForEach(record => { record.isPlayer = false; });
+            return dao?.Save(master) ?? false;
         }
 
         public void AddNewUser(List<MUserTable> masterList)
@@ -58,31 +58,31 @@ namespace Service.BizLogic
             else
                 mut.coin = 0;
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<MUserTable>();
-            return dao.Update(mut);
+            var dao = db?.FindBy<MUserTable>();
+            return dao?.Update(mut) ?? false;
         }
 
         public MUserTable GetPlayer()
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<MUserTable>();
-            var userList = dao.FindBy(record => record.isPlayer);
+            var dao = db?.FindBy<MUserTable>();
+            var userList = dao?.FindBy(record => record.isPlayer);
             return userList.FirstOrDefault();
         }
 
         public MUserTable GetUser(int userId)
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<MUserTable>();
-            var mut = dao.FindBy(userId);
-            return mut.record;
+            var dao = db?.FindBy<MUserTable>();
+            var mut = dao?.FindBy(userId) ?? null;
+            return mut?.record;
         }
 
         public MUserTable FindByNickName(string nickName)
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<MUserTable>();
-            var userList = dao.FindBy(record => record.nickName == nickName);
+            var dao = db?.FindBy<MUserTable>();
+            var userList = dao?.FindBy(record => record.nickName == nickName);
             return userList.FirstOrDefault();
         }
     }

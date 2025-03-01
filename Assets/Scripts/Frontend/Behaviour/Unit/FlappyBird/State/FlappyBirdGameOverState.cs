@@ -23,17 +23,17 @@ namespace Frontend.Behaviour.State
 
         public override void Update()
         {
-            if (timeLine.currentTime < 0.5f)
+            if (timeLine?.currentTime < 0.5f)
             {
-                timeLine.Next();
+                timeLine?.Next();
                 return;
             }
 
             var notifier = Notifier.GetInstance();
-            if (notifier.currentMessage.title != NotifyMessage.Title.GameOver &&
-                notifier.currentMessage.title != NotifyMessage.Title.RankingShow)
+            if (notifier?.currentMessage?.title != NotifyMessage.Title.GameOver &&
+                notifier?.currentMessage?.title != NotifyMessage.Title.RankingShow)
             {
-                notifier.Notify(NotifyMessage.Title.GameOver);
+                notifier?.Notify(NotifyMessage.Title.GameOver);
                 complete = true;
             }
         }

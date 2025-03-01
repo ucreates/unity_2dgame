@@ -28,7 +28,7 @@ namespace Frontend.Behaviour.State
 
         public override void Update()
         {
-            var ct = generateTimeLine.currentTime;
+            var ct = generateTimeLine?.currentTime ?? 0f;
             if (ct >= 2f)
             {
                 var gy = Random.Range(-2f, 2f);
@@ -36,7 +36,7 @@ namespace Frontend.Behaviour.State
                 generateTimeLine.Restore();
             }
 
-            generateTimeLine.Next();
+            generateTimeLine?.Next();
         }
     }
 }

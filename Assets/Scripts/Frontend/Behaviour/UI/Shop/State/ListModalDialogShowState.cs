@@ -31,11 +31,11 @@ namespace Frontend.Behaviour.State.UI.Shop
         public override void Create()
         {
             var response = ServiceGateway.GetInstance()
-                .Request("service://shop/list")
-                .Get();
-            var itemIdList = response.Get<List<string>>("itemidlist");
-            var coin = response.Get<int>("coin");
-            var itemMasterList = response.Get<List<MItemTable>>("itemmasterlist");
+                ?.Request("service://shop/list")
+                ?.Get();
+            var itemIdList = response?.Get<List<string>>("itemidlist");
+            var coin = response?.Get<int>("coin") ?? 0;
+            var itemMasterList = response?.Get<List<MItemTable>>("itemmasterlist");
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             alphaTimeLine = new TimeLine();
@@ -44,12 +44,12 @@ namespace Frontend.Behaviour.State.UI.Shop
             if (null == builder)
                 builder = new ShopCanvasListModalDialogBuilder();
             else
-                builder.Reset();
+                builder?.Reset();
             var itemTypeList = new string[4] { "A", "B", "C", "D" };
             for (var i = 0; i < itemTypeList.Length; i++)
             {
                 var type = itemTypeList[i];
-                var buyButtonTrsfrm = owner.transform.Find("ListModalDialog/Type" + type + "BuyButton");
+                var buyButtonTrsfrm = owner.transform.Find($"ListModalDialog/Type{type}BuyButton");
                 var buyButton = buyButtonTrsfrm.GetComponent<Button>();
                 if (itemIdList.Contains(type)) buyButton.enabled = false;
             }
@@ -64,29 +64,29 @@ namespace Frontend.Behaviour.State.UI.Shop
             }
 
             builder
-                .AddItemSpriteList(itemSpriteList)
-                .AddItemMasterList(itemMasterList)
-                .AddCoin(coin)
-                .AddTransform(dialogtrsfrm.transform)
-                .AddAlpha(0f)
-                .AddEnabled(false)
-                .Build();
+                ?.AddItemSpriteList(itemSpriteList)
+                ?.AddItemMasterList(itemMasterList)
+                ?.AddCoin(coin)
+                ?.AddTransform(dialogtrsfrm.transform)
+                ?.AddAlpha(0f)
+                ?.AddEnabled(false)
+                ?.Build();
         }
 
         public override void Update()
         {
-            var alpha = Flash.Update(alphaTimeLine.currentTime);
+            var alpha = Flash.Update(alphaTimeLine?.currentTime ?? 0f);
             if (alpha < previousAlpha)
             {
-                owner.stateMachine.Change("liststay");
+                owner?.stateMachine?.Change("liststay");
                 return;
             }
 
             builder
-                .AddAlpha(alpha)
-                .Update();
+                ?.AddAlpha(alpha)
+                ?.Update();
             previousAlpha = alpha;
-            alphaTimeLine.Next(1.5f);
+            alphaTimeLine?.Next(1.5f);
         }
     }
 }

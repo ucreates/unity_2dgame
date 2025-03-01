@@ -22,10 +22,10 @@ namespace Frontend.Behaviour.State
             var hitarea = owner.transform.Find("HitArea");
             var builder = new CrayPipeAssetBuilder();
             builder
-                .AddTransform(down)
-                .AddTransform(up)
-                .AddTransform(hitarea)
-                .Build();
+                ?.AddTransform(down)
+                ?.AddTransform(up)
+                ?.AddTransform(hitarea)
+                ?.Build();
         }
     }
 }

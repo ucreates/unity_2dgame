@@ -43,11 +43,7 @@ namespace Core.Validator
                 {
                     var validator = pair.Value as BaseValidatorUnit<int>;
                     var ret = validator?.IsValid(validateValue.ToString().Length) ?? false;
-                    BaseValidateMessage message = null;
-                    if (!ret)
-                        message = validator?.validateMessage;
-                    else
-                        message = new SuccessValidateMessage();
+                    var message = !ret ? validator?.validateMessage : new SuccessValidateMessage();
                     var entity = new ValidatorResponseEntity();
                     entity.result = ret;
                     entity.message = message;
@@ -85,11 +81,7 @@ namespace Core.Validator
                 {
                     var validator = pair.Value as BaseValidatorUnit<int>;
                     var ret = validator?.IsValid(validateValue.ToString().Length) ?? false;
-                    BaseValidateMessage message = null;
-                    if (!ret)
-                        message = validator?.validateMessage;
-                    else
-                        message = new SuccessValidateMessage();
+                    var message = !ret ? validator?.validateMessage : new SuccessValidateMessage();
                     var entity = new ValidatorResponseEntity();
                     entity.result = ret;
                     entity.message = message;

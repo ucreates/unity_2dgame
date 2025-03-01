@@ -29,7 +29,7 @@ namespace Frontend.Behaviour.State
             if (owner.transform.position.x > destroyPosition.x)
                 owner.transform.position -= new Vector3(MOVE_SPEED, 0f, 0f) * Time.deltaTime;
             else
-                owner.stateMachine.Change("destroy");
+                owner?.stateMachine?.Change("destroy");
         }
     }
 }

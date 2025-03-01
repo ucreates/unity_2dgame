@@ -30,7 +30,7 @@ namespace Frontend.Behaviour.State
             if (null == builder)
                 builder = new InputCanvasModalDialogBuilder();
             else
-                builder.Reset();
+                builder?.Reset();
             var md = owner.transform.Find("ModalDialog");
             if (null != md)
             {
@@ -48,26 +48,26 @@ namespace Frontend.Behaviour.State
             var mdtr = owner.transform.Find("ModalDialog");
             var mdimg2 = mdtr.GetComponent<Image>();
             builder
-                .AddAlpha(0f)
-                .AddTransform(mdimg2.transform)
-                .AddEnabled(false)
-                .Build();
+                ?.AddAlpha(0f)
+                ?.AddTransform(mdimg2.transform)
+                ?.AddEnabled(false)
+                ?.Build();
         }
 
         public override void Update()
         {
-            var alpha = Flash.Update(alphaTimeLine.currentTime);
+            var alpha = Flash.Update(alphaTimeLine?.currentTime ?? 0f);
             if (alpha < previousAlpha)
             {
-                owner.stateMachine.Change("stay");
+                owner?.stateMachine?.Change("stay");
                 return;
             }
 
             builder
-                .AddAlpha(alpha)
-                .Update();
+                ?.AddAlpha(alpha)
+                ?.Update();
             previousAlpha = alpha;
-            alphaTimeLine.Next(1.5f);
+            alphaTimeLine?.Next(1.5f);
         }
     }
 }

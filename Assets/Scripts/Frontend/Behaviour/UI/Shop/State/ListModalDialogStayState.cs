@@ -25,17 +25,17 @@ namespace Frontend.Behaviour.State.UI.Shop
             if (null == builder)
                 builder = new ShopCanvasListModalDialogBuilder();
             else
-                builder.Reset();
-            var response = ServiceGateway.GetInstance().Request("service://shop/list").Get();
+                builder?.Reset();
+            var response = ServiceGateway.GetInstance()?.Request("service://shop/list")?.Get();
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             var trsfrm = owner.transform.Find("ListModalDialog");
             var itemIdList = response.Get<List<string>>("itemidlist");
             builder
-                .AddItemList(itemIdList)
-                .AddTransform(trsfrm)
-                .AddAlpha(1f)
-                .Update();
+                ?.AddItemList(itemIdList)
+                ?.AddTransform(trsfrm)
+                ?.AddAlpha(1f)
+                ?.Update();
         }
     }
 }

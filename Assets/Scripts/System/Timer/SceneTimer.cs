@@ -25,13 +25,13 @@ namespace Core.Timer
 
         public void Update()
         {
-            if (1.0f <= timeLine.currentTime)
+            if (1.0f <= timeLine?.currentTime)
             {
                 elapsedTime += 1.0f;
                 timeLine.Restore();
             }
 
-            timeLine.Next();
+            timeLine?.Next();
         }
 
         public void Reset()

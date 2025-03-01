@@ -18,29 +18,29 @@ public sealed class StartCanvasBehaviour : BaseBehaviour, IStateMachine<StartCan
 {
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.GameTitle || message.title == NotifyMessage.Title.GameReady || message.title == NotifyMessage.Title.RegulationShow || message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.ShopShow; }).Subscribe(message => { OnNotify(message); });
+        rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.GameTitle || message.title == NotifyMessage.Title.GameReady || message.title == NotifyMessage.Title.RegulationShow || message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.ShopShow; })?.Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<StartCanvasBehaviour>(this);
-        stateMachine.Add("show", new StartCanvasShowState());
-        stateMachine.Add("hide", new StartCanvasHideState());
-        stateMachine.Change("hide");
-        stateMachine.Play();
+        stateMachine?.Add("show", new StartCanvasShowState());
+        stateMachine?.Add("hide", new StartCanvasHideState());
+        stateMachine?.Change("hide");
+        stateMachine?.Play();
     }
 
     // Update is called once per frame
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.GameTitle)
-            stateMachine.Change("show");
-        else if (notifyMessage.title == NotifyMessage.Title.GameReady || notifyMessage.title == NotifyMessage.Title.RegulationShow ||
-                 notifyMessage.title == NotifyMessage.Title.RankingShow ||
-                 notifyMessage.title == NotifyMessage.Title.ShopShow)
-            stateMachine.Change("hide");
+        if (notifyMessage?.title == NotifyMessage.Title.GameTitle)
+            stateMachine?.Change("show");
+        else if (notifyMessage?.title == NotifyMessage.Title.GameReady || notifyMessage?.title == NotifyMessage.Title.RegulationShow ||
+                 notifyMessage?.title == NotifyMessage.Title.RankingShow ||
+                 notifyMessage?.title == NotifyMessage.Title.ShopShow)
+            stateMachine?.Change("hide");
     }
 
     public FiniteStateMachine<StartCanvasBehaviour> stateMachine { get; set; }

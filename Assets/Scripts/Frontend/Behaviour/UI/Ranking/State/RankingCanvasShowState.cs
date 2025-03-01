@@ -31,9 +31,9 @@ namespace Frontend.Behaviour.State
         {
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
-            var response = ServiceGateway.GetInstance().Request("service://stats/ranking").Get();
-            var rankingList = response.Get<List<TScoreTable>>("rankinglist");
-            var userList = response.Get<List<MUserTable>>("userlist");
+            var response = ServiceGateway.GetInstance()?.Request("service://stats/ranking")?.Get();
+            var rankingList = response?.Get<List<TScoreTable>>("rankinglist");
+            var userList = response?.Get<List<MUserTable>>("userlist");
             if (null == builder)
             {
                 var campanynametrsfrm = owner.transform.Find("BackGroundImage");
@@ -42,24 +42,24 @@ namespace Frontend.Behaviour.State
                 var confirmButton = sb.GetComponent<Button>();
                 builder = new RankingCanvasBuilder();
                 builder
-                    .AddScoreTableList(rankingList)
-                    .AddUserTableList(userList)
-                    .AddSprite(owner.scoreSpriteList)
-                    .AddCanvas(canvas)
-                    .AddImage(bgImage)
-                    .AddButton(confirmButton)
-                    .AddScale(Vector3.one * 0.8f)
-                    .AddPosition(new Vector3(-50f, 100f, 0f))
-                    .AddAlpha(0f)
-                    .AddEnabled(false)
-                    .Build();
+                    ?.AddScoreTableList(rankingList)
+                    ?.AddUserTableList(userList)
+                    ?.AddSprite(owner.scoreSpriteList)
+                    ?.AddCanvas(canvas)
+                    ?.AddImage(bgImage)
+                    ?.AddButton(confirmButton)
+                    ?.AddScale(Vector3.one * 0.8f)
+                    ?.AddPosition(new Vector3(-50f, 100f, 0f))
+                    ?.AddAlpha(0f)
+                    ?.AddEnabled(false)
+                    ?.Build();
             }
             else
             {
                 builder
-                    .AddScoreTableList(rankingList)
-                    .AddUserTableList(userList)
-                    .Reset();
+                    ?.AddScoreTableList(rankingList)
+                    ?.AddUserTableList(userList)
+                    ?.Reset();
             }
 
             alphaTimeLine = new TimeLine();
@@ -68,16 +68,16 @@ namespace Frontend.Behaviour.State
 
         public override void Update()
         {
-            var alpha = Flash.Update(alphaTimeLine.currentTime);
+            var alpha = Flash.Update(alphaTimeLine?.currentTime ?? 0f);
             if (alpha < previousAlpha)
             {
-                owner.stateMachine.Change("stay");
+                owner?.stateMachine?.Change("stay");
                 return;
             }
 
             builder
-                .AddAlpha(alpha)
-                .Update();
+                ?.AddAlpha(alpha)
+                ?.Update();
             previousAlpha = alpha;
             alphaTimeLine.Next(1.5f);
         }

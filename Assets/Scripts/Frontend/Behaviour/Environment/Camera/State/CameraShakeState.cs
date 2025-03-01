@@ -28,10 +28,10 @@ namespace Frontend.Behaviour.State
         public override void Update()
         {
             Camera.main.orthographicSize = shake.Update();
-            if (LIMIT_SHAKE_RATE > shake.rate)
+            if (LIMIT_SHAKE_RATE > shake?.rate)
             {
-                Camera.main.orthographicSize = shake.baseValue;
-                owner.stateMachine.Change("stop");
+                Camera.main.orthographicSize = shake?.baseValue ?? 0f;
+                owner?.stateMachine?.Change("stop");
             }
         }
     }

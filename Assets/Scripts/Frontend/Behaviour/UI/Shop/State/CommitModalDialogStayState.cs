@@ -22,13 +22,13 @@ namespace Frontend.Behaviour.State.UI.Shop
             if (null == builder)
                 builder = new ShopCanvasListModalDialogBuilder();
             else
-                builder.Reset();
+                builder?.Reset();
             builder
-                .AddCommitMessage(paramter.ToString())
-                .AddTransform(owner.transform)
-                .AddAlpha(1f)
-                .AddEnabled(true)
-                .Update();
+                ?.AddCommitMessage(paramter.ToString())
+                ?.AddTransform(owner.transform)
+                ?.AddAlpha(1f)
+                ?.AddEnabled(true)
+                ?.Update();
         }
     }
 }

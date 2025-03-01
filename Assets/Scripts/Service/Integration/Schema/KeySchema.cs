@@ -31,7 +31,7 @@ namespace Service.Integration.Schema
         public string Get()
         {
             if (!keyCache.IsNullOrEmpty()) return keyCache;
-            keyHolder.ForEach(pair => { keyCache += pair.Value; });
+            keyHolder.ForEach(pair => { string.Join(keyCache, pair.Value); });
             return keyCache;
         }
 

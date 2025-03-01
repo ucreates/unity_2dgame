@@ -21,8 +21,8 @@ namespace Service.BizLogic
         public int GetClearCount(int userId)
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TScoreTable>();
-            var ret = dao.FindBy(record => record.userId == userId);
+            var dao = db?.FindBy<TScoreTable>();
+            var ret = dao?.FindBy(record => record.userId == userId);
             var clearCount = 0;
             if (0 < ret.Count) clearCount = ret.FirstOrDefault()?.clearCount ?? 0;
             return clearCount;
@@ -31,13 +31,13 @@ namespace Service.BizLogic
         public bool AddClearCount(int userId, int clearCount)
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TScoreTable>();
-            var ret = dao.FindBy(record => record.userId == userId);
+            var dao = db?.FindBy<TScoreTable>();
+            var ret = dao?.FindBy(record => record.userId == userId);
             if (0 < ret.Count)
             {
                 var record = ret.FirstOrDefault();
                 record.clearCount += clearCount;
-                return dao.Update(record);
+                return dao?.Update(record) ?? false;
             }
 
             return false;
@@ -46,13 +46,13 @@ namespace Service.BizLogic
         public bool UpdateClearCount(int userId, int clearCount)
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TScoreTable>();
-            var ret = dao.FindBy(record => record.userId == userId);
+            var dao = db?.FindBy<TScoreTable>();
+            var ret = dao?.FindBy(record => record.userId == userId);
             if (0 < ret.Count)
             {
                 var record = ret.FirstOrDefault();
                 record.clearCount = clearCount;
-                return dao.Update(record);
+                return dao?.Update(record) ?? false;
             }
 
             return false;
@@ -82,13 +82,13 @@ namespace Service.BizLogic
             var ubl = new UserBizLogic();
             var mut = ubl.GetPlayer();
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TScoreTable>();
-            var ret = dao.FindBy(record => record.userId == mut.id);
+            var dao = db?.FindBy<TScoreTable>();
+            var ret = dao?.FindBy(record => record.userId == mut.id);
             if (0 < ret.Count)
             {
                 var record = ret.FirstOrDefault();
                 record.clearCount = 0;
-                return dao.Update(record);
+                return dao?.Update(record) ?? false;
             }
 
             return false;
@@ -104,10 +104,10 @@ namespace Service.BizLogic
         public bool AddNewUserScore(TScoreTable table)
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TScoreTable>();
-            var ret = dao.FindBy(record => record.userId == table.userId);
+            var dao = db?.FindBy<TScoreTable>();
+            var ret = dao?.FindBy(record => record.userId == table.userId);
             if (0 != ret.Count) return false;
-            return dao.Save(table);
+            return dao?.Save(table) ?? false;
         }
 
         public void AddNewUserScore(List<TScoreTable> tableList)
@@ -120,8 +120,8 @@ namespace Service.BizLogic
         public List<TScoreTable> GetRankingList()
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TScoreTable>();
-            var recordList = dao.FindAll();
+            var dao = db?.FindBy<TScoreTable>();
+            var recordList = dao?.FindAll();
             for (var i = 0; i < recordList.Count; i++)
             for (var j = recordList.Count - 1; j > i; j--)
             {

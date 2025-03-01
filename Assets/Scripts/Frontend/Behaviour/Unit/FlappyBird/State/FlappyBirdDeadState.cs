@@ -36,16 +36,16 @@ namespace Frontend.Behaviour.State
             deadPosition = owner.transform.position;
             timeLine = new TimeLine();
             var notifier = Notifier.GetInstance();
-            if (notifier.currentMessage.title != NotifyMessage.Title.FlappyBirdDead) notifier.Notify(NotifyMessage.Title.FlappyBirdDead);
+            if (notifier?.currentMessage?.title != NotifyMessage.Title.FlappyBirdDead) notifier?.Notify(NotifyMessage.Title.FlappyBirdDead);
             ResourceGenerator.Generate("Prefabs/Curtain", new Vector3(0f, 0f, 0f), Quaternion.identity);
             var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("bird_die");
-            owner.StartCoroutine(soundAsset.Delay(1.0f));
+            owner.StartCoroutine(soundAsset?.Delay(1.0f));
         }
 
         public override void Update()
         {
-            owner.transform.Easing(EaseType.QuadraticIn, Afin.Rotation, timeLine.currentTime, 0.0f, 90.0f, 1.5f, false, false, true, cb);
-            timeLine.Next();
+            owner.transform.Easing(EaseType.QuadraticIn, Afin.Rotation, timeLine?.currentTime ?? 0f, 0.0f, 90.0f, 1.5f, false, false, true, cb);
+            timeLine?.Next();
         }
     }
 }

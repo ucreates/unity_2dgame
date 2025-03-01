@@ -21,16 +21,16 @@ namespace Service.Strategy
         {
             var sret = new Response();
             var sbl = new ScoreBizLogic();
-            var rankingList = sbl.GetRankingList();
+            var rankingList = sbl?.GetRankingList();
             var userList = new List<MUserTable>();
             var ubl = new UserBizLogic();
             rankingList.ForEach(score =>
             {
-                var user = ubl.GetUser(score.userId);
+                var user = ubl?.GetUser(score.userId);
                 userList.Add(user);
             });
-            sret.Set("rankinglist", rankingList);
-            sret.Set("userlist", userList);
+            sret.Set<List<TScoreTable>>("rankinglist", rankingList);
+            sret.Set<List<MUserTable>>("userlist", userList);
             sret.resultStatus = Response.ServiceStatus.SUCCESS;
             return sret;
         }

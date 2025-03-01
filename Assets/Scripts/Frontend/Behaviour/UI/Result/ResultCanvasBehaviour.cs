@@ -23,26 +23,26 @@ public sealed class ResultCanvasBehaviour : BaseBehaviour, IStateMachine<ResultC
 
     public void Start()
     {
-        rx = Notifier.GetInstance().OnNotify().Where(message => { return message.title == NotifyMessage.Title.GameOver || message.title == NotifyMessage.Title.GameRestart || message.title == NotifyMessage.Title.RankingShow; }).Subscribe(message => { OnNotify(message); });
+        rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.GameOver || message.title == NotifyMessage.Title.GameRestart || message.title == NotifyMessage.Title.RankingShow; })?.Subscribe(message => { OnNotify(message); });
         property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ResultCanvasBehaviour>(this);
-        stateMachine.Add("show", new ResultCanvasShowState());
-        stateMachine.Add("hide", new ResultCanvasHideState());
-        stateMachine.Change("hide");
-        stateMachine.Play();
+        stateMachine?.Add("show", new ResultCanvasShowState());
+        stateMachine?.Add("hide", new ResultCanvasHideState());
+        stateMachine?.Change("hide");
+        stateMachine?.Play();
     }
 
     public void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
     {
-        if (notifyMessage.title == NotifyMessage.Title.GameOver)
-            stateMachine.Change("show");
-        else if (notifyMessage.title == NotifyMessage.Title.GameRestart || notifyMessage.title == NotifyMessage.Title.RankingShow)
-            stateMachine.Change("hide");
+        if (notifyMessage?.title == NotifyMessage.Title.GameOver)
+            stateMachine?.Change("show");
+        else if (notifyMessage?.title == NotifyMessage.Title.GameRestart || notifyMessage?.title == NotifyMessage.Title.RankingShow)
+            stateMachine?.Change("hide");
     }
 
     public FiniteStateMachine<ResultCanvasBehaviour> stateMachine { get; set; }

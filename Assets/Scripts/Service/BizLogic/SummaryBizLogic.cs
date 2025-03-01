@@ -18,16 +18,16 @@ namespace Service.BizLogic
         public SummaryBizLogic()
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TSummaryTable>();
-            dao.Save();
+            var dao = db?.FindBy<TSummaryTable>();
+            dao?.Save();
         }
 
         public int GetBestClearCount()
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TSummaryTable>();
-            var tt = dao.FindBy(UNIQUE_RECORD_ID);
-            return tt.record.bestClearCount;
+            var dao = db?.FindBy<TSummaryTable>();
+            var tt = dao?.FindBy(UNIQUE_RECORD_ID) ?? null;
+            return tt?.record?.bestClearCount ?? 0;
         }
 
         public bool UpdateBestClearCount(int clearCount)
@@ -36,10 +36,10 @@ namespace Service.BizLogic
             if (bestClearCount < clearCount)
             {
                 var db = DataBase.GetInstance();
-                var dao = db.FindBy<TSummaryTable>();
+                var dao = db?.FindBy<TSummaryTable>();
                 var tt = dao.FindBy(UNIQUE_RECORD_ID);
                 tt.record.bestClearCount = clearCount;
-                dao.Save(tt.record);
+                dao?.Save(tt.record);
                 return true;
             }
 
@@ -49,10 +49,10 @@ namespace Service.BizLogic
         public bool Clear()
         {
             var db = DataBase.GetInstance();
-            var dao = db.FindBy<TScoreTable>();
+            var dao = db?.FindBy<TScoreTable>();
             var tt = dao.FindBy(UNIQUE_RECORD_ID);
             tt.record.clearCount = 0;
-            return dao.Update(tt.record);
+            return dao?.Update(tt.record) ?? false;
         }
     }
 }
