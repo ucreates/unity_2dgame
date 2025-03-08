@@ -8,12 +8,14 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using System;
 using System.Collections.Generic;
 using Core.Entity;
 using Frontend.Component.Asset.Sound;
 using Service.BizLogic;
 using Service.Integration.Table;
+using System.Threading.Tasks;
+using UnityEngine;
+using Random = System.Random;
 
 namespace Service.Strategy
 {
@@ -26,13 +28,11 @@ namespace Service.Strategy
         {
             var response = new Response();
             response.resultStatus = Response.ServiceStatus.SUCCESS;
-            LoadUserData();
-            LoadItemMaster();
-            LoadSoundData();
+            Task.WhenAll(LoadUserData(), LoadItemMaster(), LoadSoundData()).Wait();
             return response;
         }
 
-        private void LoadUserData()
+        private async Task LoadUserData()
         {
             var ubl = new UserBizLogic();
             var sbl = new ScoreBizLogic();
@@ -52,7 +52,7 @@ namespace Service.Strategy
             sbl?.AddNewUserScore(dummyScoreList);
         }
 
-        private void LoadItemMaster()
+        private async Task LoadItemMaster()
         {
             var itemMasterDictionary = new Dictionary<string, int>();
             itemMasterDictionary.Add("TYPE_A", 100);
@@ -63,7 +63,7 @@ namespace Service.Strategy
             ibl?.InitializeMaster(itemMasterDictionary);
         }
 
-        private void LoadSoundData()
+        private async Task LoadSoundData()
         {
             var collection = SoundAssetCollection.GetInstance();
             collection?.SetBGMAsset("athletic", new BGMAsset("Audio/BGM/athletic"));

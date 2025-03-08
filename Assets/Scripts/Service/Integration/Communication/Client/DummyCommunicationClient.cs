@@ -10,6 +10,7 @@
 
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Service.Integration.Communication.Entity;
 
 namespace Service.Integration.Communication.Client
@@ -19,9 +20,13 @@ namespace Service.Integration.Communication.Client
         public override CommunicationResponse Request(CommunicationRequest parameter)
         {
             var response = new CommunicationResponse();
-            var random = new Random();
-            var sleepTime = random.Next(500, 4000);
-            Thread.Sleep(sleepTime);
+            var task = Task.Run(async delegate
+            {
+                var random = new Random();
+                var sleepTime = random.Next(5, 40);
+                await Task.Delay(TimeSpan.FromSeconds(sleepTime));
+            });
+            task.Wait();
             response.request = parameter;
             return response;
         }
