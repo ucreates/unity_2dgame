@@ -8,8 +8,11 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System;
+using System.Collections.Generic;
 using Service.Integration;
 using Service.Integration.Table;
+using UnityEngine;
 
 namespace Service.BizLogic
 {
@@ -32,6 +35,8 @@ namespace Service.BizLogic
 
         public bool UpdateBestClearCount(int clearCount)
         {
+            var ubl = new UserBizLogic();
+            var userId = ubl.GetPlayer()?.id ?? -1;
             var bestClearCount = GetBestClearCount();
             if (bestClearCount < clearCount)
             {
@@ -40,6 +45,7 @@ namespace Service.BizLogic
                 var tt = dao.FindBy(UNIQUE_RECORD_ID);
                 tt.record.bestClearCount = clearCount;
                 dao?.Save(tt.record);
+                UpdateStats(userId, bestClearCount);
                 return true;
             }
 
@@ -53,6 +59,24 @@ namespace Service.BizLogic
             var tt = dao.FindBy(UNIQUE_RECORD_ID);
             tt.record.clearCount = 0;
             return dao?.Update(tt.record) ?? false;
+        }
+
+        public async void UpdateStats(int usreId, int bestClearCount)
+        {
+            var request = new CommunicationRequest();
+            request.url = new Uri("https://httpbin.org/get");
+            request.paramter = new Dictionary<string, object>
+            {
+                { "userId", usreId },
+                { "clearCount", bestClearCount }
+            };
+            request.method = CommunicationGateway.HttpMethod.Get;
+            request.locale = "ja-JP";
+            request.bearer = "bearer";
+            request.onSuccess = response => { Debug.Log(response.downloadHandler.text); };
+            request.onFaild = response => { Debug.Log(response.downloadHandler.text); };
+            var client = CommunicationGateway.GetInstance();
+            await client.AsyncRequest(request);
         }
     }
 }

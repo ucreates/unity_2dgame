@@ -8,13 +8,17 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core.Entity;
 using Frontend.Component.Asset.Sound;
 using Service.BizLogic;
+using Service.Integration;
 using Service.Integration.Table;
-using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Networking;
 using Random = System.Random;
 
 namespace Service.Strategy
@@ -30,6 +34,54 @@ namespace Service.Strategy
             response.resultStatus = Response.ServiceStatus.SUCCESS;
             Task.WhenAll(LoadUserData(), LoadItemMaster(), LoadSoundData()).Wait();
             return response;
+        }
+
+        public override IEnumerator Request(object parameter = null)
+        {
+            var mbl = new MasterBizLogic();
+            yield return mbl.DownloadRequest(parameter as Action<float>);
+            
+            var request = new CommunicationRequest();
+            request.url = new Uri("https://httpbin.org/get");
+            request.paramter = new Dictionary<string, object>
+            {
+                { "num", 1 },
+                { "str", "test1" }
+            };
+            request.method = CommunicationGateway.HttpMethod.Get;
+            request.locale = "ja-JP";
+            request.bearer = "bearer";
+            request.onSuccess = response => { Debug.Log(response.downloadHandler.text); };
+            request.onFaild = response => { Debug.Log(response.downloadHandler.text); };
+            var client = CommunicationGateway.GetInstance();
+            yield return client.SyncRequest(request);
+            if (client.result != UnityWebRequest.Result.Success)
+            {
+                client.Dump();
+                yield break;
+            }
+
+            request = new CommunicationRequest();
+            request.url = new Uri("https://httpbin.org/post");
+            request.paramter = new Dictionary<string, object>
+            {
+                { "num", 2 },
+                { "str", "test2" }
+            };
+            request.method = CommunicationGateway.HttpMethod.Post;
+            request.locale = "ja-JP";
+            request.bearer = "bearer";
+            request.onSuccess = response => { Debug.Log(response.downloadHandler.text); };
+            request.onFaild = response => { Debug.Log(response.downloadHandler.text); };
+            client = CommunicationGateway.GetInstance();
+            yield return client.SyncRequest(request);
+            if (client.result != UnityWebRequest.Result.Success)
+            {
+                client.Dump();
+                yield break;
+            }
+
+            Debug.Log("request success!");
         }
 
         private async Task LoadUserData()

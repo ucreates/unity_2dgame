@@ -29,8 +29,8 @@ namespace Service.Strategy
                 var user = ubl?.GetUser(score.userId);
                 userList.Add(user);
             });
-            sret.Set<List<TScoreTable>>("rankinglist", rankingList);
-            sret.Set<List<MUserTable>>("userlist", userList);
+            sret.Set("rankinglist", rankingList);
+            sret.Set("userlist", userList);
             sret.resultStatus = Response.ServiceStatus.SUCCESS;
             return sret;
         }

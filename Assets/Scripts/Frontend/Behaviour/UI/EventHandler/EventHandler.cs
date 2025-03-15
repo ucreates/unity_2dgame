@@ -52,7 +52,7 @@ public sealed class EventHandler : BaseBehaviour
         paramBody.Add("coin", Random.Range(300, 1000));
         ServiceGateway.GetInstance()
             ?.Request("service://player/commit")
-            ?.Request(paramBody);
+            ?.Update(paramBody);
         notifier?.Notify(NotifyMessage.Title.NoticeShow);
     }
 

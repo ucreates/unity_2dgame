@@ -11,7 +11,6 @@
 using System.Collections.Generic;
 using Core.Entity;
 using Service.BizLogic;
-using Service.Integration.Table;
 
 namespace Service.Strategy
 {
@@ -31,9 +30,9 @@ namespace Service.Strategy
                     hadItemIdList.Add(record.name);
             });
             var itemMasterList = ibl.GetAllItemMaster();
-            ret.Set<List<string>>("itemidlist", hadItemIdList);
-            ret.Set<List<MItemTable>>("itemmasterlist", itemMasterList);
-            ret.Set<int>("coin", mut.coin);
+            ret.Set("itemidlist", hadItemIdList);
+            ret.Set("itemmasterlist", itemMasterList);
+            ret.Set("coin", mut.coin);
             return ret;
         }
     }

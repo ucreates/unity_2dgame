@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections;
 using Core.Entity;
 
 namespace Service.Strategy
@@ -24,7 +25,7 @@ namespace Service.Strategy
             return null;
         }
 
-        public virtual Response Request(object parameter = null)
+        public virtual IEnumerator Request(object parameter = null)
         {
             return null;
         }

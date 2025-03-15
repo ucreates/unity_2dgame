@@ -8,15 +8,18 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Core.Generator
 {
     public sealed class ResourceGenerator
     {
-        public static void Generate(string prefabName, Vector3 position, Quaternion rotation)
+        public static async Task Generate(string prefabName, Vector3 position, Quaternion rotation)
         {
-            var prefab = Resources.Load(prefabName) as GameObject;
+            var request = Resources.LoadAsync(prefabName);
+            await request;
+            var prefab = request.asset as GameObject;
             GameObject.Instantiate(prefab, position, rotation);
         }
     }

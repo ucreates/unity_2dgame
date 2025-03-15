@@ -1,30 +1,25 @@
-//======================================================================
-// Project Name    : hetappy bird
-//
-// Copyright © 2016 U-CREATES. All rights reserved.
-//
-// This source code is the property of U-CREATES.
-// If such findings are accepted at any time.
-// We hope the tips and helpful in developing.
-//======================================================================
+using System.Collections;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.Networking;
 
-using System.Threading;
-using Core.Device;
-using Service.Integration.Communication.Client;
-using Service.Integration.Communication.Entity;
-
-namespace Service.Integration.Communication
+namespace Service.Integration
 {
-    public sealed class CommunicationGateway
+    public class CommunicationGateway
     {
-        private CommunicationGateway()
+        public enum HttpMethod
         {
-            userAgent = new UserAgent();
+            Get,
+            Post
         }
 
-        private static CommunicationGateway instance { get; set; }
+        private const int TIME_OUT = 30000;
 
-        private UserAgent userAgent { get; }
+        private static CommunicationGateway instance { get; set; }
+        public UnityWebRequest.Result result { get; private set; }
+
+        private string error { get; set; }
+        private CommunicationRequest requestData { get; set; }
 
         public static CommunicationGateway GetInstance()
         {
@@ -32,27 +27,121 @@ namespace Service.Integration.Communication
             return instance;
         }
 
-        public void Request(CommunicationRequest parameter)
+        public IEnumerator SyncRequest(CommunicationRequest request)
         {
-            var t = new Thread(AsyncRequest);
-            parameter.threadId = t.ManagedThreadId;
-            t.Start(parameter);
+            var client = CreateWebRequestClient(request);
+            if (null == client)
+            {
+                result = UnityWebRequest.Result.ConnectionError;
+                error = "web request client is null";
+                yield break;
+            }
+
+            yield return client.SendWebRequest();
+            result = client.result;
+            error = client.error;
+            requestData = request;
+            if (client.result == UnityWebRequest.Result.Success)
+                request?.onSuccess?.Invoke(client);
+            else
+                request?.onFaild?.Invoke(client);
+            yield return null;
         }
 
-        private void AsyncRequest(object parameter)
+        public async Task AsyncRequest(CommunicationRequest request)
         {
-            var reqparam = parameter as CommunicationRequest;
-            var client = CommunicationClientFactory.FactoryMethod(reqparam.clientType);
-            client.userAgent = userAgent;
-            if (null == client) return;
-            var response = client.Request(reqparam);
-            lock (reqparam)
+            var client = CreateWebRequestClient(request);
+            if (null == client)
             {
-                if (response.status == CommunicationResponse.ResponseStatus.SUCCESS)
-                    reqparam.callback.OnSuccessCallback(response);
-                else
-                    reqparam.callback.OnFaildCallback(response);
+                result = UnityWebRequest.Result.ConnectionError;
+                error = "web request client is null";
+                return;
             }
+
+            await client.SendWebRequest();
+            result = client.result;
+            error = client.error;
+            requestData = request;
+            if (client.result == UnityWebRequest.Result.Success)
+                request?.onSuccess?.Invoke(client);
+            else
+                request?.onFaild?.Invoke(client);
+        }
+
+        public IEnumerator DownloadRequest(CommunicationRequest request)
+        {
+            if (null == request)
+            {
+                result = UnityWebRequest.Result.ConnectionError;
+                error = "request is null";
+                yield break;
+            }
+
+            using (var client = UnityWebRequest.Get(request.GetAbsoluteUrl()))
+            {
+                var asyncOperation = client.SendWebRequest();
+
+                while (true)
+                {
+                    if (1 <= asyncOperation.progress)
+                    {
+                        result = client.result;
+                        error = client.error;
+                        requestData = request;
+                        if (client.result == UnityWebRequest.Result.Success)
+                        {
+                            request?.onSuccess.Invoke(client);
+                            break;
+                        }
+
+                        request?.onFaild.Invoke(client);
+                        break;
+                    }
+
+                    if (client.result == UnityWebRequest.Result.ConnectionError || client.result == UnityWebRequest.Result.ProtocolError || client.result == UnityWebRequest.Result.DataProcessingError)
+                    {
+                        request?.onFaild.Invoke(client);
+                        break;
+                    }
+
+                    yield return null;
+                    ulong size = 0;
+                    var header = client.GetResponseHeader("Content-Length");
+                    if (header != null) ulong.TryParse(header, out size);
+                    request?.onDownloadProgress?.Invoke(asyncOperation.progress, size);
+                }
+            }
+
+            yield return null;
+        }
+
+        public void Dump()
+        {
+            Debug.Log($@"Status:{result.ToString()}/Error:{error}");
+            requestData?.Dump();
+        }
+
+        private UnityWebRequest CreateWebRequestClient(CommunicationRequest request)
+        {
+            UnityWebRequest client = null;
+            switch (request?.method)
+            {
+                case HttpMethod.Get:
+                    client = UnityWebRequest.Get(request.GetAbsoluteUrl());
+                    break;
+                case HttpMethod.Post:
+                    var formData = request?.GetFormData();
+                    client = UnityWebRequest.Post(request?.url, formData);
+                    break;
+            }
+
+            if (null == client) return null;
+            client.timeout = TIME_OUT;
+            client.SetRequestHeader("Accept", "text/html,application/xhtml+xml,application/xml,application/json;q=0.9,*/*;q=0.8");
+            client.SetRequestHeader("Authorization", request?.bearer ?? string.Empty);
+            client.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            client.SetRequestHeader("Accept-Language", request?.locale ?? string.Empty);
+            return client;
         }
     }
 }

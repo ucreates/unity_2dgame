@@ -9,7 +9,6 @@
 //======================================================================
 
 using System.Collections.Generic;
-using System.Extensions;
 using Core.Entity;
 using Core.Extensions;
 using Service.BizLogic;
@@ -18,7 +17,7 @@ namespace Service.Strategy
 {
     public sealed class PlayerCommitStrategy : BaseStrategy
     {
-        public override Response Request(object parameter)
+        public override Response Update(object parameter)
         {
             var paramBody = (Dictionary<string, object>)parameter;
             var ubl = new UserBizLogic();

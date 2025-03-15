@@ -1,6 +1,4 @@
-﻿using Core.Entity;
-
-namespace Frontend.Notify
+﻿namespace Frontend.Notify
 {
     public interface INotify
     {

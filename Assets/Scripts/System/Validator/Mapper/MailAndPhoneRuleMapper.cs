@@ -10,10 +10,10 @@
 
 using System.Collections.Generic;
 using System.Xml;
-using Core.Validator.Builder;
-using Core.Validator.Message;
 using Core.Extensions;
 using Core.Extensions.Array;
+using Core.Validator.Builder;
+using Core.Validator.Message;
 
 namespace Core.Validator.Mapper
 {

@@ -26,7 +26,7 @@ namespace Service.Strategy
             var mut = ubl?.GetPlayer() ?? null;
             if (ibl.HasItem(mut.id, paramBody.itemId))
             {
-                sret.Set<string>("message", StoreAssembler.VALID_PURCHASE_FAILD_HAD_ITEM);
+                sret.Set("message", StoreAssembler.VALID_PURCHASE_FAILD_HAD_ITEM);
                 sret.resultStatus = Response.ServiceStatus.FAILED;
                 return sret;
             }
@@ -35,12 +35,12 @@ namespace Service.Strategy
             if (ret)
             {
                 ibl.BuyItem(mut.id, paramBody.itemId, paramBody.amount);
-                sret.Set<string>("message", StoreAssembler.VALID_PURCHASE_SUCCESS);
+                sret.Set("message", StoreAssembler.VALID_PURCHASE_SUCCESS);
                 sret.resultStatus = Response.ServiceStatus.SUCCESS;
             }
             else
             {
-                sret.Set<string>("message", StoreAssembler.VALID_PURCHASE_FAILD_NO_COIN);
+                sret.Set("message", StoreAssembler.VALID_PURCHASE_FAILD_NO_COIN);
                 sret.resultStatus = Response.ServiceStatus.FAILED;
             }
 
