@@ -8,9 +8,9 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Frontend.Behaviour.State;
 using Frontend.Component.Asset.Render;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UniRx;
@@ -23,10 +23,12 @@ public sealed class LandBehaviour : BaseBehaviour, IStateMachine<LandBehaviour>,
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameStart; })?.Subscribe(message => { OnNotify(message); });
         assetCollection?.Set("anime", new MaterialAsset(this));
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<LandBehaviour>(this);
-        stateMachine?.Add("scroll", new LandScrollState());
-        stateMachine?.Add("stop", new LandStopState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<LandBehaviour>>
+        {
+            { "scroll", new LandScrollState() },
+            { "stop", new LandStopState() }
+        });
         stateMachine?.Change("scroll");
         stateMachine?.Play();
     }

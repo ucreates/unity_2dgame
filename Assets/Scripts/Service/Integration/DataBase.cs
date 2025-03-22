@@ -18,14 +18,16 @@ namespace Service.Integration
     {
         private DataBase()
         {
-            daoDictionary = new Dictionary<string, BaseDao>();
-            daoDictionary.Add("TScoreTable", new Dao<TScoreTable>());
-            daoDictionary.Add("TSummaryTable", new Dao<TSummaryTable>());
-            daoDictionary.Add("TLoadingTable", new Dao<TLoadingTable>());
-            daoDictionary.Add("MUserTable", new Dao<MUserTable>());
-            daoDictionary.Add("MCorporateTable", new Dao<MCorporateTable>());
-            daoDictionary.Add("MItemTable", new Dao<MItemTable>());
-            daoDictionary.Add("TItemTable", new Dao<TItemTable>());
+            daoDictionary = new Dictionary<string, BaseDao>
+            {
+                { "TScoreTable", new Dao<TScoreTable>() },
+                { "TSummaryTable", new Dao<TSummaryTable>() },
+                { "TLoadingTable", new Dao<TLoadingTable>() },
+                { "MUserTable", new Dao<MUserTable>() },
+                { "MCorporateTable", new Dao<MCorporateTable>() },
+                { "MItemTable", new Dao<MItemTable>() },
+                { "TItemTable", new Dao<TItemTable>() }
+            };
         }
 
         public Dictionary<string, BaseDao> daoDictionary { get; }

@@ -8,8 +8,8 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Frontend.Behaviour.State.UI.Shop;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UniRx;
@@ -19,15 +19,17 @@ public sealed class ShopCanvasBehaviour : BaseBehaviour, IStateMachine<ShopCanva
     public void Start()
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.ShopShow || message.title == NotifyMessage.Title.ShopHide || message.title == NotifyMessage.Title.ShopCommitShow || message.title == NotifyMessage.Title.ShopConfirmShow; })?.Subscribe(message => { OnNotify(message); });
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ShopCanvasBehaviour>(this);
-        stateMachine?.Add("listshow", new ListModalDialogShowState());
-        stateMachine?.Add("liststay", new ListModalDialogStayState());
-        stateMachine?.Add("listhide", new ListModalDialogHideState());
-        stateMachine?.Add("confirmshow", new ConfirmModalDialogShowState());
-        stateMachine?.Add("confirmstay", new ConfirmModalDialogStayState());
-        stateMachine?.Add("commitshow", new CommitModalDialogShowState());
-        stateMachine?.Add("commitstay", new CommitModalDialogStayState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<ShopCanvasBehaviour>>
+        {
+            { "listshow", new ListModalDialogShowState() },
+            { "liststay", new ListModalDialogStayState() },
+            { "listhide", new ListModalDialogHideState() },
+            { "confirmshow", new ConfirmModalDialogShowState() },
+            { "confirmstay", new ConfirmModalDialogStayState() },
+            { "commitshow", new CommitModalDialogShowState() },
+            { "commitstay", new CommitModalDialogStayState() }
+        });
         stateMachine?.Change("listhide");
         stateMachine?.Play();
     }

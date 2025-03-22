@@ -9,7 +9,6 @@
 //======================================================================
 
 using Frontend.Component.Asset.Sound;
-using Frontend.Component.Property;
 using Frontend.Notify;
 using UniRx;
 
@@ -18,7 +17,6 @@ public sealed class BGMPlayerBehaviour : BaseBehaviour, INotify
     public void Start()
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.GameStart || message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameOver || message.title == NotifyMessage.Title.GameRestart; })?.Subscribe(message => { OnNotify(message); });
-        property = new BaseProperty(this);
     }
 
     public void OnNotify(NotifyMessage notifyMessage)

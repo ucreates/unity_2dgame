@@ -10,7 +10,6 @@
 
 using System.Collections.Generic;
 using Frontend.Behaviour.State;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UniRx;
@@ -24,10 +23,12 @@ public sealed class ResultCanvasBehaviour : BaseBehaviour, IStateMachine<ResultC
     public void Start()
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.GameOver || message.title == NotifyMessage.Title.GameRestart || message.title == NotifyMessage.Title.RankingShow; })?.Subscribe(message => { OnNotify(message); });
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ResultCanvasBehaviour>(this);
-        stateMachine?.Add("show", new ResultCanvasShowState());
-        stateMachine?.Add("hide", new ResultCanvasHideState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<ResultCanvasBehaviour>>
+        {
+            { "show", new ResultCanvasShowState() },
+            { "hide", new ResultCanvasHideState() }
+        });
         stateMachine?.Change("hide");
         stateMachine?.Play();
     }

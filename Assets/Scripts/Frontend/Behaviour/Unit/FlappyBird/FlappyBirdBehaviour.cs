@@ -8,10 +8,10 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Frontend.Behaviour.State;
 using Frontend.Component.Asset.Render;
 using Frontend.Component.Asset.Sound;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Component.Vfx;
 using Frontend.Notify;
@@ -29,14 +29,16 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.GameStart || message.title == NotifyMessage.Title.RegulationShow || message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.GameRestart || message.title == NotifyMessage.Title.GameTitle || message.title == NotifyMessage.Title.GameOver; })?.Subscribe(message => { OnNotify(message); });
         assetCollection?.Set("anime", new AnimatorAsset(this));
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<FlappyBirdBehaviour>(this);
-        stateMachine?.Add("ready", new FlappyBirdReadyState());
-        stateMachine?.Add("go", new FlappyBirdGoState());
-        stateMachine?.Add("fall", new FlappyBirdFallState());
-        stateMachine?.Add("dead", new FlappyBirdDeadState());
-        stateMachine?.Add("hide", new FlappyBIrdHideState());
-        stateMachine?.Add("gameover", new FlappyBIrdGameOverState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<FlappyBirdBehaviour>>
+        {
+            { "ready", new FlappyBirdReadyState() },
+            { "go", new FlappyBirdGoState() },
+            { "fall", new FlappyBirdFallState() },
+            { "dead", new FlappyBirdDeadState() },
+            { "hide", new FlappyBIrdHideState() },
+            { "gameover", new FlappyBIrdGameOverState() }
+        });
         stateMachine?.Change("hide");
         stateMachine?.Play();
         deadTimeLine = new TimeLine();

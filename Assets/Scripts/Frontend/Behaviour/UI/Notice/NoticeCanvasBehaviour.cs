@@ -8,8 +8,8 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Frontend.Behaviour.State;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UniRx;
@@ -23,11 +23,13 @@ public sealed class NoticeCanvasBehaviour : BaseBehaviour, IStateMachine<NoticeC
     public void Start()
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.NoticeShow || message.title == NotifyMessage.Title.NoticeHide; })?.Subscribe(message => { OnNotify(message); });
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<NoticeCanvasBehaviour>(this);
-        stateMachine?.Add("show", new NoticeCanvasShowState());
-        stateMachine?.Add("stay", new NoticeCanvasStayState());
-        stateMachine?.Add("hide", new NoticeCanvasHideState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<NoticeCanvasBehaviour>>
+        {
+            { "show", new NoticeCanvasShowState() },
+            { "stay", new NoticeCanvasStayState() },
+            { "hide", new NoticeCanvasHideState() }
+        });
         stateMachine?.Change("hide");
         stateMachine?.Play();
         webViewPlugin = PluginFactory.GetPlugin<WebViewPlugin>();

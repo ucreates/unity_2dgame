@@ -9,14 +9,12 @@
 //======================================================================
 
 using Frontend.Behaviour.State;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 
 public sealed class BackGroundBehaviour : BaseBehaviour, IStateMachine<BackGroundBehaviour>
 {
     public void Start()
     {
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<BackGroundBehaviour>(this);
         stateMachine?.Add("show", new BackGroundShowState());
         stateMachine?.Change("show");

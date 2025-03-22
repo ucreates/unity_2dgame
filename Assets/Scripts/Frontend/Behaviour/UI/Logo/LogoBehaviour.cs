@@ -12,7 +12,6 @@ using System;
 using System.Collections;
 using Core.Scene;
 using Frontend.Component.Asset.Render;
-using Frontend.Component.Property;
 using Service;
 using TMPro;
 using UnityEngine;
@@ -24,7 +23,6 @@ public sealed class LogoBehaviour : BaseBehaviour
 
     public IEnumerator Start()
     {
-        property = new BaseProperty(this);
         var renderer = gameObject.GetComponent<MeshRenderer>();
         renderer.enabled = false;
         var downloadCallback = new Action<float>(delegate(float progress) { progressText.text = $"Downloading...{Convert.ToInt32(progress * 100f)}%"; });

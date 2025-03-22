@@ -8,8 +8,8 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Frontend.Behaviour.State;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UniRx;
@@ -21,10 +21,12 @@ public sealed class CameraBehaviour : BaseBehaviour, IStateMachine<CameraBehavio
     public void Start()
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead; })?.Subscribe(message => { OnNotify(message); });
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<CameraBehaviour>(this);
-        stateMachine?.Add("stop", new CameraStopState());
-        stateMachine?.Add("shake", new CameraShakeState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<CameraBehaviour>>
+        {
+            { "stop", new CameraStopState() },
+            { "shake", new CameraShakeState() }
+        });
         stateMachine?.Change("stop");
     }
 

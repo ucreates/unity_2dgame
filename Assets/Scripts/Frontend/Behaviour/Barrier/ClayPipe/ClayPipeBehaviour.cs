@@ -8,8 +8,8 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Frontend.Behaviour.State;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UniRx;
@@ -19,11 +19,13 @@ public sealed class ClayPipeBehaviour : BaseBehaviour, IStateMachine<ClayPipeBeh
     public void Start()
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameRestart; })?.Subscribe(message => { OnNotify(message); });
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ClayPipeBehaviour>(this);
-        stateMachine?.Add("move", new ClayPipeMoveState());
-        stateMachine?.Add("destroy", new ClayPipeDestroyState());
-        stateMachine?.Add("stop", new ClayPipeStopState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<ClayPipeBehaviour>>
+        {
+            { "move", new ClayPipeMoveState() },
+            { "destroy", new ClayPipeDestroyState() },
+            { "stop", new ClayPipeStopState() }
+        });
         stateMachine?.Change("move");
         stateMachine?.Play();
     }

@@ -16,12 +16,14 @@ namespace Core.Validator.Unit
     {
         public ValidatorUnitEntity()
         {
-            validatorUnitDictionary = new Dictionary<string, Dictionary<string, object>>();
-            validatorUnitDictionary.Add("required", new Dictionary<string, object>());
-            validatorUnitDictionary.Add("range", new Dictionary<string, object>());
-            validatorUnitDictionary.Add("compare", new Dictionary<string, object>());
-            validatorUnitDictionary.Add("regex", new Dictionary<string, object>());
-            validatorUnitDictionary.Add("mailandphone", new Dictionary<string, object>());
+            validatorUnitDictionary = new Dictionary<string, Dictionary<string, object>>
+            {
+                { "required", new Dictionary<string, object>() },
+                { "range", new Dictionary<string, object>() },
+                { "compare", new Dictionary<string, object>() },
+                { "regex", new Dictionary<string, object>() },
+                { "mailandphone", new Dictionary<string, object>() }
+            };
         }
 
         public Dictionary<string, Dictionary<string, object>> validatorUnitDictionary { get; set; }

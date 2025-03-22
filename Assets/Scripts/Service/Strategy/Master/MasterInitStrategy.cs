@@ -40,7 +40,7 @@ namespace Service.Strategy
         {
             var mbl = new MasterBizLogic();
             yield return mbl.DownloadRequest(parameter as Action<float>);
-            
+
             var request = new CommunicationRequest();
             request.url = new Uri("https://httpbin.org/get");
             request.paramter = new Dictionary<string, object>
@@ -106,11 +106,13 @@ namespace Service.Strategy
 
         private async Task LoadItemMaster()
         {
-            var itemMasterDictionary = new Dictionary<string, int>();
-            itemMasterDictionary.Add("TYPE_A", 100);
-            itemMasterDictionary.Add("TYPE_B", 200);
-            itemMasterDictionary.Add("TYPE_C", 300);
-            itemMasterDictionary.Add("TYPE_D", 400);
+            var itemMasterDictionary = new Dictionary<string, int>
+            {
+                { "TYPE_A", 100 },
+                { "TYPE_B", 200 },
+                { "TYPE_C", 300 },
+                { "TYPE_D", 400 }
+            };
             var ibl = new ItemBizLogic();
             ibl?.InitializeMaster(itemMasterDictionary);
         }

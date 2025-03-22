@@ -8,8 +8,8 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Frontend.Behaviour.State;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UniRx;
@@ -19,10 +19,12 @@ public sealed class StartCanvasBehaviour : BaseBehaviour, IStateMachine<StartCan
     public void Start()
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.GameTitle || message.title == NotifyMessage.Title.GameReady || message.title == NotifyMessage.Title.RegulationShow || message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.ShopShow; })?.Subscribe(message => { OnNotify(message); });
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<StartCanvasBehaviour>(this);
-        stateMachine?.Add("show", new StartCanvasShowState());
-        stateMachine?.Add("hide", new StartCanvasHideState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<StartCanvasBehaviour>>
+        {
+            { "show", new StartCanvasShowState() },
+            { "hide", new StartCanvasHideState() }
+        });
         stateMachine?.Change("hide");
         stateMachine?.Play();
     }

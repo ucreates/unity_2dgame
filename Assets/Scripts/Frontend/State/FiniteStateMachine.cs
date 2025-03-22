@@ -83,7 +83,7 @@ namespace Frontend.Component.State
             return stateDictionary.FirstOrDefault(pair => pair.Key.Equals(stateName)).Value;
         }
 
-        public bool Add(string stateName, FiniteState<T> state, bool isFirstState = false)
+        public bool Add(string stateName, FiniteState<T> state)
         {
             if (!state.persistent)
             {
@@ -105,6 +105,17 @@ namespace Frontend.Component.State
             }
 
             return false;
+        }
+
+        public bool Add(Dictionary<string, FiniteState<T>> stateDictionary)
+        {
+            var result = false;
+            stateDictionary.ForEach(pair =>
+            {
+                result = Add(pair.Key, pair.Value);
+                return result;
+            });
+            return result;
         }
 
         public void Play()

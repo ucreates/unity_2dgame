@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Frontend.Behaviour.State;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UniRx;
@@ -13,11 +12,13 @@ public sealed class RankingCanvasBehaviour : BaseBehaviour, IStateMachine<Rankin
     public void Start()
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.RankingShow || message.title == NotifyMessage.Title.RankingHide; })?.Subscribe(message => { OnNotify(message); });
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<RankingCanvasBehaviour>(this);
-        stateMachine?.Add("show", new RankingCanvasShowState());
-        stateMachine?.Add("stay", new RankingCanvasStayState());
-        stateMachine?.Add("hide", new RankingCanvasHideState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<RankingCanvasBehaviour>>
+        {
+            { "show", new RankingCanvasShowState() },
+            { "stay", new RankingCanvasStayState() },
+            { "hide", new RankingCanvasHideState() }
+        });
         stateMachine?.Change("hide");
         stateMachine?.Play();
     }

@@ -13,7 +13,6 @@ using System.Linq;
 using Core.Entity;
 using Core.Validator;
 using Frontend.Component.Asset.Renderer.UI;
-using Frontend.Component.Property;
 using Frontend.Notify;
 using Service;
 using Service.Integration.Dto.Assembler;
@@ -24,11 +23,6 @@ using UnityPlugin.Frontend.View;
 
 public sealed class EventHandler : BaseBehaviour
 {
-    public void Start()
-    {
-        property = new BaseProperty(this);
-    }
-
     public void Update()
     {
         if (Application.platform == RuntimePlatform.Android && Input.GetKey(KeyCode.Escape)) Application.Quit();

@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Service.Strategy;
 
 namespace Service
@@ -16,9 +17,12 @@ namespace Service
     {
         public PlayerService()
         {
-            strategyDictionary.Add("score", new PlayerScoreStrategy());
-            strategyDictionary.Add("clear", new PlayerClearStrategy());
-            strategyDictionary.Add("commit", new PlayerCommitStrategy());
+            strategyDictionary = new Dictionary<string, BaseStrategy>
+            {
+                { "score", new PlayerScoreStrategy() },
+                { "clear", new PlayerClearStrategy() },
+                { "commit", new PlayerCommitStrategy() }
+            };
         }
     }
 }

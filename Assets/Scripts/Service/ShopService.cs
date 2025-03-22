@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Service.Strategy;
 
 namespace Service
@@ -16,9 +17,12 @@ namespace Service
     {
         public ShopService()
         {
-            strategyDictionary.Add("buy", new ShopBuyStrategy());
-            strategyDictionary.Add("list", new ShopItemListStrategy());
-            strategyDictionary.Add("confirm", new ShopConfirmStrategy());
+            strategyDictionary = new Dictionary<string, BaseStrategy>
+            {
+                { "buy", new ShopBuyStrategy() },
+                { "list", new ShopItemListStrategy() },
+                { "confirm", new ShopConfirmStrategy() }
+            };
         }
     }
 }

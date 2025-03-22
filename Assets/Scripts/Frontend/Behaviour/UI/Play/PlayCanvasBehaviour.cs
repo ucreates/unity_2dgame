@@ -10,7 +10,6 @@
 
 using System.Collections.Generic;
 using Frontend.Behaviour.State;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UniRx;
@@ -23,10 +22,12 @@ public sealed class PlayCanvasBehaviour : BaseBehaviour, IStateMachine<PlayCanva
     public void Start()
     {
         rx = Notifier.GetInstance().OnNotify()?.Subscribe(message => { OnNotify(message); });
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<PlayCanvasBehaviour>(this);
-        stateMachine?.Add("show", new PlayCanvasShowState());
-        stateMachine?.Add("hide", new PlayCanvasHideState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<PlayCanvasBehaviour>>
+        {
+            { "show", new PlayCanvasShowState() },
+            { "hide", new PlayCanvasHideState() }
+        });
         stateMachine?.Change("hide");
         stateMachine?.Play();
     }

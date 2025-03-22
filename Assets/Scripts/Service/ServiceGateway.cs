@@ -19,11 +19,13 @@ namespace Service
     {
         private ServiceGateway()
         {
-            serviceDictionary = new Dictionary<string, BaseService>();
-            serviceDictionary.Add("player", new PlayerService());
-            serviceDictionary.Add("stats", new StatsService());
-            serviceDictionary.Add("master", new MasterService());
-            serviceDictionary.Add("shop", new ShopService());
+            serviceDictionary = new Dictionary<string, BaseService>
+            {
+                { "player", new PlayerService() },
+                { "stats", new StatsService() },
+                { "master", new MasterService() },
+                { "shop", new ShopService() }
+            };
         }
 
         private static ServiceGateway instance { get; set; }

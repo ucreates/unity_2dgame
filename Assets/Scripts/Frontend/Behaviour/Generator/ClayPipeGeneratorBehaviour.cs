@@ -8,8 +8,8 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Frontend.Behaviour.State;
-using Frontend.Component.Property;
 using Frontend.Component.State;
 using Frontend.Notify;
 using UniRx;
@@ -20,10 +20,12 @@ public sealed class ClayPipeGeneratorBehaviour : BaseBehaviour, IStateMachine<Cl
     public void Start()
     {
         rx = Notifier.GetInstance()?.OnNotify()?.Where(message => { return message.title == NotifyMessage.Title.FlappyBirdDead || message.title == NotifyMessage.Title.GameStart; })?.Subscribe(message => { OnNotify(message); });
-        property = new BaseProperty(this);
         stateMachine = new FiniteStateMachine<ClayPipeGeneratorBehaviour>(this);
-        stateMachine?.Add("generate", new ClayPipeGeneratorGenerateState());
-        stateMachine?.Add("stop", new ClayPipeGeneratorStopState());
+        stateMachine?.Add(new Dictionary<string, FiniteState<ClayPipeGeneratorBehaviour>>
+        {
+            { "generate", new ClayPipeGeneratorGenerateState() },
+            { "stop", new ClayPipeGeneratorStopState() }
+        });
         stateMachine?.Change("stop");
         stateMachine?.Play();
     }
