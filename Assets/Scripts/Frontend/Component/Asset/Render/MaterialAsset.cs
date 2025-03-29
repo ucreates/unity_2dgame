@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using Core.IO;
 using UnityEngine;
 
 namespace Frontend.Component.Asset.Render
@@ -30,7 +31,7 @@ namespace Frontend.Component.Asset.Render
         {
             if (null == material)
             {
-                Debug.LogError("material is null");
+                Console.Error(values: "Material is null");
                 return;
             }
 

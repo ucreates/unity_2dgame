@@ -9,8 +9,8 @@
 //======================================================================
 
 using System.Collections.Generic;
+using Core.IO;
 using Core.Validator.Message;
-using UnityEngine;
 
 namespace Core.Validator.Entity
 {
@@ -44,7 +44,7 @@ namespace Core.Validator.Entity
 
         public void Dump()
         {
-            responseList.ForEach(response => { Debug.Log($"result:{response.result},message:{response.message.message}"); });
+            responseList.ForEach(response => { Console.Info(values: $"result:{response.result},message:{response.message.message}"); });
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Threading.Tasks;
+using Core.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -117,7 +118,7 @@ namespace Service.Integration
 
         public void Dump()
         {
-            Debug.Log($@"Status:{result.ToString()}/Error:{error}");
+            Console.Info(values: $@"Status:{result.ToString()}/Error:{error}");
             requestData?.Dump();
         }
 

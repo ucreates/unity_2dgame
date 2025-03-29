@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Core.Extensions;
-using UnityEngine;
 using UnityEngine.Networking;
+using Console = Core.IO.Console;
 
 namespace Service.Integration
 {
@@ -74,13 +74,13 @@ namespace Service.Integration
             if (0 < query.Length)
             {
                 if (method == CommunicationGateway.HttpMethod.Get)
-                    Debug.Log(string.Join("?", url, queryString));
+                    Console.Info(values: string.Join("?", url, queryString));
                 else if (method == CommunicationGateway.HttpMethod.Post)
-                    Debug.Log(string.Join(":", url, GetFormData().ToString()));
+                    Console.Info(values: string.Join(":", url, GetFormData().ToString()));
             }
             else
             {
-                Debug.Log(url);
+                Console.Info(values: url);
             }
         }
     }

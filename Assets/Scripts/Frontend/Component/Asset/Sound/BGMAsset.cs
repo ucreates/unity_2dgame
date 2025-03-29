@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using Core.IO;
 using UnityEngine;
 
 namespace Frontend.Component.Asset.Sound
@@ -41,7 +42,7 @@ namespace Frontend.Component.Asset.Sound
             var player = GameObject.Find(playerName);
             if (null == player)
             {
-                Debug.LogError($"not exist audio player::{playerName}");
+                Console.Error(values: $"Player {playerName} is not found");
                 return;
             }
 

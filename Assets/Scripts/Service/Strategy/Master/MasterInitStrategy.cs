@@ -17,8 +17,8 @@ using Frontend.Component.Asset.Sound;
 using Service.BizLogic;
 using Service.Integration;
 using Service.Integration.Table;
-using UnityEngine;
 using UnityEngine.Networking;
+using Console = Core.IO.Console;
 using Random = System.Random;
 
 namespace Service.Strategy
@@ -51,8 +51,8 @@ namespace Service.Strategy
             request.method = CommunicationGateway.HttpMethod.Get;
             request.locale = "ja-JP";
             request.bearer = "bearer";
-            request.onSuccess = response => { Debug.Log(response.downloadHandler.text); };
-            request.onFaild = response => { Debug.Log(response.downloadHandler.text); };
+            request.onSuccess = response => { Console.Info(values: response.downloadHandler.text); };
+            request.onFaild = response => { Console.Error(values: response.downloadHandler.text); };
             var client = CommunicationGateway.GetInstance();
             yield return client.SyncRequest(request);
             if (client.result != UnityWebRequest.Result.Success)
@@ -71,8 +71,8 @@ namespace Service.Strategy
             request.method = CommunicationGateway.HttpMethod.Post;
             request.locale = "ja-JP";
             request.bearer = "bearer";
-            request.onSuccess = response => { Debug.Log(response.downloadHandler.text); };
-            request.onFaild = response => { Debug.Log(response.downloadHandler.text); };
+            request.onSuccess = response => { Console.Info(values: response.downloadHandler.text); };
+            request.onFaild = response => { Console.Error(values: response.downloadHandler.text); };
             client = CommunicationGateway.GetInstance();
             yield return client.SyncRequest(request);
             if (client.result != UnityWebRequest.Result.Success)
@@ -80,8 +80,6 @@ namespace Service.Strategy
                 client.Dump();
                 yield break;
             }
-
-            Debug.Log("request success!");
         }
 
         private async Task LoadUserData()

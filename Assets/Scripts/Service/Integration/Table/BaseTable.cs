@@ -11,7 +11,7 @@
 using System;
 using Core.Extensions.Array;
 using Service.Integration.Schema;
-using UnityEngine;
+using Console = Core.IO.Console;
 
 namespace Service.Integration.Table
 {
@@ -62,7 +62,7 @@ namespace Service.Integration.Table
                 {
                     var propertyType = pinfo.GetType().Name;
                     var propertyValue = pinfo.GetValue(this, null);
-                    Debug.Log($"{pinfo.Name}:{propertyValue} <{propertyType}");
+                    Console.Info(values: $"{pinfo.Name}:{propertyValue} <{propertyType}");
                 }
             });
         }

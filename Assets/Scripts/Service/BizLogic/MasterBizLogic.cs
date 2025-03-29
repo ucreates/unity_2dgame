@@ -14,6 +14,7 @@ using System.IO;
 using Service.Integration;
 using UnityEngine;
 using UnityEngine.Networking;
+using Console = Core.IO.Console;
 using File = UnityEngine.Windows.File;
 
 namespace Service.BizLogic
@@ -31,7 +32,7 @@ namespace Service.BizLogic
                 if (File.Exists(path)) File.Delete(path);
                 File.WriteAllBytes(path, response.downloadHandler.data);
             };
-            request.onFaild = response => { Debug.Log(response.downloadHandler.text); };
+            request.onFaild = response => { Console.Error(values: response.downloadHandler.text); };
             request.onDownloadProgress = (progress, size) => { callback?.Invoke(progress); };
             var client = CommunicationGateway.GetInstance();
             yield return client.DownloadRequest(request);

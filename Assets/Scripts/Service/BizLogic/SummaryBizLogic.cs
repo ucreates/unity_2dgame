@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using Service.Integration;
 using Service.Integration.Table;
-using UnityEngine;
+using Console = Core.IO.Console;
 
 namespace Service.BizLogic
 {
@@ -73,8 +73,8 @@ namespace Service.BizLogic
             request.method = CommunicationGateway.HttpMethod.Get;
             request.locale = "ja-JP";
             request.bearer = "bearer";
-            request.onSuccess = response => { Debug.Log(response.downloadHandler.text); };
-            request.onFaild = response => { Debug.Log(response.downloadHandler.text); };
+            request.onSuccess = response => { Console.Info(values: response.downloadHandler.text); };
+            request.onFaild = response => { Console.Error(values: response.downloadHandler.text); };
             var client = CommunicationGateway.GetInstance();
             await client.AsyncRequest(request);
         }
