@@ -16,7 +16,7 @@ namespace Service.Strategy
 {
     public sealed class ShopConfirmStrategy : BaseStrategy
     {
-        public override Response Get(object parameter = null)
+        public override Response Get(in object parameter = null)
         {
             var itemId = parameter.ToInt32();
             var sret = new Response();

@@ -16,7 +16,7 @@ namespace Service.Strategy
 {
     public sealed class ShopItemListStrategy : BaseStrategy
     {
-        public override Response Get(object parameter = null)
+        public override Response Get(in object parameter = null)
         {
             var ret = new Response();
             var ubl = new UserBizLogic();

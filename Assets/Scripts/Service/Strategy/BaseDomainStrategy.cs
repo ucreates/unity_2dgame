@@ -15,12 +15,12 @@ namespace Service.Strategy
 {
     public class BaseStrategy
     {
-        public virtual Response Get(object parameter = null)
+        public virtual Response Get(in object parameter = null)
         {
             return null;
         }
 
-        public virtual Response Load(object parameter = null)
+        public virtual Response Load(in object parameter = null)
         {
             return null;
         }
@@ -30,7 +30,7 @@ namespace Service.Strategy
             return null;
         }
 
-        public virtual Response Update(object parameter = null)
+        public virtual Response Update(in object parameter = null)
         {
             return null;
         }

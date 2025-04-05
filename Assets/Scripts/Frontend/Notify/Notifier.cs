@@ -24,7 +24,7 @@ namespace Frontend.Notify
             return instance;
         }
 
-        public void Notify(NotifyMessage.Title title, object parameter = null)
+        public void Notify(NotifyMessage.Title title, in object parameter = null)
         {
             var message = new NotifyMessage();
             message.title = title;

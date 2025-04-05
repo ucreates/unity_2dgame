@@ -83,7 +83,7 @@ namespace Frontend.Component.State
             return stateDictionary.FirstOrDefault(pair => pair.Key.Equals(stateName)).Value;
         }
 
-        public bool Add(string stateName, FiniteState<T> state)
+        public bool Add(string stateName, in FiniteState<T> state)
         {
             if (!state.persistent)
             {
@@ -107,7 +107,7 @@ namespace Frontend.Component.State
             return false;
         }
 
-        public bool Add(Dictionary<string, FiniteState<T>> stateDictionary)
+        public bool Add(in Dictionary<string, FiniteState<T>> stateDictionary)
         {
             var result = false;
             stateDictionary.ForEach(pair =>

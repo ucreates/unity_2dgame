@@ -17,7 +17,7 @@ namespace Service.Strategy
 {
     public sealed class PlayerCommitStrategy : BaseStrategy
     {
-        public override Response Update(object parameter)
+        public override Response Update(in object parameter)
         {
             var paramBody = (Dictionary<string, object>)parameter;
             var ubl = new UserBizLogic();

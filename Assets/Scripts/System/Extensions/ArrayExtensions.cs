@@ -4,22 +4,22 @@ namespace Core.Extensions.Array
 {
     public static class ArrayExtensions
     {
-        public static void For<T>(this T[] array, Action<T> action)
+        public static void For<T>(this T[] array, in Action<T> action)
         {
             for (var i = 0; i < array.Length; i++) action?.Invoke(array[i]);
         }
 
-        public static void For<T>(this T[] array, Action<T, int> action)
+        public static void For<T>(this T[] array, in Action<T, int> action)
         {
             for (var i = 0; i < array.Length; i++) action?.Invoke(array[i], i);
         }
 
-        public static void ForEach<T>(this T[] array, Action<T> action)
+        public static void ForEach<T>(this T[] array, in Action<T> action)
         {
             foreach (var item in array) action?.Invoke(item);
         }
 
-        public static void ForEach<T>(this T[] array, Func<T, bool> action)
+        public static void ForEach<T>(this T[] array, in Func<T, bool> action)
         {
             foreach (var item in array)
                 if (!action?.Invoke(item) ?? false)

@@ -106,9 +106,8 @@ namespace Service.Integration
                     }
 
                     yield return null;
-                    ulong size = 0;
                     var header = client.GetResponseHeader("Content-Length");
-                    if (header != null) ulong.TryParse(header, out size);
+                    ulong.TryParse(header, out var size);
                     request?.onDownloadProgress?.Invoke(asyncOperation.progress, size);
                 }
             }

@@ -15,7 +15,7 @@ namespace Service.Strategy
 {
     public sealed class PlayerClearStrategy : BaseStrategy
     {
-        public override Response Update(object parameter)
+        public override Response Update(in object parameter)
         {
             var ret = new Response();
             var sbl = new ScoreBizLogic();

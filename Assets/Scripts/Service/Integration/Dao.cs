@@ -64,7 +64,7 @@ namespace Service.Integration
             return null != result.record && result.record?.primaryKey == primaryKey ? result.record : null;
         }
 
-        public List<T> FindBy(Func<T, bool> predicate)
+        public List<T> FindBy(in Func<T, bool> predicate)
         {
             return recordList.Where(predicate).ToList();
         }
@@ -177,7 +177,7 @@ namespace Service.Integration
             return result?.Take(limit)?.ToList();
         }
 
-        public bool HasRecord(Func<T, bool> predicate)
+        public bool HasRecord(in Func<T, bool> predicate)
         {
             return recordList.Any(predicate);
         }

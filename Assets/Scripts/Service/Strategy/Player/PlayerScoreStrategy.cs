@@ -16,7 +16,7 @@ namespace Service.Strategy
 {
     public sealed class PlayerScoreStrategy : BaseStrategy
     {
-        public override Response Update(object parameter)
+        public override Response Update(in object parameter)
         {
             var clearCount = parameter.ToInt32();
             var ubl = new UserBizLogic();

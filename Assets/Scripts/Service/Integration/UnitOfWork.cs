@@ -126,14 +126,14 @@ namespace Service.Integration
             postAddRecordList.Clear();
         }
 
-        public bool RegisterAddRecord(T record)
+        public bool RegisterAddRecord(in T record)
         {
             if (!IsValid(addRecordList, record)) return false;
             addRecordList.Add(record);
             return true;
         }
 
-        public bool RegisterUpdateRecord(T record)
+        public bool RegisterUpdateRecord(in T record)
         {
             if (!IsValid(removeRecordList, record)) return false;
             if (!IsValid(updateRecordList, record)) return false;
@@ -141,7 +141,7 @@ namespace Service.Integration
             return true;
         }
 
-        public bool RegisterRemoveRecord(T record)
+        public bool RegisterRemoveRecord(in T record)
         {
             if (!IsValid(removeRecordList, record)) return false;
             if (!IsValid(updateRecordList, record)) return false;
@@ -149,7 +149,7 @@ namespace Service.Integration
             return true;
         }
 
-        private bool IsValid(List<T> recordList, T record)
+        private bool IsValid(in List<T> recordList, in T record)
         {
             if (0 == record.id) return false;
             var left = 0;

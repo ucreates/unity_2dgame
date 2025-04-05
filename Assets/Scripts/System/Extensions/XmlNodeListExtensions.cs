@@ -5,14 +5,14 @@ namespace Core.Extensions
 {
     public static class XmlNodeListExtensions
     {
-        public static void ForEach(this XmlNodeList xmlNodeList, Action<XmlAttribute> action)
+        public static void ForEach(this XmlNodeList xmlNodeList, in Action<XmlAttribute> action)
         {
             foreach (XmlElement item in xmlNodeList)
             foreach (XmlAttribute attribute in item.Attributes)
                 action?.Invoke(attribute);
         }
 
-        public static void ForEach(this XmlNodeList xmlNodeList, Func<XmlAttribute, bool> callback)
+        public static void ForEach(this XmlNodeList xmlNodeList, in Func<XmlAttribute, bool> callback)
         {
             foreach (XmlElement item in xmlNodeList)
             foreach (XmlAttribute attribute in item.Attributes)

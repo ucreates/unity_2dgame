@@ -16,7 +16,7 @@ namespace Service.Strategy
 {
     public sealed class ShopBuyStrategy : BaseStrategy
     {
-        public override Response Update(object parameter)
+        public override Response Update(in object parameter)
         {
             var paramBody = ((int itemId, int amount))parameter;
             var sret = new Response();

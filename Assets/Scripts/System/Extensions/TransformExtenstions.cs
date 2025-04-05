@@ -34,7 +34,7 @@ namespace Core.Extensions
 
     public static class TransformExtensions
     {
-        public static void Easing(this Transform source, EaseType easeType, Afin afin, float currentTime, float start, float end, float totalTime, bool fillX, bool fillY, bool fillZ, Func<float, float, float, Vector3> cb = null)
+        public static void Easing(this Transform source, EaseType easeType, Afin afin, float currentTime, float start, float end, float totalTime, bool fillX, bool fillY, bool fillZ, in Func<float, float, float, Vector3> cb = null)
         {
             var easeValue = 0f;
             switch (easeType)
