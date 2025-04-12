@@ -60,9 +60,15 @@ namespace Frontend.Component.State
                 if (finiteStateEntity.isNewState)
                 {
                     if (null != paramter)
+                    {
+                        finiteStateEntity.state.notifyParameter = paramter;
                         finiteStateEntity.state.Create(paramter);
+                    }
                     else
+                    {
                         finiteStateEntity.state.Create();
+                    }
+
                     finiteStateEntity.isNewState = false;
                 }
 

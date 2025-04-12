@@ -34,6 +34,8 @@ namespace Frontend.Component.State
 
         public T owner { get; set; }
 
+        public object notifyParameter { protected get; set; }
+
         public virtual void Create()
         {
         }

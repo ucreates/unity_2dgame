@@ -18,7 +18,7 @@ namespace Service.Strategy
     {
         public override Response Update(in object parameter)
         {
-            var paramBody = ((int itemId, int amount))parameter;
+            var paramBody = ((int itemId, int amount, string messsage))parameter;
             var sret = new Response();
             var ubl = new UserBizLogic();
             var ibl = new ItemBizLogic();
@@ -35,7 +35,9 @@ namespace Service.Strategy
             if (ret)
             {
                 ibl.BuyItem(mut.id, paramBody.itemId, paramBody.amount);
-                sret.Set("message", StoreAssembler.VALID_PURCHASE_SUCCESS);
+                var item = ibl.GetMasterByItemId(paramBody.itemId);
+                var message = $"{item.name} を{paramBody.amount}個 購入しました";
+                sret.Set("message", message);
                 sret.resultStatus = Response.ServiceStatus.SUCCESS;
             }
             else

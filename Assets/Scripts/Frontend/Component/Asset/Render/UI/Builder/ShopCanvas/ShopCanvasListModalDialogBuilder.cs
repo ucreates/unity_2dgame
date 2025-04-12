@@ -8,7 +8,9 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.Extensions;
 using Service.Integration.Table;
 using UnityEngine;
@@ -66,9 +68,18 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
 
         public override void Build()
         {
+            Func<string, int> getIndex = category => category switch
+            {
+                string when category.IsNullOrEmpty() => -1,
+                string when category.ToLower().Contains("typea") => 0,
+                string when category.ToLower().Contains("typeb") => 1,
+                string when category.ToLower().Contains("typec") => 2,
+                string when category.ToLower().Contains("typed") => 3
+            };
             textList.ForEach(text =>
             {
                 if (!text.isActiveAndEnabled) return;
+                var index = -1;
                 switch (text.name)
                 {
                     case "CompleteBuyText":
@@ -77,29 +88,23 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                     case "RemainingCoinText":
                         text.text = $"coin:{coin}";
                         break;
-                    case "ItemTypeAText":
-                        text.text = itemMasterList[0].name;
+                    case string name when name.ToLower().Contains("name"):
+                        index = getIndex(name);
+                        text.text = itemMasterList[index].name;
                         break;
-                    case "ItemTypeBText":
-                        text.text = itemMasterList[1].name;
+                    case string name when name.ToLower().Contains("price"):
+                        index = getIndex(name);
+                        text.text = itemMasterList[index].price.ToString();
                         break;
-                    case "ItemTypeCText":
-                        text.text = itemMasterList[2].name;
-                        break;
-                    case "ItemTypeDText":
-                        text.text = itemMasterList[3].name;
-                        break;
-                    case "ItemAPriceText":
-                        text.text = itemMasterList[0].price.ToString();
-                        break;
-                    case "ItemBPriceText":
-                        text.text = itemMasterList[1].price.ToString();
-                        break;
-                    case "ItemCPriceText":
-                        text.text = itemMasterList[2].price.ToString();
-                        break;
-                    case "ItemDPriceText":
-                        text.text = itemMasterList[3].price.ToString();
+                }
+            });
+            imageList.Where(image => image.name.ToLower().Contains("itemtype")).ForEach(image =>
+            {
+                switch (image.name)
+                {
+                    case string name when name.ToLower().Contains("item"):
+                        var sprite = itemSpriteList[getIndex(name)];
+                        image.sprite = sprite;
                         break;
                 }
             });

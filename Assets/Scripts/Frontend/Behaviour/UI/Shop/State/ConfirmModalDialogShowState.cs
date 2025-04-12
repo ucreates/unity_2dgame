@@ -28,17 +28,14 @@ namespace Frontend.Behaviour.State.UI.Shop
 
         private float previousAlpha { get; set; }
 
-        private object notifyParameter { get; set; }
-
         public override void Create(object paramter)
         {
             var allSpriteList = Resources.LoadAll<Sprite>("Textures");
             var itemSpriteList = new List<Sprite>();
-            for (var i = 0; i < allSpriteList.Length; i++)
+            allSpriteList.ForEach(sprite =>
             {
-                var sprite = allSpriteList[i];
                 if (sprite.name.Contains("shop_item_type")) itemSpriteList.Add(sprite);
-            }
+            });
 
             var itemId = paramter.ToInt32();
             Session.GetInstance()?.Add("itemId", itemId);

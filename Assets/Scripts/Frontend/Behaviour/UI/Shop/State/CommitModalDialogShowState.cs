@@ -8,6 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System.Collections.Generic;
 using Core.Extensions;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
@@ -24,12 +25,15 @@ namespace Frontend.Behaviour.State.UI.Shop
 
         private float previousAlpha { get; set; }
 
-        private object notifyParameter { get; set; }
-
         public override void Create(object paramter)
         {
-            notifyParameter = paramter;
-            var message = paramter.ToString();
+            var allSpriteList = Resources.LoadAll<Sprite>("Textures");
+            var itemSpriteList = new List<Sprite>();
+            allSpriteList.ForEach(sprite =>
+            {
+                if (sprite.name.Contains("shop_item_type")) itemSpriteList.Add(sprite);
+            });
+            var parameters = ((int itemId, int amount, string messsage))paramter;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             alphaTimeLine = new TimeLine();
@@ -40,7 +44,8 @@ namespace Frontend.Behaviour.State.UI.Shop
             else
                 builder?.Reset();
             builder
-                ?.AddCommitMessage(message)
+                ?.AddItemSpriteList(itemSpriteList)
+                ?.AddCommitMessage(parameters.messsage)
                 ?.AddTransform(owner.transform)
                 ?.AddAlpha(0f)
                 ?.AddEnabled(false)

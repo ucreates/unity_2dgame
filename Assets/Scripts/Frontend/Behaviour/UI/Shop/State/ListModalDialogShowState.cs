@@ -10,6 +10,7 @@
 
 using System.Collections.Generic;
 using Core.Extensions;
+using Core.Extensions.Array;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
 using Frontend.Component.Vfx;
@@ -46,22 +47,20 @@ namespace Frontend.Behaviour.State.UI.Shop
             else
                 builder?.Reset();
             var itemTypeList = new string[4] { "A", "B", "C", "D" };
-            for (var i = 0; i < itemTypeList.Length; i++)
+            itemTypeList.ForEach(itemType =>
             {
-                var type = itemTypeList[i];
-                var buyButtonTrsfrm = owner.transform.Find($"ListModalDialog/Type{type}BuyButton");
+                var buyButtonTrsfrm = owner.transform.Find($"ListModalDialog/Type{itemType}BuyButton");
                 var buyButton = buyButtonTrsfrm.GetComponent<Button>();
-                if (itemIdList.Contains(type)) buyButton.enabled = false;
-            }
+                if (itemIdList.Contains(itemType)) buyButton.enabled = false;
+            });
 
             var dialogtrsfrm = owner.transform.Find("ListModalDialog");
-            var allSpriteList = Resources.LoadAll<Sprite>("Sprite");
             var itemSpriteList = new List<Sprite>();
-            for (var i = 0; i < allSpriteList.Length; i++)
+            var allSpriteList = Resources.LoadAll<Sprite>("Textures");
+            allSpriteList.ForEach(sprite =>
             {
-                var sprite = allSpriteList[i];
                 if (sprite.name.Contains("shop_item_type")) itemSpriteList.Add(sprite);
-            }
+            });
 
             builder
                 ?.AddItemSpriteList(itemSpriteList)

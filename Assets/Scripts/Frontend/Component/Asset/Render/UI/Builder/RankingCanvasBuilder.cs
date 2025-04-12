@@ -47,49 +47,48 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
         {
             var ny = 0f;
             var size = spriteList.FirstOrDefault()?.rect.size ?? Vector2.zero;
-            for (var i = 0; i < scoreTableList.Count; i++)
-            {
-                var spriteIndex = i + 1;
-                var image = new GameObject("RankingImage");
-                var rankingImage = image.AddComponent<Image>();
-                rankingImage.transform.SetParent(canvas.transform);
-                rankingImage.rectTransform.sizeDelta = size;
-                rankingImage.rectTransform.localScale = scale;
-                rankingImage.rectTransform.anchoredPosition = position + new Vector3(0f, -ny, 0f);
-                rankingImage.sprite = spriteList[spriteIndex];
-                imageList.Add(rankingImage);
-                var score = scoreTableList[i];
-                var user = userTableList[i];
-                var text = new GameObject("RankingText");
-                var rankingText = text.AddComponent<Text>();
-                rankingText.transform.SetParent(canvas.transform);
-                rankingText.rectTransform.anchoredPosition = position + new Vector3(60f, -ny, 10f);
-                rankingText.rectTransform.localScale = scale;
-                rankingText.rectTransform.sizeDelta = new Vector2(100f, 30f);
-                rankingText.fontSize = 14;
-                rankingText.alignment = TextAnchor.MiddleLeft;
-                rankingText.font = (Font)Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf");
-                rankingText.fontStyle = FontStyle.Normal;
-                rankingText.text = $"{user.nickName} {score.clearCount} points.";
-                rankingText.color = Color.black;
-                rankingText.horizontalOverflow = HorizontalWrapMode.Wrap;
-                rankingText.verticalOverflow = VerticalWrapMode.Overflow;
-                textList.Add(rankingText);
-                ny += size.y + 10f;
-            }
+            scoreTableList.For((i, score) =>
+                {
+                    var spriteIndex = i + 1;
+                    var image = new GameObject("RankingImage");
+                    var rankingImage = image.AddComponent<Image>();
+                    rankingImage.transform.SetParent(canvas.transform);
+                    rankingImage.rectTransform.sizeDelta = size;
+                    rankingImage.rectTransform.localScale = scale;
+                    rankingImage.rectTransform.anchoredPosition = position + new Vector3(0f, -ny, 0f);
+                    rankingImage.sprite = spriteList[spriteIndex];
+                    imageList.Add(rankingImage);
+                    var user = userTableList[i];
+                    var text = new GameObject("RankingText");
+                    var rankingText = text.AddComponent<Text>();
+                    rankingText.transform.SetParent(canvas.transform);
+                    rankingText.rectTransform.anchoredPosition = position + new Vector3(60f, -ny, 10f);
+                    rankingText.rectTransform.localScale = scale;
+                    rankingText.rectTransform.sizeDelta = new Vector2(100f, 30f);
+                    rankingText.fontSize = 14;
+                    rankingText.alignment = TextAnchor.MiddleLeft;
+                    rankingText.font = (Font)Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf");
+                    rankingText.fontStyle = FontStyle.Normal;
+                    rankingText.text = $"{user.nickName} {score.clearCount} points.";
+                    rankingText.color = Color.black;
+                    rankingText.horizontalOverflow = HorizontalWrapMode.Wrap;
+                    rankingText.verticalOverflow = VerticalWrapMode.Overflow;
+                    textList.Add(rankingText);
+                    ny += size.y + 10f;
+                }
+            );
 
             Update();
         }
 
         public override void Update()
         {
-            for (var i = 0; i < textList.Count; i++)
+            textList.For((i, rankingText) =>
             {
-                var rankingText = textList[i];
                 var score = scoreTableList[i];
                 var user = userTableList[i];
                 rankingText.text = $"{user.nickName} {score.clearCount} points.";
-            }
+            });
 
             buttonList.ForEach(button =>
             {
