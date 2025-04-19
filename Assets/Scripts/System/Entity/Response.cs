@@ -8,9 +8,6 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Core.Entity
 {
     public sealed class Response
@@ -21,35 +18,10 @@ namespace Core.Entity
             FAILED = 0
         }
 
-        public Response()
-        {
-            responseDictionary = new Dictionary<string, BaseValue>();
-        }
-
-        public Dictionary<string, BaseValue> responseDictionary { get; }
-
         public string errorMessage { get; set; }
 
+        public object data { get; set; }
+
         public ServiceStatus resultStatus { get; set; }
-
-        public T Get<T>(string name)
-        {
-            if (responseDictionary.ContainsKey(name)) return (responseDictionary.FirstOrDefault(pair => pair.Key.Equals(name)).Value as Value<T>).value ?? default(T);
-
-            return default;
-        }
-
-        public bool Set<T>(string name, T responseValue)
-        {
-            if (!responseDictionary.ContainsKey(name))
-            {
-                var value = new Value<T>();
-                value.value = responseValue;
-                responseDictionary.Add(name, value);
-                return true;
-            }
-
-            return false;
-        }
     }
 }

@@ -25,8 +25,7 @@ namespace Service.Strategy
             var psbl = new SummaryBizLogic();
             psbl?.UpdateBestClearCount(clearCount);
             var bestClearCount = psbl?.GetBestClearCount() ?? 0;
-            sret.Set("clearcount", clearCount);
-            sret.Set("bestclearcount", bestClearCount);
+            sret.data = (clearCount, bestClearCount);
             sret.resultStatus = Response.ServiceStatus.SUCCESS;
             return sret;
         }

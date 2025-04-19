@@ -28,8 +28,7 @@ namespace Frontend.Behaviour.State
             strategy = ServiceGateway.GetInstance()?.Request("service://stats/player");
             strategy?.Clear();
             var ret = strategy?.Get();
-            var nickName = ret?.Get<string>("nickname");
-            var copyright = ret?.Get<string>("copyright");
+            var data = ((int clearCount, string nickname, string copylight))ret?.data;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             if (null == builder)
@@ -37,8 +36,8 @@ namespace Frontend.Behaviour.State
             else
                 builder?.Reset();
             builder
-                ?.AddNickName(nickName)
-                ?.AddCopyright(copyright)
+                ?.AddNickName(data.nickname)
+                ?.AddCopyright(data.copylight)
                 ?.AddSprite(owner.scoreSpriteList)
                 ?.AddTransform(owner.transform)
                 ?.AddPosition(new Vector3(0f, 250f, 0f))
@@ -48,10 +47,10 @@ namespace Frontend.Behaviour.State
         public override void Update()
         {
             var ret = strategy.Get();
-            var clearCount = ret?.Get<int>("clearcount") ?? 0;
-            var figure = Figure.CountFigure(clearCount);
+            var data = ((int clearCount, string nickname, string copylight))ret?.data;
+            var figure = Figure.CountFigure(data.clearCount);
             builder
-                ?.AddClearCount(clearCount)
+                ?.AddClearCount(data.clearCount)
                 ?.AddFigure(figure)
                 ?.Update();
         }

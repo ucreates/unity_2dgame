@@ -22,7 +22,7 @@ namespace Service.Strategy
             var sret = new Response();
             var ibl = new ItemBizLogic();
             var mit = ibl?.GetMasterByItemId(itemId) ?? null;
-            sret.Set("itemmaster", mit);
+            sret.data = mit;
             return sret;
         }
     }

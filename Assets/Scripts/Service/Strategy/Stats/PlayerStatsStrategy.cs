@@ -24,9 +24,7 @@ namespace Service.Strategy
             var clearCount = sbl?.GetClearCount(mut.id) ?? 0;
             var cbl = new CorporateBizLogic();
             var copyright = cbl?.GetCopyright();
-            ret.Set("clearcount", clearCount);
-            ret.Set("nickname", mut.nickName);
-            ret.Set("copyright", copyright);
+            ret.data = (clearCount, mut.nickName, copyright);
             ret.resultStatus = Response.ServiceStatus.SUCCESS;
             return ret;
         }

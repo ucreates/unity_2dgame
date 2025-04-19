@@ -9,6 +9,7 @@
 //======================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Core.Extensions;
 using Core.Extensions.Array;
 using Frontend.Component.Asset.Renderer.UI.Builder;
@@ -34,9 +35,7 @@ namespace Frontend.Behaviour.State.UI.Shop
             var response = ServiceGateway.GetInstance()
                 ?.Request("service://shop/list")
                 ?.Get();
-            var itemIdList = response?.Get<List<string>>("itemidlist");
-            var coin = response?.Get<int>("coin") ?? 0;
-            var itemMasterList = response?.Get<List<MItemTable>>("itemmasterlist");
+            var data = ((List<string> itemIdList, List<MItemTable> itemMasterList, int coin))response?.data;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             alphaTimeLine = new TimeLine();
@@ -51,21 +50,16 @@ namespace Frontend.Behaviour.State.UI.Shop
             {
                 var buyButtonTrsfrm = owner.transform.Find($"ListModalDialog/Type{itemType}BuyButton");
                 var buyButton = buyButtonTrsfrm.GetComponent<Button>();
-                if (itemIdList.Contains(itemType)) buyButton.enabled = false;
+                if (data.itemIdList.Contains(itemType)) buyButton.enabled = false;
             });
 
             var dialogtrsfrm = owner.transform.Find("ListModalDialog");
-            var itemSpriteList = new List<Sprite>();
             var allSpriteList = Resources.LoadAll<Sprite>("Textures");
-            allSpriteList.ForEach(sprite =>
-            {
-                if (sprite.name.Contains("shop_item_type")) itemSpriteList.Add(sprite);
-            });
-
+            var itemSpriteList = allSpriteList.Where(sprite => sprite.name.Contains("shop_item_type")).ToList();
             builder
                 ?.AddItemSpriteList(itemSpriteList)
-                ?.AddItemMasterList(itemMasterList)
-                ?.AddCoin(coin)
+                ?.AddItemMasterList(data.itemMasterList)
+                ?.AddCoin(data.coin)
                 ?.AddTransform(dialogtrsfrm.transform)
                 ?.AddAlpha(0f)
                 ?.AddEnabled(false)

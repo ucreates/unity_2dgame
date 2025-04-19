@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
 using Service;
+using Service.Integration.Table;
 using UnityEngine;
 
 namespace Frontend.Behaviour.State.UI.Shop
@@ -30,9 +31,9 @@ namespace Frontend.Behaviour.State.UI.Shop
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             var trsfrm = owner.transform.Find("ListModalDialog");
-            var itemIdList = response.Get<List<string>>("itemidlist");
+            var data = ((List<string> itemIdList, List<MItemTable> tableList, int coin))response.data;
             builder
-                ?.AddItemList(itemIdList)
+                ?.AddItemList(data.itemIdList)
                 ?.AddTransform(trsfrm)
                 ?.AddAlpha(1f)
                 ?.Update();

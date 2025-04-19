@@ -32,8 +32,7 @@ namespace Frontend.Behaviour.State
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             var response = ServiceGateway.GetInstance()?.Request("service://stats/ranking")?.Get();
-            var rankingList = response?.Get<List<TScoreTable>>("rankinglist");
-            var userList = response?.Get<List<MUserTable>>("userlist");
+            var data = ((List<TScoreTable> rankingList, List<MUserTable> userList))response?.data;
             if (null == builder)
             {
                 var campanynametrsfrm = owner.transform.Find("BackGroundImage");
@@ -42,8 +41,8 @@ namespace Frontend.Behaviour.State
                 var confirmButton = sb.GetComponent<Button>();
                 builder = new RankingCanvasBuilder();
                 builder
-                    ?.AddScoreTableList(rankingList)
-                    ?.AddUserTableList(userList)
+                    ?.AddScoreTableList(data.rankingList)
+                    ?.AddUserTableList(data.userList)
                     ?.AddSprite(owner.scoreSpriteList)
                     ?.AddCanvas(canvas)
                     ?.AddImage(bgImage)
@@ -57,8 +56,8 @@ namespace Frontend.Behaviour.State
             else
             {
                 builder
-                    ?.AddScoreTableList(rankingList)
-                    ?.AddUserTableList(userList)
+                    ?.AddScoreTableList(data.rankingList)
+                    ?.AddUserTableList(data.userList)
                     ?.Reset();
             }
 

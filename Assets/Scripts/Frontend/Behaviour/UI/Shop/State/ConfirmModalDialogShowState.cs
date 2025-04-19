@@ -8,7 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using System.Collections.Generic;
+using System.Linq;
 using Core.Entity;
 using Core.Extensions;
 using Frontend.Component.Asset.Renderer.UI.Builder;
@@ -31,18 +31,13 @@ namespace Frontend.Behaviour.State.UI.Shop
         public override void Create(object paramter)
         {
             var allSpriteList = Resources.LoadAll<Sprite>("Textures");
-            var itemSpriteList = new List<Sprite>();
-            allSpriteList.ForEach(sprite =>
-            {
-                if (sprite.name.Contains("shop_item_type")) itemSpriteList.Add(sprite);
-            });
-
+            var itemSpriteList = allSpriteList.Where(sprite => sprite.name.Contains("shop_item_type")).ToList();
             var itemId = paramter.ToInt32();
             Session.GetInstance()?.Add("itemId", itemId);
             var response = ServiceGateway.GetInstance()
                 ?.Request("service://shop/confirm")
                 ?.Get(itemId);
-            var itemmaster = response.Get<MItemTable>("itemmaster");
+            var itemmaster = response?.data as MItemTable;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             alphaTimeLine = new TimeLine();

@@ -8,7 +8,7 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
-using System.Collections.Generic;
+using System.Linq;
 using Core.Extensions;
 using Frontend.Component.Asset.Renderer.UI.Builder;
 using Frontend.Component.State;
@@ -28,11 +28,7 @@ namespace Frontend.Behaviour.State.UI.Shop
         public override void Create(object paramter)
         {
             var allSpriteList = Resources.LoadAll<Sprite>("Textures");
-            var itemSpriteList = new List<Sprite>();
-            allSpriteList.ForEach(sprite =>
-            {
-                if (sprite.name.Contains("shop_item_type")) itemSpriteList.Add(sprite);
-            });
+            var itemSpriteList = allSpriteList.Where(sprite => sprite.name.Contains("shop_item_type")).ToList();
             var parameters = ((int itemId, int amount, string messsage))paramter;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;

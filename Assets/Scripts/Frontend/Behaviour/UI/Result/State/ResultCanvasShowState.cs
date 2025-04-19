@@ -35,7 +35,8 @@ namespace Frontend.Behaviour.State
             if (null != currentScoreBuilder) currentScoreBuilder?.Reset();
             if (null != bestScoreBuilder) bestScoreBuilder?.Reset();
             if (null != emblemBuilder) emblemBuilder?.Reset();
-            var clearCount = sret.Get<int>("clearcount");
+            var data = ((int clearCount, int bestClearCount))sret?.data;
+            var clearCount = data.clearCount;
             var crearCountFigure = Figure.CountFigure(clearCount);
             currentScoreBuilder = new PlayCanvasBuilder();
             currentScoreBuilder
@@ -46,7 +47,7 @@ namespace Frontend.Behaviour.State
                 ?.AddScale(new Vector3(0.5f, 0.5f, 1f))
                 ?.AddPosition(new Vector3(65f, 25f, 0f))
                 ?.Build();
-            var bestClearCount = sret?.Get<int>("bestclearcount") ?? 0;
+            var bestClearCount = data.bestClearCount;
             var bestCrearCountFigure = Figure.CountFigure(bestClearCount);
             bestScoreBuilder = new PlayCanvasBuilder();
             bestScoreBuilder

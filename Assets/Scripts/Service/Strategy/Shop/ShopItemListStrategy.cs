@@ -30,9 +30,7 @@ namespace Service.Strategy
                     hadItemIdList.Add(record.name);
             });
             var itemMasterList = ibl.GetAllItemMaster();
-            ret.Set("itemidlist", hadItemIdList);
-            ret.Set("itemmasterlist", itemMasterList);
-            ret.Set("coin", mut.coin);
+            ret.data = (hadItemIdList, itemMasterList, mut.coin);
             return ret;
         }
     }

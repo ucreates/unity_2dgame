@@ -139,7 +139,7 @@ public sealed class EventHandler : BaseBehaviour
         var response = ServiceGateway.GetInstance()
             ?.Request("service://shop/buy")
             ?.Update(parameter);
-        parameter.message = response?.Get<string>("message");
+        parameter.message = response?.data.ToString();
         var notifier = Notifier.GetInstance();
         notifier?.Notify(NotifyMessage.Title.ShopCommitShow, parameter);
     }
