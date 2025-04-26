@@ -33,16 +33,16 @@ namespace Frontend.Component.Vfx
 
         public float Update()
         {
-            var cond = Random.Range(0, 10);
-            var sh = rate;
-            cond = Random.Range(0, 10);
-            if (0 == cond % 2) sh *= -1;
+            var condition = Random.Range(0, 10);
+            var currentRate = rate;
+            condition = Random.Range(0, 10);
+            if (0 == condition % 2) currentRate *= -1;
             if ((Application.platform == RuntimePlatform.IPhonePlayer ||
                  Application.platform == RuntimePlatform.Android) &&
                 SystemInfo.supportsVibration)
                 Handheld.Vibrate();
             rate *= FRICTION;
-            return baseValue + sh;
+            return baseValue + currentRate;
         }
     }
 }

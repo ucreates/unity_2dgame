@@ -30,11 +30,11 @@ namespace Frontend.Behaviour.State.UI.Shop
             var response = ServiceGateway.GetInstance()?.Request("service://shop/list")?.Get();
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
-            var trsfrm = owner.transform.Find("ListModalDialog");
+            var listModalDialogObject = owner.transform.Find("ListModalDialog");
             var data = ((List<string> itemIdList, List<MItemTable> tableList, int coin))response.data;
             builder
                 ?.AddItemList(data.itemIdList)
-                ?.AddTransform(trsfrm)
+                ?.AddTransform(listModalDialogObject)
                 ?.AddAlpha(1f)
                 ?.Update();
         }

@@ -22,9 +22,9 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<TScoreTable>();
-            var ret = dao?.FindBy(record => record.userId == userId);
+            var transaction = dao?.FindBy(record => record.userId == userId);
             var clearCount = 0;
-            if (0 < ret.Count) clearCount = ret.FirstOrDefault()?.clearCount ?? 0;
+            if (0 < transaction.Count) clearCount = transaction.FirstOrDefault()?.clearCount ?? 0;
             return clearCount;
         }
 
@@ -32,10 +32,10 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<TScoreTable>();
-            var ret = dao?.FindBy(record => record.userId == userId);
-            if (0 < ret.Count)
+            var transaction = dao?.FindBy(record => record.userId == userId);
+            if (0 < transaction.Count)
             {
-                var record = ret.FirstOrDefault();
+                var record = transaction.FirstOrDefault();
                 record.clearCount += clearCount;
                 return dao?.Update(record) ?? false;
             }
@@ -47,10 +47,10 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<TScoreTable>();
-            var ret = dao?.FindBy(record => record.userId == userId);
-            if (0 < ret.Count)
+            var transaction = dao?.FindBy(record => record.userId == userId);
+            if (0 < transaction.Count)
             {
-                var record = ret.FirstOrDefault();
+                var record = transaction.FirstOrDefault();
                 record.clearCount = clearCount;
                 return dao?.Update(record) ?? false;
             }
@@ -80,13 +80,13 @@ namespace Service.BizLogic
         public bool Clear()
         {
             var ubl = new UserBizLogic();
-            var mut = ubl.GetPlayer();
+            var userMaster = ubl.GetPlayer();
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<TScoreTable>();
-            var ret = dao?.FindBy(record => record.userId == mut.id);
-            if (0 < ret.Count)
+            var scoreTransaction = dao?.FindBy(record => record.userId == userMaster.id);
+            if (0 < scoreTransaction.Count)
             {
-                var record = ret.FirstOrDefault();
+                var record = scoreTransaction.FirstOrDefault();
                 record.clearCount = 0;
                 return dao?.Update(record) ?? false;
             }
@@ -96,47 +96,47 @@ namespace Service.BizLogic
 
         public bool AddNewUserScore(int userId)
         {
-            var table = new TScoreTable();
-            table.userId = userId;
-            return AddNewUserScore(table);
+            var transaction = new TScoreTable();
+            transaction.userId = userId;
+            return AddNewUserScore(transaction);
         }
 
         public bool AddNewUserScore(TScoreTable table)
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<TScoreTable>();
-            var ret = dao?.FindBy(record => record.userId == table.userId);
-            if (0 != ret.Count) return false;
+            var transaction = dao?.FindBy(record => record.userId == table.userId);
+            if (0 != transaction.Count) return false;
             return dao?.Save(table) ?? false;
         }
 
         public void AddNewUserScore(List<TScoreTable> tableList)
         {
-            var muow = new UnitOfWork<TScoreTable>();
-            muow.addRecordList = tableList;
-            muow.Commit();
+            var uow = new UnitOfWork<TScoreTable>();
+            uow.addRecordList = tableList;
+            uow.Commit();
         }
 
         public List<TScoreTable> GetRankingList()
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<TScoreTable>();
-            var recordList = dao?.FindAll();
-            for (var i = 0; i < recordList.Count; i++)
-            for (var j = recordList.Count - 1; j > i; j--)
+            var transactionList = dao?.FindAll();
+            for (var i = 0; i < transactionList.Count; i++)
+            for (var j = transactionList.Count - 1; j > i; j--)
             {
                 var previousIndex = j - 1;
-                var recordA = recordList[j];
-                var recordB = recordList[previousIndex];
+                var recordA = transactionList[j];
+                var recordB = transactionList[previousIndex];
                 if (recordA.clearCount > recordB.clearCount)
                 {
-                    var tmp = recordList[previousIndex];
-                    recordList[previousIndex] = recordList[j];
-                    recordList[j] = tmp;
+                    var tmp = transactionList[previousIndex];
+                    transactionList[previousIndex] = transactionList[j];
+                    transactionList[j] = tmp;
                 }
             }
 
-            return recordList.GetRange(0, 5);
+            return transactionList.GetRange(0, 5);
         }
     }
 }

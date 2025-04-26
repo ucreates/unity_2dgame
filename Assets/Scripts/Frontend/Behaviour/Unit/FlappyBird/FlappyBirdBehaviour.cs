@@ -58,25 +58,25 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
     {
         if (coll.gameObject.CompareTag("Barrier") && !stateMachine.finiteStateEntity.currentStateName.Equals("dead"))
         {
-            var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("bird_hit");
-            soundAsset?.Play();
+            var se = SoundAssetCollection.GetInstance().GetSeAsset("bird_hit");
+            se?.Play();
             stateMachine?.Change("dead");
         }
     }
 
-    private void OnCollisionStay2D(Collision2D coll)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (coll.gameObject.name.Equals("LandCollision")) stateMachine?.Change("gameover");
+        if (collision.gameObject.name.Equals("LandCollision")) stateMachine?.Change("gameover");
     }
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (coll.gameObject.CompareTag("HitArea") &&
+        if (collision.gameObject.CompareTag("HitArea") &&
             (stateMachine.finiteStateEntity.currentStateName.Equals("go") ||
              stateMachine.finiteStateEntity.currentStateName.Equals("fall")))
         {
-            var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("point");
-            soundAsset?.Play();
+            var se = SoundAssetCollection.GetInstance().GetSeAsset("point");
+            se?.Play();
             ServiceGateway.GetInstance()
                 ?.Request("service://player/score")
                 ?.Update(1);

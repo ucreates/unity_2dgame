@@ -22,17 +22,17 @@ namespace Frontend.Behaviour.State
         public override void Create()
         {
             generateTimeLine = new TimeLine();
-            var gy = Random.Range(-2f, 2f);
-            ResourceGenerator.Generate("Prefabs/ClayPipe", new Vector3(5f, gy, 0f), Quaternion.identity);
+            var y = Random.Range(-2f, 2f);
+            ResourceGenerator.Generate("Prefabs/ClayPipe", new Vector3(5f, y, 0f), Quaternion.identity);
         }
 
         public override void Update()
         {
-            var ct = generateTimeLine?.currentTime ?? 0f;
-            if (ct >= 2f)
+            var time = generateTimeLine?.currentTime ?? 0f;
+            if (time >= 2f)
             {
-                var gy = Random.Range(-2f, 2f);
-                ResourceGenerator.Generate("Prefabs/ClayPipe", new Vector3(5f, gy, 0f), Quaternion.identity);
+                var y = Random.Range(-2f, 2f);
+                ResourceGenerator.Generate("Prefabs/ClayPipe", new Vector3(5f, y, 0f), Quaternion.identity);
                 generateTimeLine.Restore();
             }
 

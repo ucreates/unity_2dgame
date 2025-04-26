@@ -39,14 +39,14 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
         public override void Build()
         {
             var size = spriteList.FirstOrDefault()?.rect.size ?? Vector2.zero;
-            var image = new GameObject("Emblem");
-            emblemImage = image.AddComponent<Image>();
+            var emblemObject = new GameObject("Emblem");
+            emblemImage = emblemObject.AddComponent<Image>();
             emblemImage.rectTransform.SetParent(canvas.transform);
             emblemImage.rectTransform.sizeDelta = size;
             emblemImage.rectTransform.localScale = scale;
             emblemImage.rectTransform.anchoredPosition = Vector3.zero;
             var totalWidth = spriteList.FirstOrDefault()?.rect.size.x * scale.x ?? 0f;
-            var sx = totalWidth / 2f;
+            var halfWidth = totalWidth / 2f;
             var sprite = spriteList.FirstOrDefault();
             if (WHITE_MEDAL_SCORE < clearCount && clearCount <= BRONZE_MEDAL_SCORE)
                 sprite = spriteList[3];
@@ -54,7 +54,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                 sprite = spriteList[2];
             else if (SILVER_MEDAL_SCORE < clearCount) sprite = spriteList[1];
             emblemImage.sprite = sprite;
-            emblemImage.rectTransform.anchoredPosition = new Vector3(sx + position.x, position.y, 0f);
+            emblemImage.rectTransform.anchoredPosition = new Vector3(halfWidth + position.x, position.y, 0f);
             imageList.Add(emblemImage);
         }
 

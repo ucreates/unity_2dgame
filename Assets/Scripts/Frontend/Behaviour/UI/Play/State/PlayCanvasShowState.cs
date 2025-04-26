@@ -27,8 +27,8 @@ namespace Frontend.Behaviour.State
         {
             strategy = ServiceGateway.GetInstance()?.Request("service://stats/player");
             strategy?.Clear();
-            var ret = strategy?.Get();
-            var data = ((int clearCount, string nickname, string copylight))ret?.data;
+            var response = strategy?.Get();
+            var data = ((int clearCount, string nickname, string copylight))response?.data;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             if (null == builder)
@@ -46,8 +46,8 @@ namespace Frontend.Behaviour.State
 
         public override void Update()
         {
-            var ret = strategy.Get();
-            var data = ((int clearCount, string nickname, string copylight))ret?.data;
+            var response = strategy.Get();
+            var data = ((int clearCount, string nickname, string copylight))response?.data;
             var figure = Figure.CountFigure(data.clearCount);
             builder
                 ?.AddClearCount(data.clearCount)

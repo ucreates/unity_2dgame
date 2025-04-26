@@ -25,8 +25,6 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
             userTableList = new List<MUserTable>();
         }
 
-        private string copyright { get; set; }
-
         private List<MUserTable> userTableList { get; set; }
 
         private List<TScoreTable> scoreTableList { get; set; }
@@ -45,24 +43,24 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
 
         public override void Build()
         {
-            var ny = 0f;
+            var nextY = 0f;
             var size = spriteList.FirstOrDefault()?.rect.size ?? Vector2.zero;
             scoreTableList.For((i, score) =>
                 {
                     var spriteIndex = i + 1;
-                    var image = new GameObject("RankingImage");
-                    var rankingImage = image.AddComponent<Image>();
+                    var rankingImageObject = new GameObject("RankingImage");
+                    var rankingImage = rankingImageObject.AddComponent<Image>();
                     rankingImage.transform.SetParent(canvas.transform);
                     rankingImage.rectTransform.sizeDelta = size;
                     rankingImage.rectTransform.localScale = scale;
-                    rankingImage.rectTransform.anchoredPosition = position + new Vector3(0f, -ny, 0f);
+                    rankingImage.rectTransform.anchoredPosition = position + new Vector3(0f, -nextY, 0f);
                     rankingImage.sprite = spriteList[spriteIndex];
                     imageList.Add(rankingImage);
                     var user = userTableList[i];
-                    var text = new GameObject("RankingText");
-                    var rankingText = text.AddComponent<Text>();
+                    var rankingTextObject = new GameObject("RankingText");
+                    var rankingText = rankingTextObject.AddComponent<Text>();
                     rankingText.transform.SetParent(canvas.transform);
-                    rankingText.rectTransform.anchoredPosition = position + new Vector3(60f, -ny, 10f);
+                    rankingText.rectTransform.anchoredPosition = position + new Vector3(60f, -nextY, 10f);
                     rankingText.rectTransform.localScale = scale;
                     rankingText.rectTransform.sizeDelta = new Vector2(100f, 30f);
                     rankingText.fontSize = 14;
@@ -74,7 +72,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                     rankingText.horizontalOverflow = HorizontalWrapMode.Wrap;
                     rankingText.verticalOverflow = VerticalWrapMode.Overflow;
                     textList.Add(rankingText);
-                    ny += size.y + 10f;
+                    nextY += size.y + 10f;
                 }
             );
 

@@ -26,23 +26,23 @@ namespace Frontend.Behaviour.State
 
         public override void Create(object parameter)
         {
-            var paramBody = (ValidatorResponse)parameter;
+            var validatorResponse = (ValidatorResponse)parameter;
             previousAlpha = 0f;
             alphaTimeLine = new TimeLine();
-            var md = owner.transform.Find("ModalDialog");
-            var mdimg = md.GetComponent<Image>();
-            mdimg.gameObject.SetActive(false);
-            var ed = owner.transform.Find("ErrorDialog");
-            var edimg = ed.GetComponent<Image>();
-            edimg.gameObject.SetActive(true);
+            var modalDialogObject = owner.transform.Find("ModalDialog");
+            var modalDialogImage = modalDialogObject.GetComponent<Image>();
+            modalDialogImage.gameObject.SetActive(false);
+            var errorDialogObject = owner.transform.Find("ErrorDialog");
+            var errorDialogImage = errorDialogObject.GetComponent<Image>();
+            errorDialogImage.gameObject.SetActive(true);
             if (null == builder)
                 builder = new InputUIAssetErrorDialogBuilder();
             else
                 builder?.Reset();
             builder
-                ?.AddErrorMessage(paramBody.GetMessageList())
+                ?.AddErrorMessage(validatorResponse.GetMessageList())
                 ?.AddAlpha(0f)
-                ?.AddTransform(ed)
+                ?.AddTransform(errorDialogObject)
                 ?.Build();
         }
 

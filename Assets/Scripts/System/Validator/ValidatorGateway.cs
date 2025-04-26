@@ -42,8 +42,8 @@ namespace Core.Validator
             var response = new ValidatorResponse();
             (parameter as Dictionary<string, object>).ForEach(pair =>
             {
-                var ctrlVldRes = IsValid(pair.Key.ToLower(), pair.Value.ToString());
-                response.responseList.AddRange(ctrlVldRes.responseList);
+                var isValid = IsValid(pair.Key.ToLower(), pair.Value.ToString());
+                response.responseList.AddRange(isValid.responseList);
             });
             return response;
         }

@@ -23,10 +23,10 @@ namespace Frontend.Behaviour.State.UI.Shop
                 builder = new ShopCanvasConfirmModalDialogBuilder();
             else
                 builder?.Reset();
-            var roottrsfrm = owner.transform.Find("ConfirmModalDialog");
+            var confirmModalDialogObject = owner.transform.Find("ConfirmModalDialog");
             builder
                 ?.AddAlpha(1f)
-                ?.AddTransform(roottrsfrm)
+                ?.AddTransform(confirmModalDialogObject)
                 ?.AddEnabled(true)
                 ?.Update();
         }

@@ -14,18 +14,18 @@ namespace Core.Math
     {
         public static int CountFigure(int number, int count = 1)
         {
-            var lcount = count;
-            var ret = number / 10;
-            if (ret <= 0) return lcount;
+            var nCount = count;
+            var result = number / 10;
+            if (result <= 0) return nCount;
 
-            return CountFigure(ret, ++lcount);
+            return CountFigure(result, ++nCount);
         }
 
         public static int GetSpeciFigureValue(int number, int figure = 1)
         {
-            var ret = number / (int)System.Math.Pow(10d, figure - 1);
-            ret = ret % 10;
-            return ret;
+            var result = number / (int)System.Math.Pow(10d, figure - 1);
+            result = result % 10;
+            return result;
         }
     }
 }

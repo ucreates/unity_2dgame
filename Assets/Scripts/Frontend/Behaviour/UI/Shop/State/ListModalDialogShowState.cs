@@ -45,22 +45,22 @@ namespace Frontend.Behaviour.State.UI.Shop
                 builder = new ShopCanvasListModalDialogBuilder();
             else
                 builder?.Reset();
-            var itemTypeList = new string[4] { "A", "B", "C", "D" };
-            itemTypeList.ForEach(itemType =>
+            var itemCategories = new string[4] { "A", "B", "C", "D" };
+            itemCategories.ForEach(itemType =>
             {
-                var buyButtonTrsfrm = owner.transform.Find($"ListModalDialog/Type{itemType}BuyButton");
-                var buyButton = buyButtonTrsfrm.GetComponent<Button>();
+                var buyButtonObject = owner.transform.Find($"ListModalDialog/Type{itemType}BuyButton");
+                var buyButton = buyButtonObject.GetComponent<Button>();
                 if (data.itemIdList.Contains(itemType)) buyButton.enabled = false;
             });
 
-            var dialogtrsfrm = owner.transform.Find("ListModalDialog");
-            var allSpriteList = Resources.LoadAll<Sprite>("Textures");
-            var itemSpriteList = allSpriteList.Where(sprite => sprite.name.Contains("shop_item_type")).ToList();
+            var listModalDialogObject = owner.transform.Find("ListModalDialog");
+            var sprites = Resources.LoadAll<Sprite>("Textures");
+            var itemSpriteList = sprites.Where(sprite => sprite.name.Contains("shop_item_type")).ToList();
             builder
                 ?.AddItemSpriteList(itemSpriteList)
                 ?.AddItemMasterList(data.itemMasterList)
                 ?.AddCoin(data.coin)
-                ?.AddTransform(dialogtrsfrm.transform)
+                ?.AddTransform(listModalDialogObject.transform)
                 ?.AddAlpha(0f)
                 ?.AddEnabled(false)
                 ?.Build();

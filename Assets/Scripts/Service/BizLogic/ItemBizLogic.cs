@@ -41,14 +41,14 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<MItemTable>();
-            var mit = dao?.FindBy(itemId);
-            return mit?.record;
+            var master = dao?.FindBy(itemId);
+            return master?.record;
         }
 
         public int GetPriceByItemId(int itemId)
         {
-            var mit = GetMasterByItemId(itemId);
-            return mit.price;
+            var master = GetMasterByItemId(itemId);
+            return master.price;
         }
 
         public bool BuyItem(int userId, int itemId, int amont)
@@ -56,8 +56,8 @@ namespace Service.BizLogic
             var ret = false;
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<TItemTable>();
-            var titList = dao?.FindBy(record => record.userId == userId && record.itemId == itemId);
-            if (0 == titList.Count)
+            var transaction = dao?.FindBy(record => record.userId == userId && record.itemId == itemId);
+            if (0 == transaction.Count)
             {
                 var record = new TItemTable();
                 record.userId = userId;
@@ -67,7 +67,7 @@ namespace Service.BizLogic
             }
             else
             {
-                var record = titList.FirstOrDefault();
+                var record = transaction.FirstOrDefault();
                 record.amount += amont;
                 ret = dao?.Update(record) ?? false;
             }
@@ -80,8 +80,8 @@ namespace Service.BizLogic
             var ret = false;
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<TItemTable>();
-            var titList = dao?.FindBy(record => record.userId == userId && record.itemId == itemId);
-            if (0 < titList.Count) ret = true;
+            var transaction = dao?.FindBy(record => record.userId == userId && record.itemId == itemId);
+            if (0 < transaction.Count) ret = true;
             return ret;
         }
     }

@@ -24,8 +24,8 @@ namespace Service.BizLogic
             if (0 == dao?.recordList.Count)
             {
                 BaseAssembler<MCorporateTable> assembler = new CorporateAssembler();
-                var ret = assembler.WriteToTableList();
-                var master = ret.FirstOrDefault();
+                var tableList = assembler.WriteToTableList();
+                var master = tableList.FirstOrDefault();
                 dao?.Save(master);
             }
         }

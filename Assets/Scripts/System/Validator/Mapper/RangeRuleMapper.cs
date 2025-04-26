@@ -29,42 +29,42 @@ namespace Core.Validator.Mapper
     {
         public override Dictionary<string, object> Map(XmlNodeList ruleNodeList)
         {
-            var ret = new Dictionary<string, object>();
+            var result = new Dictionary<string, object>();
             var builder = new RangeValidatorUnitBuilder();
             ruleNodeList.ForEach(node =>
             {
                 node.Attributes.ForEach(attribute =>
                 {
-                    var attrValue = attribute.Value.ToLower();
-                    if (attrValue.Equals("type"))
+                    var attributeValue = attribute.Value.ToLower();
+                    if (attributeValue.Equals("type"))
                     {
                         var typeName = node.InnerText.ToLower();
                         builder.AddType(typeName);
                     }
-                    else if (attrValue.Equals("min"))
+                    else if (attributeValue.Equals("min"))
                     {
                         var minValue = node.InnerText.ToLower();
                         builder.AddMin(minValue);
                     }
-                    else if (attrValue.Equals("max"))
+                    else if (attributeValue.Equals("max"))
                     {
                         var maxValue = node.InnerText.ToLower();
                         builder.AddMax(maxValue);
                     }
-                    else if (attrValue.Equals("option"))
+                    else if (attributeValue.Equals("option"))
                     {
                         var option = node.InnerText.ToLower();
                         builder.AddOption(option);
                     }
-                    else if (attrValue.Equals("summary"))
+                    else if (attributeValue.Equals("summary"))
                     {
                         var summary = node.InnerText.ToLower();
                         builder.AddMessage(new ErrorValidateMessage(summary));
                     }
                 });
             });
-            ret.Add(builder.type, builder.Build());
-            return ret;
+            result.Add(builder.type, builder.Build());
+            return result;
         }
     }
 }

@@ -35,10 +35,10 @@ namespace Frontend.Behaviour.State
             var data = ((List<TScoreTable> rankingList, List<MUserTable> userList))response?.data;
             if (null == builder)
             {
-                var campanynametrsfrm = owner.transform.Find("BackGroundImage");
-                var bgImage = campanynametrsfrm.GetComponent<Image>();
-                var sb = owner.transform.Find("ConfirmButton");
-                var confirmButton = sb.GetComponent<Button>();
+                var campanyNameObject = owner.transform.Find("BackGroundImage");
+                var bgImage = campanyNameObject.GetComponent<Image>();
+                var confirmButtonObject = owner.transform.Find("ConfirmButton");
+                var confirmButton = confirmButtonObject.GetComponent<Button>();
                 builder = new RankingCanvasBuilder();
                 builder
                     ?.AddScoreTableList(data.rankingList)

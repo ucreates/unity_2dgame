@@ -42,11 +42,10 @@ namespace Core.Validator
                 else if (pair.Key.Equals("string"))
                 {
                     var validator = pair.Value as BaseValidatorUnit<int>;
-                    var ret = validator?.IsValid(validateValue.ToString().Length);
-                    BaseValidateMessage message = null;
-                    message = !ret ?? false ? validator.validateMessage : new SuccessValidateMessage();
+                    var result = validator?.IsValid(validateValue.ToString().Length);
+                    var message = !result ?? false ? validator.validateMessage : new SuccessValidateMessage();
                     var entity = new ValidatorResponseEntity();
-                    entity.result = ret ?? false;
+                    entity.result = result ?? false;
                     entity.message = message;
                     response.responseList.Add(entity);
                 }

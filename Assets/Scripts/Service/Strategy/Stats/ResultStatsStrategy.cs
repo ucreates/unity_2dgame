@@ -17,17 +17,17 @@ namespace Service.Strategy
     {
         public override Response Get(in object parameter = null)
         {
-            var sret = new Response();
+            var response = new Response();
             var ubl = new UserBizLogic();
-            var mut = ubl?.GetPlayer();
+            var userMaster = ubl?.GetPlayer();
             var sbl = new ScoreBizLogic();
-            var clearCount = sbl?.GetClearCount(mut.id) ?? 0;
-            var psbl = new SummaryBizLogic();
-            psbl?.UpdateBestClearCount(clearCount);
-            var bestClearCount = psbl?.GetBestClearCount() ?? 0;
-            sret.data = (clearCount, bestClearCount);
-            sret.resultStatus = Response.ServiceStatus.SUCCESS;
-            return sret;
+            var clearCount = sbl?.GetClearCount(userMaster.id) ?? 0;
+            var smrybl = new SummaryBizLogic();
+            smrybl?.UpdateBestClearCount(clearCount);
+            var bestClearCount = smrybl?.GetBestClearCount() ?? 0;
+            response.data = (clearCount, bestClearCount);
+            response.resultStatus = Response.ServiceStatus.SUCCESS;
+            return response;
         }
     }
 }

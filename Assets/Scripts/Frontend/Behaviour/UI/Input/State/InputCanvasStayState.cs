@@ -24,11 +24,11 @@ namespace Frontend.Behaviour.State
                 builder = new InputCanvasModalDialogBuilder();
             else
                 builder?.Reset();
-            var mdtr = owner.transform.Find("ModalDialog");
-            var modalDialogBG = mdtr.GetComponent<Image>();
+            var modalDialogObject = owner.transform.Find("ModalDialog");
+            var modalDialogImage = modalDialogObject.GetComponent<Image>();
             builder
                 ?.AddAlpha(1f)
-                ?.AddTransform(modalDialogBG.transform)
+                ?.AddTransform(modalDialogImage.transform)
                 ?.AddEnabled(true)
                 ?.Build();
         }

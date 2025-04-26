@@ -44,26 +44,26 @@ public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCan
 
     public object GetInput()
     {
-        var input = new Dictionary<string, object>();
+        var inputParams = new Dictionary<string, object>();
         var nickNameObject = GameObject.Find("InputCanvas/ModalDialog/NickNameInputField");
         if (null != nickNameObject)
         {
             var nickName = nickNameObject.GetComponent<InputField>().text.Trim();
-            input.Add("nickName", nickName);
+            inputParams.Add("nickName", nickName);
         }
 
         var passwordObject = GameObject.Find("InputCanvas/ModalDialog/PasswordInputField");
         if (null != passwordObject)
         {
             var password = passwordObject.GetComponent<InputField>().text.Trim();
-            input.Add("password", password);
+            inputParams.Add("password", password);
         }
 
         var mailphoneObject = GameObject.Find("InputCanvas/ModalDialog/PhoneNumberOrMailAddressInputField");
         if (null != mailphoneObject)
         {
             var mailPhone = mailphoneObject.GetComponent<InputField>().text.Trim();
-            input.Add("mailPhone", mailPhone);
+            inputParams.Add("mailPhone", mailPhone);
         }
 
         var maleToggleObject = GameObject.Find("InputCanvas/ModalDialog/MaleToggle");
@@ -73,10 +73,10 @@ public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCan
             var gender = 0;
             if (maleToggleObject.GetComponent<Toggle>().isOn) gender = 1;
             else if (femaleToggleObject.GetComponent<Toggle>().isOn) gender = 2;
-            input.Add("gender", gender);
+            inputParams.Add("gender", gender);
         }
 
-        return input;
+        return inputParams;
     }
 
     public void OnNotify(NotifyMessage notifyMessage)
@@ -92,9 +92,9 @@ public sealed class InputCanvasBehaviour : BaseBehaviour, IStateMachine<InputCan
 
     public ValidatorResponse IsValid()
     {
-        var parameter = GetInput();
+        var inputParams = GetInput();
         var validator = ValidatorGateway.GetInstance();
-        var res = validator?.IsValid(parameter);
-        return res;
+        var response = validator?.IsValid(inputParams);
+        return response;
     }
 }

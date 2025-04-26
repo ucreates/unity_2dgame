@@ -18,20 +18,20 @@ namespace Service.Strategy
     {
         public override Response Get(in object parameter = null)
         {
-            var ret = new Response();
+            var response = new Response();
             var ubl = new UserBizLogic();
             var ibl = new ItemBizLogic();
-            var mut = ubl?.GetPlayer();
+            var userMaster = ubl?.GetPlayer();
             var hadItemIdList = new List<string>();
-            var recordList = ibl?.GetAllItemMaster();
-            recordList.ForEach(record =>
+            var itemMasterList = ibl?.GetAllItemMaster();
+            itemMasterList.ForEach(record =>
             {
-                if (ibl.HasItem(mut.id, record.id))
+                if (ibl.HasItem(userMaster.id, record.id))
                     hadItemIdList.Add(record.name);
             });
-            var itemMasterList = ibl.GetAllItemMaster();
-            ret.data = (hadItemIdList, itemMasterList, mut.coin);
-            return ret;
+            itemMasterList = ibl.GetAllItemMaster();
+            response.data = (hadItemIdList, itemMasterList, userMaster.coin);
+            return response;
         }
     }
 }

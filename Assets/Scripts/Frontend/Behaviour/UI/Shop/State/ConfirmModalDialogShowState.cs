@@ -30,14 +30,14 @@ namespace Frontend.Behaviour.State.UI.Shop
 
         public override void Create(object paramter)
         {
-            var allSpriteList = Resources.LoadAll<Sprite>("Textures");
-            var itemSpriteList = allSpriteList.Where(sprite => sprite.name.Contains("shop_item_type")).ToList();
+            var sprites = Resources.LoadAll<Sprite>("Textures");
+            var itemSpriteList = sprites.Where(sprite => sprite.name.Contains("shop_item_type")).ToList();
             var itemId = paramter.ToInt32();
             Session.GetInstance()?.Add("itemId", itemId);
             var response = ServiceGateway.GetInstance()
                 ?.Request("service://shop/confirm")
                 ?.Get(itemId);
-            var itemmaster = response?.data as MItemTable;
+            var itemMaster = response?.data as MItemTable;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             alphaTimeLine = new TimeLine();
@@ -47,11 +47,11 @@ namespace Frontend.Behaviour.State.UI.Shop
                 builder = new ShopCanvasConfirmModalDialogBuilder();
             else
                 builder?.Reset();
-            var roottrsfrm = owner.transform.Find("ConfirmModalDialog");
+            var confirmModalDialogObject = owner.transform.Find("ConfirmModalDialog");
             builder
                 ?.AddItemSpriteList(itemSpriteList)
-                ?.AddItemMaster(itemmaster)
-                ?.AddTransform(roottrsfrm)
+                ?.AddItemMaster(itemMaster)
+                ?.AddTransform(confirmModalDialogObject)
                 ?.AddAlpha(0f)
                 ?.AddEnabled(false)
                 ?.Build();

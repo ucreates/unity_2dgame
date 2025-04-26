@@ -87,19 +87,19 @@ namespace Service.Strategy
             var ubl = new UserBizLogic();
             var sbl = new ScoreBizLogic();
             var random = new Random();
-            var dummyUserList = new List<MUserTable>();
+            var dummyUserMasterList = new List<MUserTable>();
             for (var i = FIRST_DUMMY_USER_ID; i <= DUMMY_USER_NUMBER; i++)
             {
                 var id = i.ToString();
-                dummyUserList.Add(new MUserTable($"User{id}", $"password{id}", i, "09098765432", random.Next(300, 1000),
+                dummyUserMasterList.Add(new MUserTable($"User{id}", $"password{id}", i, "09098765432", random.Next(300, 1000),
                     false));
             }
 
-            ubl?.AddNewUser(dummyUserList);
-            var dummyScoreList = new List<TScoreTable>();
+            ubl?.AddNewUser(dummyUserMasterList);
+            var dummyScoreTransactionList = new List<TScoreTable>();
             for (var i = FIRST_DUMMY_USER_ID; i <= DUMMY_USER_NUMBER; i++)
-                dummyScoreList.Add(new TScoreTable(i, random.Next(1, 20)));
-            sbl?.AddNewUserScore(dummyScoreList);
+                dummyScoreTransactionList.Add(new TScoreTable(i, random.Next(1, 20)));
+            sbl?.AddNewUserScore(dummyScoreTransactionList);
         }
 
         private async Task LoadItemMaster()

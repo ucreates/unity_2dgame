@@ -22,9 +22,10 @@ namespace Frontend.Behaviour.State
 
         public override void Create()
         {
-            var asset = owner?.assetCollection?.Get<AnimatorAsset>("anime");
-            asset?.Play("fly");
-            owner.GetComponent<Renderer>().enabled = true;
+            var animator = owner?.assetCollection?.Get<AnimatorAsset>("anime");
+            var renderer = owner.GetComponent<Renderer>();
+            animator?.Play("fly");
+            renderer.enabled = true;
             owner.deadTimeLine = new TimeLine();
             owner.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
             var rigidBody = owner.GetComponent<Rigidbody2D>();
@@ -34,9 +35,9 @@ namespace Frontend.Behaviour.State
 
         public override void Update()
         {
-            var currentTime = sprineTimeLine?.currentTime ?? 0f;
-            var vy = Periodic.Sin(currentTime, 0.35f);
-            owner.transform.position = owner.defaultPosition + new Vector2(0f, vy);
+            var time = sprineTimeLine?.currentTime ?? 0f;
+            var y = Periodic.Sin(time, 0.35f);
+            owner.transform.position = owner.defaultPosition + new Vector2(0f, y);
             owner.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
             sprineTimeLine?.Next(3f);
         }

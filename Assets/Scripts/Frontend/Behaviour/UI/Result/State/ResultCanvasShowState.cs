@@ -29,13 +29,13 @@ namespace Frontend.Behaviour.State
 
         public override void Create()
         {
-            var sret = ServiceGateway.GetInstance()?.Request("service://stats/result")?.Get();
+            var response = ServiceGateway.GetInstance()?.Request("service://stats/result")?.Get();
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             if (null != currentScoreBuilder) currentScoreBuilder?.Reset();
             if (null != bestScoreBuilder) bestScoreBuilder?.Reset();
             if (null != emblemBuilder) emblemBuilder?.Reset();
-            var data = ((int clearCount, int bestClearCount))sret?.data;
+            var data = ((int clearCount, int bestClearCount))response?.data;
             var clearCount = data.clearCount;
             var crearCountFigure = Figure.CountFigure(clearCount);
             currentScoreBuilder = new PlayCanvasBuilder();
@@ -65,17 +65,17 @@ namespace Frontend.Behaviour.State
                 ?.AddCanvas(canvas)
                 ?.AddPosition(new Vector3(-87.5f, 5f, 0f))
                 ?.Build();
-            var scorePanel = owner.transform.Find("ScorePanel");
-            var bg = scorePanel.GetComponent<Image>();
-            var restartButton = owner.transform.Find("RestartButton");
-            var rsb = restartButton.GetComponent<Button>();
-            var rankingButton = owner.transform.Find("RankingButton");
-            var rkb = rankingButton.GetComponent<Button>();
+            var scorePanelObject = owner.transform.Find("ScorePanel");
+            var bgImage = scorePanelObject.GetComponent<Image>();
+            var restartButtonObject = owner.transform.Find("RestartButton");
+            var resutartButton = restartButtonObject.GetComponent<Button>();
+            var rankingButtonObject = owner.transform.Find("RankingButton");
+            var rankingButton = rankingButtonObject.GetComponent<Button>();
             backGroundBuilder = new ResultCanvasBackGroundBuilder();
             backGroundBuilder
-                ?.AddImage(bg)
-                ?.AddButton(rsb)
-                ?.AddButton(rkb)
+                ?.AddImage(bgImage)
+                ?.AddButton(resutartButton)
+                ?.AddButton(rankingButton)
                 ?.Build();
         }
     }

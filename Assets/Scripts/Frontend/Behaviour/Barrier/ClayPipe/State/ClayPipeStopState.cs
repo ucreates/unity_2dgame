@@ -17,14 +17,14 @@ namespace Frontend.Behaviour.State
     {
         public override void Create()
         {
-            var down = owner.transform.Find("ClayPipeDown");
-            var up = owner.transform.Find("ClayPipeUp");
-            var hitarea = owner.transform.Find("HitArea");
+            var downObject = owner.transform.Find("ClayPipeDown");
+            var upObject = owner.transform.Find("ClayPipeUp");
+            var hitAreaObject = owner.transform.Find("HitArea");
             var builder = new CrayPipeAssetBuilder();
             builder
-                ?.AddTransform(down)
-                ?.AddTransform(up)
-                ?.AddTransform(hitarea)
+                ?.AddTransform(downObject)
+                ?.AddTransform(upObject)
+                ?.AddTransform(hitAreaObject)
                 ?.Build();
         }
     }

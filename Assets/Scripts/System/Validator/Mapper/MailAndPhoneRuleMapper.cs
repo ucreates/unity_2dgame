@@ -24,7 +24,7 @@ namespace Core.Validator.Mapper
 
         public override Dictionary<string, object> Map(XmlNodeList ruleNodeList)
         {
-            var ret = new Dictionary<string, object>();
+            var result = new Dictionary<string, object>();
             var patterns = new[] { EMAIL_ADRRESS_REGEX, PHONE_NUMBER_REGEX };
             patterns.ForEach(pattern =>
             {
@@ -34,8 +34,8 @@ namespace Core.Validator.Mapper
                 {
                     node.Attributes.ForEach(attribute =>
                     {
-                        var attrValue = attribute.Value.ToLower();
-                        if ((pattern.Equals(EMAIL_ADRRESS_REGEX) && attrValue.Equals("mailerrorsummary")) || (pattern.Equals(PHONE_NUMBER_REGEX) && attrValue.Equals("phoneerrorsummary")))
+                        var attributeValue = attribute.Value.ToLower();
+                        if ((pattern.Equals(EMAIL_ADRRESS_REGEX) && attributeValue.Equals("mailerrorsummary")) || (pattern.Equals(PHONE_NUMBER_REGEX) && attributeValue.Equals("phoneerrorsummary")))
                         {
                             var summary = node.InnerText;
                             builder.AddMessage(new ErrorValidateMessage(summary));
@@ -46,9 +46,9 @@ namespace Core.Validator.Mapper
                     });
                 });
                 var builderType = pattern.Equals(EMAIL_ADRRESS_REGEX) ? $"{builder.type}::mail" : $"{builder.type}::phone";
-                ret.Add(builderType, builder.Build());
+                result.Add(builderType, builder.Build());
             });
-            return ret;
+            return result;
         }
     }
 }

@@ -19,19 +19,19 @@ namespace Service.Strategy
     {
         public override Response Get(in object parameter = null)
         {
-            var sret = new Response();
+            var response = new Response();
             var sbl = new ScoreBizLogic();
             var rankingList = sbl?.GetRankingList();
-            var userList = new List<MUserTable>();
+            var userMasterList = new List<MUserTable>();
             var ubl = new UserBizLogic();
             rankingList.ForEach(score =>
             {
-                var user = ubl?.GetUser(score.userId);
-                userList.Add(user);
+                var userMaster = ubl?.GetUser(score.userId);
+                userMasterList.Add(userMaster);
             });
-            sret.data = (rankingList, userList);
-            sret.resultStatus = Response.ServiceStatus.SUCCESS;
-            return sret;
+            response.data = (rankingList, userMasterList);
+            response.resultStatus = Response.ServiceStatus.SUCCESS;
+            return response;
         }
     }
 }

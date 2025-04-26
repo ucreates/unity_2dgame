@@ -23,18 +23,18 @@ public sealed class BGMPlayerBehaviour : BaseBehaviour, INotify
     {
         if (notifyMessage?.title == NotifyMessage.Title.GameStart)
         {
-            var bgmAsset = SoundAssetCollection.GetInstance()?.GetBGMAsset("athletic");
-            bgmAsset?.Play(gameObject, true);
+            var bgm = SoundAssetCollection.GetInstance()?.GetBGMAsset("athletic");
+            bgm?.Play(gameObject, true);
         }
         else if (notifyMessage?.title == NotifyMessage.Title.FlappyBirdDead)
         {
-            var bgmAsset = SoundAssetCollection.GetInstance()?.GetBGMAsset("athletic");
-            bgmAsset?.Stop();
+            var bgm = SoundAssetCollection.GetInstance()?.GetBGMAsset("athletic");
+            bgm?.Stop();
         }
         else if (notifyMessage?.title == NotifyMessage.Title.GameOver)
         {
-            var bgmAsset = SoundAssetCollection.GetInstance()?.GetBGMAsset("player_down");
-            bgmAsset?.Play(gameObject);
+            var bgm = SoundAssetCollection.GetInstance()?.GetBGMAsset("player_down");
+            bgm?.Play(gameObject);
         }
         else if (notifyMessage?.title == NotifyMessage.Title.GameRestart)
         {

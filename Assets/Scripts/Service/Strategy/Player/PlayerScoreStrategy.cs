@@ -20,12 +20,12 @@ namespace Service.Strategy
         {
             var clearCount = parameter.ToInt32();
             var ubl = new UserBizLogic();
-            var mut = ubl.GetPlayer();
+            var userMaster = ubl.GetPlayer();
             var sbl = new ScoreBizLogic();
-            sbl?.AddClearCount(mut.id, clearCount);
-            var ret = new Response();
-            ret.resultStatus = Response.ServiceStatus.SUCCESS;
-            return ret;
+            sbl?.AddClearCount(userMaster.id, clearCount);
+            var response = new Response();
+            response.resultStatus = Response.ServiceStatus.SUCCESS;
+            return response;
         }
     }
 }

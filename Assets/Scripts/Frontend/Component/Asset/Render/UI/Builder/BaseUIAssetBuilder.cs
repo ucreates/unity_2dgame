@@ -132,28 +132,28 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
         {
             var canvas = transform.GetComponent<Canvas>();
             if (null != canvas) AddCanvas(canvas);
-            var sprite = transform.GetComponent<Image>();
-            if (null != sprite) AddImage(sprite);
+            var image = transform.GetComponent<Image>();
+            if (null != image) AddImage(image);
             var text = transform.GetComponent<Text>();
             if (null != text) AddText(text);
             var toggle = transform.GetComponent<Toggle>();
             if (null != toggle) AddToggle(toggle);
             var button = transform.GetComponent<Button>();
             if (null != button) AddButton(button);
-            var ifield = transform.GetComponent<InputField>();
-            if (null != ifield) AddInputField(ifield);
+            var inputField = transform.GetComponent<InputField>();
+            if (null != inputField) AddInputField(inputField);
             transform.ForEach(child =>
             {
-                var csprite = child.GetComponent<Image>();
-                if (null != csprite) AddImage(csprite);
-                var ctext = child.GetComponent<Text>();
-                if (null != ctext) AddText(ctext);
-                var ctoggle = child.GetComponent<Toggle>();
-                if (null != ctoggle) AddToggle(ctoggle);
-                var cbutton = child.GetComponent<Button>();
-                if (null != cbutton) AddButton(cbutton);
-                var cifield = child.GetComponent<InputField>();
-                if (null != cifield) AddInputField(cifield);
+                var childSprite = child.GetComponent<Image>();
+                if (null != childSprite) AddImage(childSprite);
+                var childText = child.GetComponent<Text>();
+                if (null != childText) AddText(childText);
+                var childToggle = child.GetComponent<Toggle>();
+                if (null != childToggle) AddToggle(childToggle);
+                var childButton = child.GetComponent<Button>();
+                if (null != childButton) AddButton(childButton);
+                var childInputField = child.GetComponent<InputField>();
+                if (null != childInputField) AddInputField(childInputField);
                 if (0 < child.childCount) AddTransform(child.transform);
             });
             return this;

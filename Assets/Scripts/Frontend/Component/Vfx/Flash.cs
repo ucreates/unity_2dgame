@@ -16,8 +16,8 @@ namespace Frontend.Component.Vfx
     {
         public static float Update(float time, float times = 1.0f, float maxRate = 1.0f)
         {
-            var sin = Mathf.Sin(time * times) * maxRate;
-            return Mathf.Abs(sin);
+            var rate = Mathf.Sin(time * times) * maxRate;
+            return Mathf.Abs(rate);
         }
     }
 }

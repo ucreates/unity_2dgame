@@ -19,7 +19,7 @@ namespace Frontend.Behaviour.State
     public class FlappyBirdFallState : FiniteState<FlappyBirdBehaviour>
     {
         protected Rigidbody2D rigidBody { get; set; }
-        private Func<float, float, float, Vector3> cb => delegate(float x, float y, float z) { return new Vector3(x, y, z) * -1f; };
+        private Func<float, float, float, Vector3> easingCallback => delegate(float x, float y, float z) { return new Vector3(x, y, z) * -1f; };
 
         public override void Create()
         {
@@ -38,7 +38,7 @@ namespace Frontend.Behaviour.State
             }
             else
             {
-                owner.transform.Easing(EaseType.QuadraticIn, Afin.Rotation, timeLine?.currentTime ?? 0f, 0.0f, 90.0f, 1.5f, false, false, true, cb);
+                owner.transform.Easing(EaseType.QuadraticIn, Afin.Rotation, timeLine?.currentTime ?? 0f, 0.0f, 90.0f, 1.5f, false, false, true, easingCallback);
                 timeLine?.Next();
             }
         }

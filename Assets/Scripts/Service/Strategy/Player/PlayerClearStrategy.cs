@@ -17,11 +17,11 @@ namespace Service.Strategy
     {
         public override Response Update(in object parameter)
         {
-            var ret = new Response();
+            var response = new Response();
             var sbl = new ScoreBizLogic();
             sbl?.Clear();
-            ret.resultStatus = Response.ServiceStatus.SUCCESS;
-            return ret;
+            response.resultStatus = Response.ServiceStatus.SUCCESS;
+            return response;
         }
     }
 }

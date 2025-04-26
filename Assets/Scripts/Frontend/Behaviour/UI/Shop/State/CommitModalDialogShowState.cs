@@ -27,9 +27,9 @@ namespace Frontend.Behaviour.State.UI.Shop
 
         public override void Create(object paramter)
         {
-            var allSpriteList = Resources.LoadAll<Sprite>("Textures");
-            var itemSpriteList = allSpriteList.Where(sprite => sprite.name.Contains("shop_item_type")).ToList();
-            var parameters = ((int itemId, int amount, string messsage))paramter;
+            var sprites = Resources.LoadAll<Sprite>("Textures");
+            var itemSpriteList = sprites.Where(sprite => sprite.name.Contains("shop_item_type")).ToList();
+            var inputParams = ((int itemId, int amount, string messsage))paramter;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             alphaTimeLine = new TimeLine();
@@ -41,7 +41,7 @@ namespace Frontend.Behaviour.State.UI.Shop
                 builder?.Reset();
             builder
                 ?.AddItemSpriteList(itemSpriteList)
-                ?.AddCommitMessage(parameters.messsage)
+                ?.AddCommitMessage(inputParams.messsage)
                 ?.AddTransform(owner.transform)
                 ?.AddAlpha(0f)
                 ?.AddEnabled(false)

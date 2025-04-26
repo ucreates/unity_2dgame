@@ -19,14 +19,14 @@ namespace Service.Strategy
     {
         public override Response Update(in object parameter)
         {
-            var paramBody = (Dictionary<string, object>)parameter;
+            var serviceParams = (Dictionary<string, object>)parameter;
             var ubl = new UserBizLogic();
-            var ret = ubl.AddNewUser(paramBody["nickName"].ToString(), paramBody["password"].ToString(), paramBody["gender"].ToInt32(), paramBody["mailPhone"].ToString(), paramBody["coin"].ToInt32(), true);
-            var mut = ubl?.GetPlayer() ?? null;
+            var addNewUser = ubl.AddNewUser(serviceParams["nickName"].ToString(), serviceParams["password"].ToString(), serviceParams["gender"].ToInt32(), serviceParams["mailPhone"].ToString(), serviceParams["coin"].ToInt32(), true);
+            var userMaster = ubl?.GetPlayer() ?? null;
             var sbl = new ScoreBizLogic();
-            ret = sbl?.AddNewUserScore(mut.id) ?? false;
+            addNewUser = sbl?.AddNewUserScore(userMaster.id) ?? false;
             var response = new Response();
-            response.resultStatus = ret ? Response.ServiceStatus.SUCCESS : Response.ServiceStatus.FAILED;
+            response.resultStatus = addNewUser ? Response.ServiceStatus.SUCCESS : Response.ServiceStatus.FAILED;
             return response;
         }
     }

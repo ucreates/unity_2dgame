@@ -80,8 +80,8 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                 var addCount = figure - clearCountImageList.Count;
                 for (var i = 0; i < addCount; i++)
                 {
-                    var image = new GameObject("ClearCount");
-                    var clearCountImage = image.AddComponent<Image>();
+                    var clearCountImageObject = new GameObject("ClearCount");
+                    var clearCountImage = clearCountImageObject.AddComponent<Image>();
                     clearCountImage.transform.SetParent(canvas.transform);
                     clearCountImage.rectTransform.sizeDelta = size;
                     clearCountImage.rectTransform.localScale = scale;
@@ -92,15 +92,15 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
             }
 
             var totalWidth = figure * spriteList.FirstOrDefault()?.rect.size.x * scale.x ?? 0f;
-            var ex = totalWidth / 2f;
+            var endX = totalWidth / 2f;
             for (var i = 1; i <= figure; i++)
             {
                 var value = Figure.GetSpeciFigureValue(clearCount, i);
                 var index = i - 1;
                 var sprite = spriteList[value];
                 clearCountImageList[index].sprite = sprite;
-                clearCountImageList[index].rectTransform.anchoredPosition = new Vector3(ex + position.x, position.y, 0f);
-                ex -= size.x * scale.x;
+                clearCountImageList[index].rectTransform.anchoredPosition = new Vector3(endX + position.x, position.y, 0f);
+                endX -= size.x * scale.x;
             }
         }
 

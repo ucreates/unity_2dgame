@@ -19,11 +19,11 @@ namespace Service.Strategy
         public override Response Get(in object parameter = null)
         {
             var itemId = parameter.ToInt32();
-            var sret = new Response();
+            var response = new Response();
             var ibl = new ItemBizLogic();
-            var mit = ibl?.GetMasterByItemId(itemId) ?? null;
-            sret.data = mit;
-            return sret;
+            var itemMaster = ibl?.GetMasterByItemId(itemId) ?? null;
+            response.data = itemMaster;
+            return response;
         }
     }
 }

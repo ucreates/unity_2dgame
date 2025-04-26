@@ -17,25 +17,25 @@ namespace Service.Strategy
     {
         public override Response Get(in object parameter = null)
         {
-            var ret = new Response();
+            var response = new Response();
             var ubl = new UserBizLogic();
-            var mut = ubl.GetPlayer();
+            var userMaster = ubl.GetPlayer();
             var sbl = new ScoreBizLogic();
-            var clearCount = sbl?.GetClearCount(mut.id) ?? 0;
+            var clearCount = sbl?.GetClearCount(userMaster.id) ?? 0;
             var cbl = new CorporateBizLogic();
             var copyright = cbl?.GetCopyright();
-            ret.data = (clearCount, mut.nickName, copyright);
-            ret.resultStatus = Response.ServiceStatus.SUCCESS;
-            return ret;
+            response.data = (clearCount, userMaster.nickName, copyright);
+            response.resultStatus = Response.ServiceStatus.SUCCESS;
+            return response;
         }
 
         public override Response Clear()
         {
-            var sret = new Response();
+            var response = new Response();
             var sbl = new ScoreBizLogic();
             sbl?.Clear();
-            sret.resultStatus = Response.ServiceStatus.SUCCESS;
-            return sret;
+            response.resultStatus = Response.ServiceStatus.SUCCESS;
+            return response;
         }
     }
 }

@@ -29,8 +29,8 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<TSummaryTable>();
-            var tt = dao?.FindBy(UNIQUE_RECORD_ID) ?? null;
-            return tt?.record?.bestClearCount ?? 0;
+            var transaction = dao?.FindBy(UNIQUE_RECORD_ID) ?? null;
+            return transaction?.record?.bestClearCount ?? 0;
         }
 
         public bool UpdateBestClearCount(int clearCount)
@@ -42,9 +42,9 @@ namespace Service.BizLogic
             {
                 var db = DataBase.GetInstance();
                 var dao = db?.FindBy<TSummaryTable>();
-                var tt = dao.FindBy(UNIQUE_RECORD_ID);
-                tt.record.bestClearCount = clearCount;
-                dao?.Save(tt.record);
+                var transaction = dao.FindBy(UNIQUE_RECORD_ID);
+                transaction.record.bestClearCount = clearCount;
+                dao?.Save(transaction.record);
                 UpdateStats(userId, bestClearCount);
                 return true;
             }
@@ -56,9 +56,9 @@ namespace Service.BizLogic
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<TScoreTable>();
-            var tt = dao.FindBy(UNIQUE_RECORD_ID);
-            tt.record.clearCount = 0;
-            return dao?.Update(tt.record) ?? false;
+            var transaction = dao.FindBy(UNIQUE_RECORD_ID);
+            transaction.record.clearCount = 0;
+            return dao?.Update(transaction.record) ?? false;
         }
 
         public async void UpdateStats(int usreId, int bestClearCount)

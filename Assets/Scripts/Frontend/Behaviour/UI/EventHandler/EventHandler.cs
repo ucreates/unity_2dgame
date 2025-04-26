@@ -30,23 +30,23 @@ public sealed class EventHandler : BaseBehaviour
 
     public void OnSubmit()
     {
-        var icanvas = GameObject.Find("InputCanvas");
-        if (null == icanvas) return;
+        var canvasObject = GameObject.Find("InputCanvas");
+        if (null == canvasObject) return;
         var notifier = Notifier.GetInstance();
-        var validator = icanvas.GetComponent<InputCanvasBehaviour>() as IValidator;
-        var res = validator?.IsValid();
-        if (!res?.isSuccess() ?? false)
+        var validator = canvasObject.GetComponent<InputCanvasBehaviour>() as IValidator;
+        var isValid = validator?.IsValid();
+        if (!isValid?.isSuccess() ?? false)
         {
-            notifier?.Notify(NotifyMessage.Title.InputProfileError, res);
+            notifier?.Notify(NotifyMessage.Title.InputProfileError, isValid);
             return;
         }
 
-        var input = icanvas.GetComponent<InputCanvasBehaviour>() as IInputUIAsset;
-        var paramBody = (Dictionary<string, object>)input.GetInput();
-        paramBody.Add("coin", Random.Range(300, 1000));
+        var input = canvasObject.GetComponent<InputCanvasBehaviour>() as IInputUIAsset;
+        var inputParams = (Dictionary<string, object>)input.GetInput();
+        inputParams.Add("coin", Random.Range(300, 1000));
         ServiceGateway.GetInstance()
             ?.Request("service://player/commit")
-            ?.Update(paramBody);
+            ?.Update(inputParams);
         notifier?.Notify(NotifyMessage.Title.NoticeShow);
     }
 

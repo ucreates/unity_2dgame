@@ -31,25 +31,24 @@ namespace Frontend.Behaviour.State
                 builder = new InputCanvasModalDialogBuilder();
             else
                 builder?.Reset();
-            var md = owner.transform.Find("ModalDialog");
-            if (null != md)
+            var modalDialogObject = owner.transform.Find("ModalDialog");
+            Image modalDialogImage = null;
+            if (null != modalDialogObject)
             {
-                var mdimg1 = md.GetComponent<Image>();
-                mdimg1.gameObject.SetActive(true);
+                modalDialogImage = modalDialogObject.GetComponent<Image>();
+                modalDialogImage.gameObject.SetActive(true);
             }
 
-            var ed = owner.transform.Find("ErrorDialog");
-            if (null != ed)
+            var errorDialigObject = owner.transform.Find("ErrorDialog");
+            if (null != errorDialigObject)
             {
-                var edimg = ed.GetComponent<Image>();
-                edimg.gameObject.SetActive(false);
+                var errorDialogImage = errorDialigObject.GetComponent<Image>();
+                errorDialogImage.gameObject.SetActive(false);
             }
 
-            var mdtr = owner.transform.Find("ModalDialog");
-            var mdimg2 = mdtr.GetComponent<Image>();
             builder
                 ?.AddAlpha(0f)
-                ?.AddTransform(mdimg2.transform)
+                ?.AddTransform(modalDialogImage?.transform)
                 ?.AddEnabled(false)
                 ?.Build();
         }

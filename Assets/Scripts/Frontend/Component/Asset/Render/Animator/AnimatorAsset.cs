@@ -12,20 +12,20 @@ namespace Frontend.Component.Asset.Render
         public AnimatorAsset(BaseBehaviour owner)
         {
             this.owner = owner;
-            anime = this.owner.GetComponent<SkeletonAnimation>();
+            animation = this.owner.GetComponent<SkeletonAnimation>();
         }
 
-        public SkeletonAnimation anime { get; }
+        public SkeletonAnimation animation { get; }
 
         public void Play(string animationName, bool loop = true)
         {
-            anime.state.SetAnimation(0, animationName, loop);
+            animation.state.SetAnimation(0, animationName, loop);
         }
 
         public void Play(string animationName, AnimationState.TrackEntryDelegate callback, bool loop = true)
         {
-            if (null != callback) anime.state.Complete += callback;
-            anime.state.SetAnimation(0, animationName, loop);
+            if (null != callback) animation.state.Complete += callback;
+            animation.state.SetAnimation(0, animationName, loop);
         }
     }
 }

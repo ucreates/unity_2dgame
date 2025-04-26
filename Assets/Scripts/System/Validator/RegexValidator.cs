@@ -23,10 +23,10 @@ namespace Core.Validator
             validatorDictionary.ForEach(pair =>
             {
                 BaseValidatorUnit<string> validator = pair.Value as RegexValidatorUnit;
-                var ret = validator.IsValid(validateValue.ToString());
+                var result = validator.IsValid(validateValue.ToString());
                 var entity = new ValidatorResponseEntity();
-                entity.result = ret;
-                if (!ret)
+                entity.result = result;
+                if (!result)
                 {
                     if (compareOption == CompareOption.Or)
                     {

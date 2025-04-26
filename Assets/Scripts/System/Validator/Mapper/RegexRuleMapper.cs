@@ -20,27 +20,27 @@ namespace Core.Validator.Mapper
     {
         public override Dictionary<string, object> Map(XmlNodeList ruleNodeList)
         {
-            var ret = new Dictionary<string, object>();
+            var result = new Dictionary<string, object>();
             var builder = new RegexValidatorUnitBuilder();
             ruleNodeList.ForEach(node =>
             {
                 node.Attributes.ForEach(attribute =>
                 {
-                    var attrValue = attribute.Value.ToLower();
-                    if (attrValue.Equals("pattern"))
+                    var attributeValue = attribute.Value.ToLower();
+                    if (attributeValue.Equals("pattern"))
                     {
                         var pattern = node.InnerText;
                         builder.AddPattern(pattern);
                     }
-                    else if (attrValue.Equals("summary"))
+                    else if (attributeValue.Equals("summary"))
                     {
                         var summary = node.InnerText;
                         builder.AddMessage(new ErrorValidateMessage(summary));
                     }
                 });
             });
-            ret.Add(builder.type, builder.Build());
-            return ret;
+            result.Add(builder.type, builder.Build());
+            return result;
         }
     }
 }

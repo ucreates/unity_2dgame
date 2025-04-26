@@ -23,8 +23,8 @@ namespace Frontend.Behaviour.State
         {
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
-            var sb = owner.transform.Find("ConfirmButton");
-            var confirmButton = sb.GetComponent<Button>();
+            var confirmButtonObject = owner.transform.Find("ConfirmButton");
+            var confirmButton = confirmButtonObject.GetComponent<Button>();
             builder = new RankingCanvasBuilder();
             builder
                 ?.AddButton(confirmButton)

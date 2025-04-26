@@ -42,10 +42,10 @@ namespace Core.Validator
                 else if (pair.Key.Equals("string"))
                 {
                     var validator = pair.Value as BaseValidatorUnit<int>;
-                    var ret = validator?.IsValid(validateValue.ToString().Length) ?? false;
-                    var message = !ret ? validator?.validateMessage : new SuccessValidateMessage();
+                    var result = validator?.IsValid(validateValue.ToString().Length) ?? false;
+                    var message = !result ? validator?.validateMessage : new SuccessValidateMessage();
                     var entity = new ValidatorResponseEntity();
-                    entity.result = ret;
+                    entity.result = result;
                     entity.message = message;
                     response.responseList.Add(entity);
                 }
@@ -80,10 +80,10 @@ namespace Core.Validator
                 else if (pair.Key.Equals("string"))
                 {
                     var validator = pair.Value as BaseValidatorUnit<int>;
-                    var ret = validator?.IsValid(validateValue.ToString().Length) ?? false;
-                    var message = !ret ? validator?.validateMessage : new SuccessValidateMessage();
+                    var result = validator?.IsValid(validateValue.ToString().Length) ?? false;
+                    var message = !result ? validator?.validateMessage : new SuccessValidateMessage();
                     var entity = new ValidatorResponseEntity();
-                    entity.result = ret;
+                    entity.result = result;
                     entity.message = message;
                     response.responseList.Add(entity);
                 }

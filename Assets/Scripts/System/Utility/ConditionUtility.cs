@@ -16,8 +16,8 @@ namespace Core.Utility
     {
         public static bool ByRandom(int min = 0, int max = 10, int division = 2)
         {
-            var cond = Random.Range(min, max);
-            if (cond % division == 0) return true;
+            var condition = Random.Range(min, max);
+            if (condition % division == 0) return true;
             return false;
         }
     }

@@ -20,9 +20,9 @@ namespace Service.BizLogic
         public bool AddNewUser(string nickName, string password, int gender, string mailOrPhone, int coin,
             bool isPlayer)
         {
-            var mut = FindByNickName(nickName);
-            if (null != mut) return false;
-            var master = new MUserTable();
+            var master = FindByNickName(nickName);
+            if (null != master) return false;
+            master = new MUserTable();
             master.nickName = nickName;
             master.password = password;
             master.gender = gender;
@@ -34,8 +34,8 @@ namespace Service.BizLogic
 
         public bool AddNewUser(MUserTable master)
         {
-            var mut = FindByNickName(master.nickName);
-            if (null != mut) return false;
+            var userMaster = FindByNickName(master.nickName);
+            if (null != userMaster) return false;
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<MUserTable>();
             dao?.recordList.ForEach(record => { record.isPlayer = false; });
@@ -44,46 +44,46 @@ namespace Service.BizLogic
 
         public void AddNewUser(List<MUserTable> masterList)
         {
-            var muow = new UnitOfWork<MUserTable>();
-            muow.addRecordList = masterList;
-            muow.Commit();
+            var uow = new UnitOfWork<MUserTable>();
+            uow.addRecordList = masterList;
+            uow.Commit();
         }
 
         public bool UseCoin(int diffCoin)
         {
-            var mut = GetPlayer();
-            if (mut.coin < diffCoin) return false;
-            if (mut.coin > diffCoin)
-                mut.coin = mut.coin - diffCoin;
+            var master = GetPlayer();
+            if (master.coin < diffCoin) return false;
+            if (master.coin > diffCoin)
+                master.coin = master.coin - diffCoin;
             else
-                mut.coin = 0;
+                master.coin = 0;
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<MUserTable>();
-            return dao?.Update(mut) ?? false;
+            return dao?.Update(master) ?? false;
         }
 
         public MUserTable GetPlayer()
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<MUserTable>();
-            var userList = dao?.FindBy(record => record.isPlayer);
-            return userList.FirstOrDefault();
+            var masterList = dao?.FindBy(record => record.isPlayer);
+            return masterList.FirstOrDefault();
         }
 
         public MUserTable GetUser(int userId)
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<MUserTable>();
-            var mut = dao?.FindBy(userId) ?? null;
-            return mut?.record;
+            var master = dao?.FindBy(userId) ?? null;
+            return master?.record;
         }
 
         public MUserTable FindByNickName(string nickName)
         {
             var db = DataBase.GetInstance();
             var dao = db?.FindBy<MUserTable>();
-            var userList = dao?.FindBy(record => record.nickName == nickName);
-            return userList.FirstOrDefault();
+            var masterList = dao?.FindBy(record => record.nickName == nickName);
+            return masterList.FirstOrDefault();
         }
     }
 }

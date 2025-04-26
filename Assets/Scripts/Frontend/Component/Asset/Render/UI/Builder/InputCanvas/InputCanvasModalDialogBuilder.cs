@@ -26,10 +26,10 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
                 button.FillAlpha(alpha, true, true, true);
                 button.enabled = enabled;
             });
-            inputFieldList.ForEach(input =>
+            inputFieldList.ForEach(inputField =>
             {
-                input.FillAlpha(alpha, true, true, true);
-                input.enabled = enabled;
+                inputField.FillAlpha(alpha, true, true, true);
+                inputField.enabled = enabled;
             });
             imageList.ForEach(image => { image.FillAlpha(alpha); });
             textList.ForEach(text => { text.FillAlpha(alpha); });

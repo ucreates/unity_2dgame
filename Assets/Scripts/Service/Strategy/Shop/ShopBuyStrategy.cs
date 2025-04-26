@@ -18,35 +18,35 @@ namespace Service.Strategy
     {
         public override Response Update(in object parameter)
         {
-            var paramBody = ((int itemId, int amount, string messsage))parameter;
-            var sret = new Response();
+            var serviceParams = ((int itemId, int amount, string messsage))parameter;
+            var response = new Response();
             var ubl = new UserBizLogic();
             var ibl = new ItemBizLogic();
-            var price = ibl?.GetPriceByItemId(paramBody.itemId) ?? 0;
-            var mut = ubl?.GetPlayer() ?? null;
-            if (ibl.HasItem(mut.id, paramBody.itemId))
+            var price = ibl?.GetPriceByItemId(serviceParams.itemId) ?? 0;
+            var userMaster = ubl?.GetPlayer() ?? null;
+            if (ibl.HasItem(userMaster.id, serviceParams.itemId))
             {
-                sret.data = StoreAssembler.VALID_PURCHASE_FAILD_HAD_ITEM;
-                sret.resultStatus = Response.ServiceStatus.FAILED;
-                return sret;
+                response.data = StoreAssembler.VALID_PURCHASE_FAILD_HAD_ITEM;
+                response.resultStatus = Response.ServiceStatus.FAILED;
+                return response;
             }
 
-            var ret = ubl.UseCoin(price);
-            if (ret)
+            var result = ubl.UseCoin(price);
+            if (result)
             {
-                ibl.BuyItem(mut.id, paramBody.itemId, paramBody.amount);
-                var item = ibl.GetMasterByItemId(paramBody.itemId);
-                var message = $"{item.name} を{paramBody.amount}個 購入しました";
-                sret.data = message;
-                sret.resultStatus = Response.ServiceStatus.SUCCESS;
+                ibl.BuyItem(userMaster.id, serviceParams.itemId, serviceParams.amount);
+                var itemMaster = ibl.GetMasterByItemId(serviceParams.itemId);
+                var message = $"{itemMaster.name} を{serviceParams.amount}個 購入しました";
+                response.data = message;
+                response.resultStatus = Response.ServiceStatus.SUCCESS;
             }
             else
             {
-                sret.data = StoreAssembler.VALID_PURCHASE_FAILD_NO_COIN;
-                sret.resultStatus = Response.ServiceStatus.FAILED;
+                response.data = StoreAssembler.VALID_PURCHASE_FAILD_NO_COIN;
+                response.resultStatus = Response.ServiceStatus.FAILED;
             }
 
-            return sret;
+            return response;
         }
     }
 }

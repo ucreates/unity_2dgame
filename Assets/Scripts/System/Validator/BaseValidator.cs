@@ -41,26 +41,26 @@ namespace Core.Validator
             where T : IComparable
         {
             var response = new ValidatorResponse();
-            var ret = false;
+            var result = false;
             BaseValidateMessage message = null;
             var type = typeof(T);
             if (type == typeof(string))
             {
                 var validator = validatorUnit as BaseValidatorUnit<string>;
-                ret = validator.IsValid(validateValue.ToString());
+                result = validator.IsValid(validateValue.ToString());
                 message = validator.validateMessage;
             }
             else
             {
                 var validator = validatorUnit as BaseValidatorUnit<T>;
-                var cnvertedValue = ConvertUtility.ToGenerics<T>(validateValue);
-                ret = validator.IsValid(cnvertedValue);
+                var convertedValue = ConvertUtility.ToGenerics<T>(validateValue);
+                result = validator.IsValid(convertedValue);
                 message = validator.validateMessage;
             }
 
-            if (ret) message = new SuccessValidateMessage();
+            if (result) message = new SuccessValidateMessage();
             var entity = new ValidatorResponseEntity();
-            entity.result = ret;
+            entity.result = result;
             entity.message = message;
             response.responseList.Add(entity);
             return response;

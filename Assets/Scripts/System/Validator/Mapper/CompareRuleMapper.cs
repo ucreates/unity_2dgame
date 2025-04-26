@@ -20,7 +20,7 @@ namespace Core.Validator.Mapper
     {
         public override Dictionary<string, object> Map(XmlNodeList ruleNodeList)
         {
-            var ret = new Dictionary<string, object>();
+            var result = new Dictionary<string, object>();
             var builder = new CompareValidatorUnitBuilder();
             ruleNodeList.ForEach(node =>
             {
@@ -54,8 +54,8 @@ namespace Core.Validator.Mapper
                     }
                 });
             });
-            ret.Add(builder.type, builder.Build());
-            return ret;
+            result.Add(builder.type, builder.Build());
+            return result;
         }
     }
 }

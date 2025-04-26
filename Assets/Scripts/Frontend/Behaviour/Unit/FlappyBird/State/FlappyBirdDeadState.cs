@@ -38,8 +38,8 @@ namespace Frontend.Behaviour.State
             var notifier = Notifier.GetInstance();
             if (notifier?.currentMessage?.title != NotifyMessage.Title.FlappyBirdDead) notifier?.Notify(NotifyMessage.Title.FlappyBirdDead);
             ResourceGenerator.Generate("Prefabs/Curtain", new Vector3(0f, 0f, 0f), Quaternion.identity);
-            var soundAsset = SoundAssetCollection.GetInstance().GetSeAsset("bird_die");
-            owner.StartCoroutine(soundAsset?.Delay(1.0f));
+            var se = SoundAssetCollection.GetInstance().GetSeAsset("bird_die");
+            owner.StartCoroutine(se?.Delay(1.0f));
         }
 
         public override void Update()
