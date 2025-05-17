@@ -31,10 +31,8 @@ namespace Frontend.Behaviour.State
             var data = ((int clearCount, string nickname, string copylight))response?.data;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
-            if (null == builder)
-                builder = new PlayCanvasBuilder();
-            else
-                builder?.Reset();
+            builder ??= new PlayCanvasBuilder();
+            builder?.Reset();
             builder
                 ?.AddNickName(data.nickname)
                 ?.AddCopyright(data.copylight)

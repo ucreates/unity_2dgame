@@ -20,7 +20,7 @@ namespace Frontend.Notify
 
         public static Notifier GetInstance()
         {
-            if (null == instance) instance = new Notifier();
+            instance ??= new Notifier();
             return instance;
         }
 

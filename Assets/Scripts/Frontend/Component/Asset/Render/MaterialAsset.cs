@@ -19,10 +19,7 @@ namespace Frontend.Component.Asset.Render
         {
             this.owner = owner;
             var renderer = owner.GetComponent<UnityEngine.Renderer>();
-            if (null != renderer)
-                material = renderer.material;
-            else
-                material = null;
+            material = null != renderer ? renderer.material : null;
         }
 
         private Material material { get; }

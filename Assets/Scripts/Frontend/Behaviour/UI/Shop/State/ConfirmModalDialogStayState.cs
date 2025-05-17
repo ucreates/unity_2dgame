@@ -19,10 +19,8 @@ namespace Frontend.Behaviour.State.UI.Shop
 
         public override void Create(object paramter)
         {
-            if (null == builder)
-                builder = new ShopCanvasConfirmModalDialogBuilder();
-            else
-                builder?.Reset();
+            builder ??= new ShopCanvasConfirmModalDialogBuilder();
+            builder?.Reset();
             var confirmModalDialogObject = owner.transform.Find("ConfirmModalDialog");
             builder
                 ?.AddAlpha(1f)

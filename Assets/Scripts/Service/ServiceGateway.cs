@@ -34,7 +34,7 @@ namespace Service
 
         public static ServiceGateway GetInstance()
         {
-            if (null == instance) instance = new ServiceGateway();
+            instance ??= new ServiceGateway();
             return instance;
         }
 

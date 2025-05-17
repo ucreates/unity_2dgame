@@ -24,7 +24,7 @@ namespace Service.Integration
 
         public static CommunicationGateway GetInstance()
         {
-            if (null == instance) instance = new CommunicationGateway();
+            instance ??= new CommunicationGateway();
             return instance;
         }
 

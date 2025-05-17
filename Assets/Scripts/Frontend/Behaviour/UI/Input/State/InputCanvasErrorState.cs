@@ -35,10 +35,8 @@ namespace Frontend.Behaviour.State
             var errorDialogObject = owner.transform.Find("ErrorDialog");
             var errorDialogImage = errorDialogObject.GetComponent<Image>();
             errorDialogImage.gameObject.SetActive(true);
-            if (null == builder)
-                builder = new InputUIAssetErrorDialogBuilder();
-            else
-                builder?.Reset();
+            builder ??= new InputUIAssetErrorDialogBuilder();
+            builder?.Reset();
             builder
                 ?.AddErrorMessage(validatorResponse.GetMessageList())
                 ?.AddAlpha(0f)

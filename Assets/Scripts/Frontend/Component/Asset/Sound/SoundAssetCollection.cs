@@ -26,7 +26,7 @@ namespace Frontend.Component.Asset.Sound
 
         public static SoundAssetCollection GetInstance()
         {
-            if (null == instance) instance = new SoundAssetCollection();
+            instance ??= new SoundAssetCollection();
             return instance;
         }
 

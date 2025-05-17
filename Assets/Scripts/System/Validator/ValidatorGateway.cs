@@ -33,7 +33,7 @@ namespace Core.Validator
 
         public static ValidatorGateway GetInstance()
         {
-            if (null == instance) instance = new ValidatorGateway();
+            instance ??= new ValidatorGateway();
             return instance;
         }
 

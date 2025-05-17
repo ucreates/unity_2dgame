@@ -23,10 +23,8 @@ namespace Frontend.Behaviour.State.UI.Shop
 
         public override void Create()
         {
-            if (null == builder)
-                builder = new ShopCanvasListModalDialogBuilder();
-            else
-                builder?.Reset();
+            builder ??= new ShopCanvasListModalDialogBuilder();
+            builder?.Reset();
             var response = ServiceGateway.GetInstance()?.Request("service://shop/list")?.Get();
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;

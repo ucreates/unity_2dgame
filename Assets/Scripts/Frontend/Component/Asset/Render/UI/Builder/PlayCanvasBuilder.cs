@@ -106,7 +106,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
 
         public override void Reset()
         {
-            var canvas = GameObject.Find(this.canvas.name);
+            var canvas = GameObject.Find(this.canvas?.name ?? string.Empty);
             if (null != canvas)
                 canvas.transform.ForEach(child =>
                 {

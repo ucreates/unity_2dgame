@@ -35,10 +35,8 @@ namespace Frontend.Behaviour.State.UI.Shop
             alphaTimeLine = new TimeLine();
             previousAlpha = 0f;
             owner.transform.ForEach(child => { child.gameObject.SetActive(child.name.Equals("CommitModalDialog")); });
-            if (null == builder)
-                builder = new ShopCanvasListModalDialogBuilder();
-            else
-                builder?.Reset();
+            builder ??= new ShopCanvasListModalDialogBuilder();
+            builder?.Reset();
             builder
                 ?.AddItemSpriteList(itemSpriteList)
                 ?.AddCommitMessage(inputParams.messsage)

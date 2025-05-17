@@ -27,10 +27,8 @@ namespace Frontend.Behaviour.State
         {
             previousAlpha = 0f;
             alphaTimeLine = new TimeLine();
-            if (null == builder)
-                builder = new InputCanvasModalDialogBuilder();
-            else
-                builder?.Reset();
+            builder ??= new InputCanvasModalDialogBuilder();
+            builder?.Reset();
             var modalDialogObject = owner.transform.Find("ModalDialog");
             Image modalDialogImage = null;
             if (null != modalDialogObject)

@@ -41,10 +41,8 @@ namespace Frontend.Behaviour.State.UI.Shop
             alphaTimeLine = new TimeLine();
             previousAlpha = 0f;
             owner.transform.ForEach(child => { child.gameObject.SetActive(child.name.Equals("ListModalDialog")); });
-            if (null == builder)
-                builder = new ShopCanvasListModalDialogBuilder();
-            else
-                builder?.Reset();
+            builder ??= new ShopCanvasListModalDialogBuilder();
+            builder?.Reset();
             var itemCategories = new string[4] { "A", "B", "C", "D" };
             itemCategories.ForEach(itemType =>
             {

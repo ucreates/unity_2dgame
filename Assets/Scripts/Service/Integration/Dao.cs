@@ -33,7 +33,7 @@ namespace Service.Integration
             {
                 assembler = new PersistenceAssembler<T>(name);
                 recordList = assembler?.WriteToTableList();
-                if (null == recordList) recordList = new List<T>();
+                recordList ??= new List<T>();
             }
             else
             {

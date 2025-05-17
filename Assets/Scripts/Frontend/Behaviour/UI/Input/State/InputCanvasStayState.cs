@@ -20,10 +20,8 @@ namespace Frontend.Behaviour.State
 
         public override void Create()
         {
-            if (null == builder)
-                builder = new InputCanvasModalDialogBuilder();
-            else
-                builder?.Reset();
+            builder ??= new InputCanvasModalDialogBuilder();
+            builder?.Reset();
             var modalDialogObject = owner.transform.Find("ModalDialog");
             var modalDialogImage = modalDialogObject.GetComponent<Image>();
             builder

@@ -20,10 +20,8 @@ namespace Frontend.Behaviour.State
 
         public override void Create()
         {
-            if (null == builder)
-                builder = new NoticeCanvasBuilder();
-            else
-                builder?.Reset();
+            builder ??= new NoticeCanvasBuilder();
+            builder?.Reset();
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
             builder = new NoticeCanvasBuilder();

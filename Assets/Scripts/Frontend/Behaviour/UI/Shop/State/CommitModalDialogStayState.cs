@@ -19,10 +19,8 @@ namespace Frontend.Behaviour.State.UI.Shop
 
         public override void Create(object paramter)
         {
-            if (null == builder)
-                builder = new ShopCanvasListModalDialogBuilder();
-            else
-                builder?.Reset();
+            builder ??= new ShopCanvasListModalDialogBuilder();
+            builder?.Reset();
             builder
                 ?.AddCommitMessage(paramter.ToString())
                 ?.AddTransform(owner.transform)

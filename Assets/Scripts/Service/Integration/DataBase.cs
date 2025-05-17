@@ -36,7 +36,7 @@ namespace Service.Integration
 
         public static DataBase GetInstance()
         {
-            if (null == instance) instance = new DataBase();
+            instance ??= new DataBase();
             return instance;
         }
 
