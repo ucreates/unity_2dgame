@@ -16,12 +16,7 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
 {
     public sealed class InputUIAssetErrorDialogBuilder : BaseUIAssetBuilder
     {
-        public InputUIAssetErrorDialogBuilder()
-        {
-            errorMessageList = new List<BaseValidateMessage>();
-        }
-
-        private List<BaseValidateMessage> errorMessageList { get; set; }
+        private List<BaseValidateMessage> errorMessageList { get; set; } = new();
 
         public InputUIAssetErrorDialogBuilder AddErrorMessage(BaseValidateMessage message)
         {

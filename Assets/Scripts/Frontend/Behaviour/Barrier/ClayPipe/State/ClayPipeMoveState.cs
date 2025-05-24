@@ -17,12 +17,7 @@ namespace Frontend.Behaviour.State
     {
         private const float MOVE_SPEED = 1.5f;
 
-        private Vector3 destroyPosition { get; set; }
-
-        public override void Create()
-        {
-            destroyPosition = new Vector3(-5f, 0f, 0f);
-        }
+        private Vector3 destroyPosition { get; } = new(-5f, 0f, 0f);
 
         public override void Update()
         {

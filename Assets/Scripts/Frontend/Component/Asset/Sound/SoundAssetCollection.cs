@@ -17,10 +17,9 @@ namespace Frontend.Component.Asset.Sound
     {
         private SoundAssetCollection()
         {
-            soundList = new List<BaseSoundAsset>();
         }
 
-        public List<BaseSoundAsset> soundList { get; set; }
+        public List<BaseSoundAsset> soundList { get; set; } = new();
 
         private static SoundAssetCollection instance { get; set; }
 

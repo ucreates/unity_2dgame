@@ -17,7 +17,7 @@ namespace Frontend.Behaviour.State
 {
     public sealed class InputCanvasShowState : FiniteState<InputCanvasBehaviour>
     {
-        private TimeLine alphaTimeLine { get; set; }
+        private TimeLine alphaTimeLine { get; } = new();
 
         private InputCanvasModalDialogBuilder builder { get; set; }
 
@@ -26,7 +26,6 @@ namespace Frontend.Behaviour.State
         public override void Create()
         {
             previousAlpha = 0f;
-            alphaTimeLine = new TimeLine();
             builder ??= new InputCanvasModalDialogBuilder();
             builder?.Reset();
             var modalDialogObject = owner.transform.Find("ModalDialog");

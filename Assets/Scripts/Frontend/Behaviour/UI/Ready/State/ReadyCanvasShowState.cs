@@ -18,7 +18,7 @@ namespace Frontend.Behaviour.State
 {
     public sealed class ReadyCanvasShowState : FiniteState<ReadyCanvasBehaviour>
     {
-        private TimeLine alphaTimeLine { get; set; }
+        private TimeLine alphaTimeLine { get; } = new();
 
         private Image getReadyImage { get; set; }
 
@@ -30,7 +30,6 @@ namespace Frontend.Behaviour.State
             if (null != canvas) canvas.enabled = true;
             getReadyImage = GameObject.Find("GetReadyImage").GetComponent<Image>();
             tapLogoImage = GameObject.Find("TapScreenLogoImage").GetComponent<Image>();
-            alphaTimeLine = new TimeLine();
         }
 
         public override void Update()

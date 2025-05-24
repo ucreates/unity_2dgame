@@ -19,17 +19,14 @@ namespace Frontend.Component.State
     {
         public FiniteStateMachine(T owner)
         {
-            finiteStateEntity = new FiniteStateEntity<T>();
             this.owner = owner;
-            persistentStateDictionary = new Dictionary<string, FiniteState<T>>();
-            stateDictionary = new Dictionary<string, FiniteState<T>>();
         }
 
-        public Dictionary<string, FiniteState<T>> stateDictionary { get; set; }
+        public Dictionary<string, FiniteState<T>> stateDictionary { get; set; } = new();
 
-        public Dictionary<string, FiniteState<T>> persistentStateDictionary { get; set; }
+        public Dictionary<string, FiniteState<T>> persistentStateDictionary { get; set; } = new();
 
-        public FiniteStateEntity<T> finiteStateEntity { get; set; }
+        public FiniteStateEntity<T> finiteStateEntity { get; set; } = new();
 
         private object paramter { get; set; }
 

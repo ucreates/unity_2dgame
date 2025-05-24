@@ -17,16 +17,15 @@ namespace Core.Entity
     {
         private Session()
         {
-            valueDictionary = new Dictionary<string, object>();
         }
 
         private static Session instance { get; set; }
 
-        private Dictionary<string, object> valueDictionary { get; }
+        private Dictionary<string, object> valueDictionary { get; } = new();
 
         public static Session GetInstance()
         {
-            if (null == instance) instance = new Session();
+            instance ??= new Session();
             return instance;
         }
 

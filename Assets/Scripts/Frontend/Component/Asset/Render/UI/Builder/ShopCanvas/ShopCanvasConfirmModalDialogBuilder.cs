@@ -20,9 +20,9 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
 {
     public sealed class ShopCanvasConfirmModalDialogBuilder : BaseUIAssetBuilder
     {
-        private MItemTable itemMaster { get; set; }
+        private MItemTable itemMaster { get; set; } = new();
 
-        private List<Sprite> itemSpriteList { get; set; }
+        private List<Sprite> itemSpriteList { get; set; } = new();
 
         public ShopCanvasConfirmModalDialogBuilder AddItemMaster(MItemTable itemMaster)
         {

@@ -15,26 +15,17 @@ namespace Service.Integration
 {
     public sealed class UnitOfWork<T> where T : BaseTable, new()
     {
-        public UnitOfWork()
-        {
-            addRecordList = new List<T>();
-            updateRecordList = new List<T>();
-            removeRecordList = new List<T>();
-            preUpdateRecordList = new List<T>();
-            postAddRecordList = new List<T>();
-        }
-
         private int rollBackId { get; set; }
 
-        public List<T> addRecordList { get; set; }
+        public List<T> addRecordList { get; set; } = new();
 
-        public List<T> updateRecordList { get; set; }
+        public List<T> updateRecordList { get; set; } = new();
 
-        public List<T> removeRecordList { get; set; }
+        public List<T> removeRecordList { get; set; } = new();
 
-        public List<T> preUpdateRecordList { get; set; }
+        public List<T> preUpdateRecordList { get; set; } = new();
 
-        public List<T> postAddRecordList { get; set; }
+        public List<T> postAddRecordList { get; set; } = new();
 
         public bool Commit()
         {

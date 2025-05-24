@@ -20,41 +20,29 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
         private const float INVALID_POSITION_SEED_MIN_VALUE = -10f;
         private const float INVALID_POSITION_SEED_MAX_VALUE = 10f;
 
-        public BaseUIAssetBuilder()
-        {
-            initialized = false;
-            alpha = 0f;
-            textList = new List<Text>();
-            spriteList = new List<Sprite>();
-            buttonList = new List<Button>();
-            imageList = new List<Image>();
-            toggleList = new List<Toggle>();
-            inputFieldList = new List<InputField>();
-        }
-
-        protected bool initialized { get; set; }
+        protected bool initialized { get; set; } = false;
 
         protected float alpha { get; set; }
 
-        public bool enabled { get; set; }
+        public bool enabled { get; set; } = true;
 
-        protected Vector3 position { get; set; }
+        protected Vector3 position { get; set; } = Vector3.zero;
 
-        protected Vector3 scale { get; set; }
+        protected Vector3 scale { get; set; } = Vector3.zero;
 
         protected Canvas canvas { get; set; }
 
-        protected List<Sprite> spriteList { get; set; }
+        protected List<Sprite> spriteList { get; set; } = new();
 
-        public List<Image> imageList { get; set; }
+        public List<Image> imageList { get; set; } = new();
 
-        public List<InputField> inputFieldList { get; set; }
+        public List<InputField> inputFieldList { get; set; } = new();
 
-        public List<Toggle> toggleList { get; set; }
+        public List<Toggle> toggleList { get; set; } = new();
 
-        protected List<Button> buttonList { get; set; }
+        protected List<Button> buttonList { get; set; } = new();
 
-        protected List<Text> textList { get; set; }
+        protected List<Text> textList { get; set; } = new();
 
         public BaseUIAssetBuilder AddCanvas(Canvas canvas)
         {

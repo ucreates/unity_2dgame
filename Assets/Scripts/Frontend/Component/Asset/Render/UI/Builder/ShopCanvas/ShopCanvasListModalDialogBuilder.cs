@@ -30,11 +30,11 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
 
         private string commitMessage { get; set; }
 
-        private List<string> itemList { get; set; }
+        private List<string> itemList { get; set; } = new();
 
-        private List<Sprite> itemSpriteList { get; set; }
+        private List<Sprite> itemSpriteList { get; set; } = new();
 
-        private List<MItemTable> itemMasterList { get; set; }
+        private List<MItemTable> itemMasterList { get; set; } = new();
 
         public ShopCanvasListModalDialogBuilder AddCoin(int coin)
         {

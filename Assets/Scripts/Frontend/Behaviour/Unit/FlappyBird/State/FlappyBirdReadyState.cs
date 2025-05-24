@@ -18,7 +18,7 @@ namespace Frontend.Behaviour.State
 {
     public class FlappyBirdReadyState : FiniteState<FlappyBirdBehaviour>
     {
-        private TimeLine sprineTimeLine { get; set; }
+        private TimeLine sprineTimeLine { get; } = new();
 
         public override void Create()
         {
@@ -30,7 +30,6 @@ namespace Frontend.Behaviour.State
             owner.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
             var rigidBody = owner.GetComponent<Rigidbody2D>();
             rigidBody.gravityScale = 0f;
-            sprineTimeLine = new TimeLine();
         }
 
         public override void Update()

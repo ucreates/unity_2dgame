@@ -23,8 +23,6 @@ namespace Frontend.Behaviour.State
     {
         private Rigidbody2D rigidBody { get; set; }
 
-        private Vector3 currentEuler { get; set; }
-
         private Vector3 deadPosition { get; set; }
 
         private Func<float, float, float, Vector3> cb => delegate(float x, float y, float z) { return new Vector3(x, y, z) * -1f; };

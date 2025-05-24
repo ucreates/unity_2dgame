@@ -23,7 +23,7 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
 {
     public Vector2 defaultPosition;
 
-    public TimeLine deadTimeLine { get; set; }
+    public TimeLine deadTimeLine { get; set; } = new();
 
     public void Start()
     {
@@ -41,7 +41,6 @@ public sealed class FlappyBirdBehaviour : BaseBehaviour, IStateMachine<FlappyBir
         });
         stateMachine?.Change("hide");
         stateMachine?.Play();
-        deadTimeLine = new TimeLine();
     }
 
     public void Update()

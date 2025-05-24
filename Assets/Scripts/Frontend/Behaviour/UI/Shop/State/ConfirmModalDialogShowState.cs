@@ -22,7 +22,7 @@ namespace Frontend.Behaviour.State.UI.Shop
 {
     public sealed class ConfirmModalDialogShowState : FiniteState<ShopCanvasBehaviour>
     {
-        private TimeLine alphaTimeLine { get; set; }
+        private TimeLine alphaTimeLine { get; } = new();
 
         private ShopCanvasConfirmModalDialogBuilder builder { get; set; }
 
@@ -40,7 +40,6 @@ namespace Frontend.Behaviour.State.UI.Shop
             var itemMaster = response?.data as MItemTable;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
-            alphaTimeLine = new TimeLine();
             previousAlpha = 0f;
             owner.transform.ForEach(child => { child.gameObject.SetActive(child.name.Equals("ConfirmModalDialog")); });
             builder ??= new ShopCanvasConfirmModalDialogBuilder();

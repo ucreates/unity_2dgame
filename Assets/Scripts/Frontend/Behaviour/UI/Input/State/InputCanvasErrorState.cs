@@ -18,7 +18,7 @@ namespace Frontend.Behaviour.State
 {
     public sealed class InputCanvasErrorState : FiniteState<InputCanvasBehaviour>
     {
-        private TimeLine alphaTimeLine { get; set; }
+        private TimeLine alphaTimeLine { get; } = new();
 
         private InputUIAssetErrorDialogBuilder builder { get; set; }
 
@@ -28,7 +28,6 @@ namespace Frontend.Behaviour.State
         {
             var validatorResponse = (ValidatorResponse)parameter;
             previousAlpha = 0f;
-            alphaTimeLine = new TimeLine();
             var modalDialogObject = owner.transform.Find("ModalDialog");
             var modalDialogImage = modalDialogObject.GetComponent<Image>();
             modalDialogImage.gameObject.SetActive(false);

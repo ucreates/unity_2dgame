@@ -24,7 +24,7 @@ namespace Frontend.Behaviour.State.UI.Shop
 {
     public sealed class ListModalDialogShowState : FiniteState<ShopCanvasBehaviour>
     {
-        private TimeLine alphaTimeLine { get; set; }
+        private TimeLine alphaTimeLine { get; } = new();
 
         private ShopCanvasListModalDialogBuilder builder { get; set; }
 
@@ -38,7 +38,6 @@ namespace Frontend.Behaviour.State.UI.Shop
             var data = ((List<string> itemIdList, List<MItemTable> itemMasterList, int coin))response?.data;
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
-            alphaTimeLine = new TimeLine();
             previousAlpha = 0f;
             owner.transform.ForEach(child => { child.gameObject.SetActive(child.name.Equals("ListModalDialog")); });
             builder ??= new ShopCanvasListModalDialogBuilder();

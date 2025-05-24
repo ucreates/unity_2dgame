@@ -19,15 +19,9 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
 {
     public sealed class RankingCanvasBuilder : BaseUIAssetBuilder
     {
-        public RankingCanvasBuilder()
-        {
-            scoreTableList = new List<TScoreTable>();
-            userTableList = new List<MUserTable>();
-        }
+        private List<MUserTable> userTableList { get; set; } = new();
 
-        private List<MUserTable> userTableList { get; set; }
-
-        private List<TScoreTable> scoreTableList { get; set; }
+        private List<TScoreTable> scoreTableList { get; set; } = new();
 
         public RankingCanvasBuilder AddUserTableList(List<MUserTable> userTableList)
         {

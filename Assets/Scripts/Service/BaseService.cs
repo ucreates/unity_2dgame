@@ -16,12 +16,7 @@ namespace Service
 {
     public abstract class BaseService
     {
-        public BaseService()
-        {
-            strategyDictionary = new Dictionary<string, BaseStrategy>();
-        }
-
-        protected Dictionary<string, BaseStrategy> strategyDictionary { get; set; }
+        protected Dictionary<string, BaseStrategy> strategyDictionary { get; set; } = new();
 
         public BaseStrategy Create(string strategyName)
         {

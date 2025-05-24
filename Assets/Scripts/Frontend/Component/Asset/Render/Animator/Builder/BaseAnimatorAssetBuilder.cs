@@ -15,17 +15,9 @@ namespace Frontend.Component.Asset.Renderer.Animator.Builder
 {
     public abstract class BaseAnimatorAssetBuilder
     {
-        public BaseAnimatorAssetBuilder()
-        {
-            alpha = 0f;
-            enabled = true;
-            gameObjectList = new List<GameObject>();
-            transformList = new List<Transform>();
-        }
-
         protected float alpha { get; set; }
 
-        public bool enabled { get; set; }
+        public bool enabled { get; set; } = true;
 
         protected Vector3 position { get; set; }
 
@@ -33,9 +25,9 @@ namespace Frontend.Component.Asset.Renderer.Animator.Builder
 
         protected Vector3 rotate { get; set; }
 
-        protected List<GameObject> gameObjectList { get; set; }
+        protected List<GameObject> gameObjectList { get; set; } = new();
 
-        protected List<Transform> transformList { get; set; }
+        protected List<Transform> transformList { get; set; } = new();
 
         public BaseAnimatorAssetBuilder AddAlpha(float alpha)
         {

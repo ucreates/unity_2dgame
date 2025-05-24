@@ -15,12 +15,7 @@ namespace Frontend.Component.Asset
 {
     public sealed class AssetCollection
     {
-        public AssetCollection()
-        {
-            assetList = new List<BaseAsset>();
-        }
-
-        public List<BaseAsset> assetList { get; }
+        public List<BaseAsset> assetList { get; } = new();
 
         public T Get<T>(string assetName) where T : BaseAsset
         {

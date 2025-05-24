@@ -16,15 +16,12 @@ namespace Core.Device
 {
     public sealed class UserAgent
     {
-        public UserAgent()
+        private List<string> deviceInfoList { get; } = new()
         {
-            deviceInfoList = new List<string>();
-            deviceInfoList.Add(SystemInfo.deviceName);
-            deviceInfoList.Add(SystemInfo.deviceModel);
-            deviceInfoList.Add(SystemInfo.operatingSystem);
-        }
-
-        private List<string> deviceInfoList { get; }
+            SystemInfo.deviceName,
+            SystemInfo.deviceModel,
+            SystemInfo.operatingSystem
+        };
 
         public string Create()
         {

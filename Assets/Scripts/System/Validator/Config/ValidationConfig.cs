@@ -23,14 +23,9 @@ namespace Core.Validator.Config
             UnityAsset = 2
         }
 
-        public ValidationConfig()
-        {
-            ruleNodeDictionary = new Dictionary<string, XmlNodeList>();
-        }
-
         public string viewName { get; set; }
 
-        public Dictionary<string, XmlNodeList> ruleNodeDictionary { get; set; }
+        public Dictionary<string, XmlNodeList> ruleNodeDictionary { get; set; } = new();
 
         public void Load(string xmlSourceInfo, SourceType type = SourceType.File)
         {

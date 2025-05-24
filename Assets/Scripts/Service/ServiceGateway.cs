@@ -30,7 +30,7 @@ namespace Service
 
         private static ServiceGateway instance { get; set; }
 
-        private Dictionary<string, BaseService> serviceDictionary { get; }
+        private Dictionary<string, BaseService> serviceDictionary { get; } = new();
 
         public static ServiceGateway GetInstance()
         {

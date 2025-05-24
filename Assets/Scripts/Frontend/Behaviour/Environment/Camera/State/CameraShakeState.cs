@@ -18,12 +18,7 @@ namespace Frontend.Behaviour.State
     {
         private const float LIMIT_SHAKE_RATE = 0.05f;
 
-        private Shake shake { get; set; }
-
-        public override void Create()
-        {
-            shake = new Shake(CameraBehaviour.DEFAULT_OTHROGRAPHIC_SIZE);
-        }
+        private Shake shake { get; } = new(CameraBehaviour.DEFAULT_OTHROGRAPHIC_SIZE);
 
         public override void Update()
         {

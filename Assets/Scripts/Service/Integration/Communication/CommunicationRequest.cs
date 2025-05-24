@@ -13,11 +13,9 @@ namespace Service.Integration
         {
             method = CommunicationGateway.HttpMethod.Get;
             locale = string.Empty;
-            paramter = new Dictionary<string, object>();
-            binaryFileList = new List<CommunicationBinaryFileRequest>();
         }
 
-        public Dictionary<string, object> paramter { get; set; }
+        public Dictionary<string, object> paramter { get; set; } = new();
 
         public string locale { get; set; }
 
@@ -29,7 +27,7 @@ namespace Service.Integration
 
         public Uri url { get; set; }
 
-        public List<CommunicationBinaryFileRequest> binaryFileList { get; set; }
+        public List<CommunicationBinaryFileRequest> binaryFileList { get; set; } = new();
 
         public int dataLength => Encoding.UTF8.GetBytes(queryString).Length;
 

@@ -17,7 +17,7 @@ namespace Frontend.Behaviour.State
 {
     public sealed class NoticeCanvasShowState : FiniteState<NoticeCanvasBehaviour>
     {
-        private TimeLine alphaTimeLine { get; set; }
+        private TimeLine alphaTimeLine { get; } = new();
 
         private NoticeCanvasBuilder builder { get; set; }
 
@@ -29,7 +29,6 @@ namespace Frontend.Behaviour.State
                 Screen.width * 0.3f, Screen.height * 0.35f);
             var canvas = owner.GetComponent<Canvas>();
             if (null != canvas) canvas.enabled = true;
-            alphaTimeLine = new TimeLine();
             previousAlpha = 0f;
             builder = new NoticeCanvasBuilder();
             builder

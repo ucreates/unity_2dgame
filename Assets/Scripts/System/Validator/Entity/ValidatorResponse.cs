@@ -16,12 +16,7 @@ namespace Core.Validator.Entity
 {
     public sealed class ValidatorResponse
     {
-        public ValidatorResponse()
-        {
-            responseList = new List<ValidatorResponseEntity>();
-        }
-
-        public List<ValidatorResponseEntity> responseList { get; set; }
+        public List<ValidatorResponseEntity> responseList { get; set; } = new();
 
         public bool isSuccess()
         {

@@ -20,14 +20,15 @@ namespace Frontend.Behaviour.State
         private const float FRAME_RATE = 0.25f;
         private const float LIMIT_FRAME = 3.5f;
 
-        private TimeLine blinkTimeLine { get; set; }
+        private TimeLine blinkTimeLine { get; } = new()
+        {
+            rate = FRAME_RATE
+        };
 
         private SpriteRenderer renderer { get; set; }
 
         public override void Create()
         {
-            blinkTimeLine = new TimeLine();
-            blinkTimeLine.rate = FRAME_RATE;
             renderer = owner.GetComponent<SpriteRenderer>();
             renderer?.FillAlpha(0.1f);
         }

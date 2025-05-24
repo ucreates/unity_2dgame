@@ -19,21 +19,13 @@ namespace Frontend.Component.Asset.Renderer.UI.Builder
 {
     public sealed class PlayCanvasBuilder : BaseUIAssetBuilder
     {
-        public PlayCanvasBuilder()
-        {
-            clearCountImageList = new List<Image>();
-            position = Vector3.one;
-            scale = Vector3.one;
-            nickName = string.Empty;
-        }
-
-        private List<Image> clearCountImageList { get; }
+        private List<Image> clearCountImageList { get; } = new();
 
         private int clearCount { get; set; }
 
         private int figure { get; set; }
 
-        private string nickName { get; set; }
+        private string nickName { get; set; } = string.Empty;
 
         private string copyright { get; set; }
 

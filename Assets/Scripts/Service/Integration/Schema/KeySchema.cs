@@ -20,13 +20,12 @@ namespace Service.Integration.Schema
     {
         public KeySchema()
         {
-            keyHolder = new Dictionary<string, string>();
             keyCache = string.Empty;
         }
 
         public string keyCache { get; set; }
 
-        public Dictionary<string, string> keyHolder { get; set; }
+        public Dictionary<string, string> keyHolder { get; set; } = new();
 
         public string Get()
         {
