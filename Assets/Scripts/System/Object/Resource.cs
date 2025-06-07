@@ -8,18 +8,23 @@
 // We hope the tips and helpful in developing.
 //======================================================================
 
+using System;
 using UnityEngine;
 
-namespace Core.Validator.Config
+namespace Core.Object
 {
-    public sealed class UnityConfigAssetLoader : BaseConfigAssetLoader
+    public sealed class Resource
     {
-        public override string Load(string assetName)
+        public static GameObject Instanciate(string prefabName, Vector3 position, Quaternion rotation)
         {
-            var text = Resources.Load(assetName);
-            if (null == text) return string.Empty;
-            var xml = UnityEngine.Object.Instantiate(text) as TextAsset;
-            return xml.text;
+            var prefab = Resources.Load(prefabName) as GameObject;
+            return GameObject.Instantiate(prefab, position, rotation);
+        }
+
+        public static void Unload()
+        {
+            Resources.UnloadUnusedAssets();
+            GC.Collect();
         }
     }
 }

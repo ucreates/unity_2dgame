@@ -10,16 +10,16 @@
 
 using UnityEngine;
 
-namespace Core.Validator.Config
+namespace Core.Scene
 {
-    public sealed class UnityConfigAssetLoader : BaseConfigAssetLoader
+    public class Runtime
     {
-        public override string Load(string assetName)
+        private const string LAUNCH_SCENE_NAME = "Scenes/logo";
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void OnLoad()
         {
-            var text = Resources.Load(assetName);
-            if (null == text) return string.Empty;
-            var xml = UnityEngine.Object.Instantiate(text) as TextAsset;
-            return xml.text;
+            Director.GetInstance().Translate(LAUNCH_SCENE_NAME);
         }
     }
 }

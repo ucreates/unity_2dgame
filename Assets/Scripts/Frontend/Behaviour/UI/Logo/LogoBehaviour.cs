@@ -31,7 +31,7 @@ public sealed class LogoBehaviour : BaseBehaviour
         strategy?.Update();
         progressText.enabled = false;
         renderer.enabled = true;
-        AnimationState.TrackEntryDelegate callback = state => { StartCoroutine(Director.Translate("game", 0.0f)); };
+        AnimationState.TrackEntryDelegate callback = state => { StartCoroutine(Director.GetInstance().Translate("game", 0.0f)); };
         var animator = new AnimatorAsset(this);
         animator?.Play("show", callback, false);
     }
